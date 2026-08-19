@@ -10,12 +10,16 @@
   <div class="stage">
     <!-- The dive pivots on the R's stem, so it lives on its own element. -->
     <div class="wordmark" [style.--dive-x.%]="divePoint()">
-      <!-- Centre-justified: the A sits in the middle on its own, and every
-           letter that arrives shifts it left to make room. The slide is a
-           consequence of the layout rather than a second animation to keep
-           in sync. -->
+      <!-- Centre-justified: the A sits in the middle on its own, and the rest
+           of the name unfurls either side of it in one motion, which pushes the
+           A left. The slide is a consequence of the layout rather than a second
+           animation to keep in sync. -->
       @for (l of letters; track l.i) {
-        <span class="ltr" [class.on]="l.i < shown()" [style.--i]="l.i">{{ l.char }}</span>
+        <span
+          class="ltr"
+          [class.on]="l.i === 0 || grown()"
+          [style.--i]="l.i"
+        >{{ l.char }}</span>
       }
     </div>
 

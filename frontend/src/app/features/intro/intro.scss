@@ -31,11 +31,14 @@ $base-color: #e50914;
 
 .wordmark {
   display: flex;
-  align-items: flex-end;
+  /* Tops align, so every letter stands straight and only the baseline moves. */
+  align-items: flex-start;
   justify-content: center;
-  perspective: 1600px;
+  perspective: 2000px;
   transform-origin: var(--dive-x) 52%;
-  transform: scale(1);
+  /* The taper lives here, on the whole word, rather than on each letter — a
+     single camera angle instead of seven letters leaning independently. */
+  transform: rotateX(9deg) scale(1);
   will-change: transform;
 
   font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
@@ -50,21 +53,21 @@ $base-color: #e50914;
 /* Hard acceleration, so the last beat reads as travelling into the letter
    rather than the letter simply growing. */
 .intro.diving .wordmark {
-  transform: scale(38);
+  transform: rotateX(9deg) scale(38);
   transition: transform 1250ms cubic-bezier(0.6, 0, 0.9, 0.35);
 }
 
 .ltr {
   display: block;
-  transform-origin: 50% 100%;
+  /* Anchored at the top: stretching happens downward only. */
+  transform-origin: 50% 0%;
 
-  /* Each letter sits on a shallow arc: rotated out from the centre and dropped
-     by the square of its distance, so the baseline curves rather than tilts.
-     Perspective tips the tops toward the viewer, which tapers the strokes. */
-  --arc:
-    rotateX(9deg)
-    rotate(calc((var(--i) - 3) * 2.4deg))
-    translateY(calc((var(--i) - 3) * (var(--i) - 3) * 0.014em));
+  /* The arc. Every letter stands upright — no rotation — and is anchored at its
+     top, then stretched downward by the square of its distance from the centre.
+     The tops stay dead level and the bottom edge takes the curve, which is the
+     shape the wordmark actually has. */
+  --dist2: calc((var(--i) - 3) * (var(--i) - 3));
+  --arc: scaleY(calc(1 + var(--dist2) * 0.022));
 
   /* A hard-stop gradient stands in for the darker inner face where the
      reference letters fold. */
@@ -73,20 +76,24 @@ $base-color: #e50914;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  /* Collapsed to nothing until its turn. Animating max-width rather than
-     opacity alone is what makes the row grow and push the A leftward. */
+  /* Collapsed to nothing until the name unfurls. Animating max-width rather
+     than opacity alone is what widens the row and pushes the A leftward.
+
+     Every letter shares one duration and one curve with no per-letter delay:
+     the name opens as a single movement rather than arriving a letter at a
+     time. */
   max-width: 0;
   opacity: 0;
-  transform: var(--arc) scale(0.82);
+  transform: var(--arc) scaleX(0.86);
   transition:
-    max-width 520ms cubic-bezier(0.22, 1, 0.3, 1),
-    opacity 380ms ease,
-    transform 520ms cubic-bezier(0.22, 1, 0.3, 1);
+    max-width 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
 
   &.on {
     max-width: 1.6em;
     opacity: 1;
-    transform: var(--arc) scale(1);
+    transform: var(--arc) scaleX(1);
   }
 }
 

@@ -24,12 +24,12 @@ const DIVE_INDEX = 3;
 const T = {
   /** The lone A settles at centre before anything else moves. */
   open: 850,
-  /** Interval between letters as the name grows out from the A. */
-  step: 135,
-  tagline: 1900,
-  sting: 2100,
-  dive: 3050,
-  end: 4300,
+  /** The whole name unfurls on one curve; this is when it starts. */
+  grow: 900,
+  tagline: 1850,
+  sting: 2000,
+  dive: 2950,
+  end: 4200,
 } as const;
 
 @Component({
@@ -51,8 +51,8 @@ export class Intro implements OnInit, OnDestroy {
   readonly opened = signal(false);
   readonly diving = signal(false);
   readonly taglineIn = signal(false);
-  /** How many letters are on screen. Starts at the lone A. */
-  readonly shown = signal(1);
+  /** The name is unfurling. One flag, because it is one motion. */
+  readonly grown = signal(false);
 
   readonly letters = NAME.split('').map((char, i) => ({ char, i }));
 
@@ -82,7 +82,6 @@ export class Intro implements OnInit, OnDestroy {
   );
 
   private timers: number[] = [];
-  private typer?: number;
 
   ngOnInit(): void {
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
@@ -92,7 +91,7 @@ export class Intro implements OnInit, OnDestroy {
     if (reduced) {
       // The finished wordmark, held still. No growth, no dive.
       this.opened.set(true);
-      this.shown.set(NAME.length);
+      this.grown.set(true);
       this.taglineIn.set(true);
       this.after(1600, () => this.complete());
       return;
@@ -100,7 +99,7 @@ export class Intro implements OnInit, OnDestroy {
 
     this.after(120, () => this.opened.set(true));
     this.after(300, () => this.showSkip.set(true));
-    this.after(T.open, () => this.grow());
+    this.after(T.grow, () => this.grown.set(true));
     this.after(T.tagline, () => this.taglineIn.set(true));
     this.after(T.sting, () => this.introSvc.playSting());
     this.after(T.dive, () => this.diving.set(true));
@@ -128,29 +127,9 @@ export class Intro implements OnInit, OnDestroy {
     this.introSvc.arm();
   }
 
-  /**
-   * Brings the remaining letters in one at a time. The row is centre-justified,
-   * so every letter that arrives pushes the A left on its own — no separate
-   * animation for the shift, and it can never drift out of sync.
-   */
-  private grow(): void {
-    this.typer = window.setInterval(() => {
-      const next = this.shown() + 1;
-      this.shown.set(next);
-      if (next >= NAME.length && this.typer) {
-        clearInterval(this.typer);
-        this.typer = undefined;
-      }
-    }, T.step);
-  }
-
   private clearTimers(): void {
     this.timers.forEach(clearTimeout);
     this.timers = [];
-    if (this.typer) {
-      clearInterval(this.typer);
-      this.typer = undefined;
-    }
   }
 
   private complete(): void {
