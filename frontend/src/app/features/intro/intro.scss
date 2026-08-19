@@ -1,10 +1,8 @@
 @use '../../../styles/tokens' as *;
 @use './netflix-engine' with ($base-color: #e50914, $bg-color: #000000);
 
-// Netflix's own intro engine, from animation.md. The brush strands, lamps and
-// keyframes are ported verbatim; the letter is the part that is ours.
 $bg-color: #000000;
-$base-color: #e50914;   // Netflix_Design.md primary
+$base-color: #e50914;
 
 :host { display: contents; }
 
@@ -13,111 +11,91 @@ $base-color: #e50914;   // Netflix_Design.md primary
   inset: 0;
   z-index: var(--z-intro);
   background: $bg-color;
+  overflow: hidden;
   display: grid;
   place-items: center;
-  overflow: hidden;
   transition: opacity 420ms ease, visibility 420ms;
 
   &.leaving { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
-.stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 34px;
+/* ── The camera ────────────────────────────────────────────────────────────
+   Two nested transforms rather than one, because the pull back and the dive
+   pivot on different points: the pull back is anchored on the first A, the dive
+   on the R's stem. Animating transform-origin instead would snap. */
+.camera {
+  transform-origin: 11.7% 50%;     // centre of the first A within the word
+  transform: scale(var(--pull, 2.9));
+  transition: transform 1500ms cubic-bezier(0.42, 0, 0.22, 1);
+  will-change: transform;
 }
 
-// One centred line: the brushed A, then the typed remainder. Because the row is
-// centre-justified, the A slides left on its own as the word grows — no absolute
-// positioning and no hand-off between two different elements.
+.intro.pulled .camera { --pull: 1; }
+
 .wordmark {
-  --cap: clamp(26px, 5.6vw, 72px);
-  // The A fills its box vertically, so the box is sized to the text's cap height
-  // (~0.72em) rather than to the em box — otherwise the letter stands twice as
-  // tall as the word beside it.
-  --a-box: calc(var(--cap) * 0.78);
+  position: relative;
+  transform-origin: 44% 50%;       // the R's vertical stem
+  transform: scale(1);
+  will-change: transform;
+  // Set here, not on .word, so the brushed A sizes from the same em as the
+  // letters it has to line up with.
+  font-family: 'Anton', 'Inter', sans-serif;
+  // Anton advances ~0.51em per cap, so AMARTYA is ~3.6em wide. Sized against
+  // both axes so it fills the frame without overflowing a short viewport.
+  font-size: min(20vw, 29vh);
+}
 
+/* The dive: hard acceleration, so it reads as travelling into the letter
+   rather than the letter simply growing. */
+.intro.diving .wordmark {
+  transform: scale(34);
+  transition: transform 1250ms cubic-bezier(0.6, 0, 0.9, 0.35);
+}
+
+/* ── The name ──────────────────────────────────────────────────────────────
+   Perspective tips the tops of the letters toward the viewer, so the strokes
+   taper downward the way they do on a physical set. */
+.word {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: clamp(200px, 34vh, 300px);
-}
-
-.typed, .caret {
-  font-family: var(--font-sans);
-  font-weight: 800;
-  font-size: var(--cap);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  perspective: 1400px;
+  line-height: 0.86;
   color: $base-color;
-  white-space: pre;
-}
-
-// Sits hard against the A, which is optically padded inside its own box.
-.typed { margin-left: calc(var(--cap) * -0.04); }
-
-// The A occupies its whole box while the text sits on a baseline with descender
-// space below it, so the mark is lifted to share that baseline.
-.netflixintro { align-self: center; }
-.wordmark.settled .netflixintro { transform: translateY(calc(var(--cap) * -0.07)); }
-
-.caret {
-  width: 3px;
-  height: calc(var(--cap) * 0.78);
-  background: $base-color;
-  margin-left: 6px;
   opacity: 0;
-
-  .wordmark.settled & { opacity: 1; }
-  &.blinking { animation: caret-blink 900ms steps(1, end) infinite; }
+  transition: opacity 620ms ease 260ms;
 }
 
-@keyframes caret-blink { 50% { opacity: 0; } }
+.intro.pulled .word { opacity: 1; }
 
-// ── The mark ──────────────────────────────────────────────────────────────
-.netflixintro {
+.ltr {
   display: block;
-  position: relative;
-  width: clamp(200px, 34vh, 300px);
+  transform-origin: 50% 100%;
+  // Each letter sits on a shallow arc: rotated out from the centre and dropped
+  // by the square of its distance, so the baseline curves rather than tilts.
+  transform:
+    rotateX(9deg)
+    rotate(calc((var(--i) - 3) * 2.3deg))
+    translateY(calc((var(--i) - 3) * (var(--i) - 3) * 0.016em));
+  // A hint of a fold down each stroke, standing in for the darker inner face.
+  background: linear-gradient(96deg, #f2101c 0%, #e50914 42%, #b8070f 43%, #e50914 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── The brushed A ─────────────────────────────────────────────────────────
+   Beat 1. Sits exactly over the word's own first letter, so the cross-fade
+   during the pull back has nothing to line up. */
+.netflixintro {
+  position: absolute;
+  left: 11.7%;
+  top: 50%;
+  width: 0.82em;
   aspect-ratio: 1;
+  font-size: inherit;
+  transform: translate(-50%, -50%);
   overflow: hidden;
-  // Shrinks into the wordmark rather than zooming away. Every child is
-  // percentage-positioned, so narrowing the box scales the whole letter with it.
-  width: clamp(200px, 34vh, 300px);
-  transition: width 700ms var(--ease);
-
-  // Once it stops being an animation and becomes a letter, it resolves to solid
-  // red — the brush strands and coloured lamps are formation effects, and at
-  // wordmark size they read as noise rather than light.
-  .wordmark.settled & {
-    width: var(--a-box);
-    height: var(--a-box);
-
-    &::before { display: none; }
-
-    // The formation animations use fill-mode: forwards, and a filled animation
-    // value beats a normal declaration whatever the specificity — so these have
-    // to be cancelled, not merely overridden.
-    .effect-brush,
-    .effect-lumieres {
-      animation: none;
-      opacity: 0;
-      transition: opacity 260ms var(--ease);
-    }
-
-    [class*="helper-"] {
-      animation: none;
-      background-color: $base-color;
-      transition: background-color 260ms var(--ease);
-    }
-
-    // At wordmark size the formation strokes read too light against 800-weight
-    // text, so the letter is set slightly bolder once it settles.
-    .helper-1 { width: 23%; left: 25%; }
-    .helper-2 { width: 23%; left: 52%; }
-    .helper-3 { width: 42%; left: 29%; height: 17%; top: 57%; }
-  }
+  transition: opacity 520ms ease;
 
   &::before {
     content: "";
@@ -130,86 +108,125 @@ $base-color: #e50914;   // Netflix_Design.md primary
     bottom: -27%;
     border-radius: 50%;
     z-index: 5;
-    transform-origin: left center;
   }
 
-  // ── Letter A ────────────────────────────────────────────────────────────
-  // Two legs leaning off vertical plus a crossbar. A 150%-tall bar rotated 12°
-  // displaces its ends by ~15.6% of the box, which puts the tops together at the
-  // apex and the feet where an A's feet belong.
+  // Letter A: two legs leaning off vertical, plus a crossbar.
   &[letter="A"] {
-    transform-origin: 50% 55%;
-
-    .helper-1 {                 // left leg
-      width: 17%;
-      height: 150%;
-      left: 29.5%;
-      top: -25%;
+    .helper-1 {
+      width: 17%; height: 150%; left: 29.5%; top: -25%;
       transform: rotate(12deg);
       background-color: rgba($base-color, 0.5);
       overflow: hidden;
       animation: fading-lumieres-box 2s 0.6s forwards;
-
-      .effect-brush {
-        animation: brush-moving 2.2s 0.5s forwards;
-      }
+      .effect-brush { animation: brush-moving 2.1s 0.4s forwards; }
     }
-
-    .helper-2 {                 // right leg
-      width: 17%;
-      height: 150%;
-      left: 53.5%;
-      top: -25%;
+    .helper-2 {
+      width: 17%; height: 150%; left: 53.5%; top: -25%;
       transform: rotate(-12deg);
       overflow: hidden;
-
-      .effect-brush {
-        animation: brush-moving 2.2s 0.8s forwards;
-      }
+      .effect-brush { animation: brush-moving 2.1s 0.7s forwards; }
     }
-
-    .helper-3 {                 // crossbar, drawn last
-      width: 38%;
-      height: 13%;
-      left: 31%;
-      top: 60%;
+    .helper-3 {
+      width: 38%; height: 13%; left: 31%; top: 60%;
       overflow: hidden;
-      box-shadow: 0 0 35px -12px rgb(0 0 0 / 0.4);
-
       .effect-brush {
-        animation: brush-moving 1.6s 1.5s forwards;
+        animation: brush-moving 1.5s 1.3s forwards;
         [class*="fur-"] { bottom: 0; height: 60%; }
       }
     }
   }
 }
 
-// ── Roles, revealed once the letter is complete ───────────────────────────
-.roles {
+/* Hands over to the typeset letter as the camera starts moving. */
+.intro.pulled .netflixintro { opacity: 0; }
+
+/* ── The colour bars ───────────────────────────────────────────────────────
+   Beat 4. Splayed outward from the centre as the camera dives through them. */
+.lightbars {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
   justify-content: center;
-  max-width: 92vw;
-  font-family: var(--font-sans);
-  font-size: clamp(10px, 1.5vw, 13px);
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #b3b3b3;
-  animation: roles-in 500ms var(--ease-out-expo) 3300ms both;
+  gap: 0.55vw;
+  // Wider than the viewport from the start, so spreading pushes light off the
+  // edges rather than dragging black in behind it.
+  width: 150%;
+  left: -25%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 340ms ease;
 }
 
-.role { white-space: nowrap; }
-.sep { color: $base-color; }
-
-@keyframes roles-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: none; }
+.intro.diving .lightbars {
+  opacity: 1;
+  animation: bars-bloom 1250ms cubic-bezier(0.6, 0, 0.9, 0.35) forwards;
 }
 
-// ── Controls ──────────────────────────────────────────────────────────────
+/* Full height from the first frame: the bars are columns of light the camera
+   passes between, not something that grows out of the middle of the screen. */
+.bar {
+  flex: none;
+  width: var(--w);
+  height: 120%;
+  align-self: center;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    hsl(var(--hue) 96% calc(var(--light) - 8%)) 9%,
+    hsl(var(--hue) 100% var(--light)) 34%,
+    hsl(var(--hue) 100% calc(var(--light) + 14%)) 50%,
+    hsl(var(--hue) 100% var(--light)) 66%,
+    hsl(var(--hue) 96% calc(var(--light) - 8%)) 91%,
+    transparent 100%
+  );
+  filter: blur(1.5px);
+  opacity: 0;
+
+  // A third of them stay dark, so the rack reads as gaps between lights
+  // rather than a continuous gradient.
+  &.dim { background: #000; }
+
+  .intro.diving & {
+    animation: bar-streak 1150ms cubic-bezier(0.45, 0, 0.9, 0.4) var(--d) forwards;
+  }
+}
+
+@keyframes bar-streak {
+  0%   { opacity: 0; transform: scaleX(0.6); }
+  30%  { opacity: 1; }
+  100% { opacity: 1; transform: scaleX(3.4); }
+}
+
+/* The rack spreads as the camera moves between the columns, and the last beat
+   floods the frame so the cut to the page happens inside the light. */
+@keyframes bars-bloom {
+  0%   { transform: scaleX(0.55); filter: brightness(1); }
+  55%  { transform: scaleX(1.6);  filter: brightness(1.2); }
+  100% { transform: scaleX(5.5);  filter: brightness(2.4); }
+}
+
+/* The last beat: the light floods the frame, and the page is revealed inside it
+   rather than after a fade to black. */
+.flood {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(120% 80% at 50% 50%, #fff 0%, #ffd9dc 35%, $base-color 70%, transparent 100%);
+}
+
+.intro.diving .flood {
+  animation: flood-in 1250ms cubic-bezier(0.7, 0, 0.95, 0.5) forwards;
+}
+
+@keyframes flood-in {
+  0%   { opacity: 0; }
+  72%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ── Controls ──────────────────────────────────────────────────────────────*/
 .sound, .skip {
   position: absolute;
   z-index: 10;
@@ -244,21 +261,20 @@ $base-color: #e50914;   // Netflix_Design.md primary
   &:hover { color: #fff; border-color: #fff; }
 }
 
+/* Controls get out of the way once the dive starts. */
+.intro.diving .sound,
+.intro.diving .skip { opacity: 0; transition: opacity 200ms ease; }
+
 .sr-only {
   position: absolute; width: 1px; height: 1px;
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
-// ── Reduced motion: the finished mark, held still. Same design, no theatre. ──
+/* ── Reduced motion: the finished wordmark, held still. ────────────────────*/
 .intro.reduced {
-  .netflixintro { animation: none; }
-  .effect-brush, .effect-lumieres, [class*="helper-"] { animation: none !important; }
-  .effect-brush { transform: translateY(-100%); }
-  .helper-1 { background-color: transparent; }
-  .netflixintro { transition: none;
-    .effect-brush, .effect-lumieres { transition: none; }
-    [class*="helper-"] { transition: none; } }
-  .roles { animation: none; opacity: 1; }
-  .caret { display: none; }
+  .camera, .wordmark { transform: none; transition: none; }
+  .word { opacity: 1; transition: none; }
+  .netflixintro { display: none; }
+  .lightbars, .flood { display: none; }
 }

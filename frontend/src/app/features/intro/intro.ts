@@ -1,29 +1,30 @@
 import {
   ChangeDetectionStrategy, Component, OnDestroy, OnInit,
-  computed, inject, output, signal,
+  inject, output, signal,
 } from '@angular/core';
 import { IntroService } from '../../core/services/intro.service';
 
 /**
- * Timeline, in ms. Matches the CSS in intro.scss: the strokes are brushed in,
- * the roles land, then the zoom swallows the screen.
+ * The title sequence, in four beats:
+ *
+ *   1. FORM    the A is brushed in, filling the screen
+ *   2. PULL    the camera pulls back and the rest of AMARTYA is revealed around it
+ *   3. HOLD    the wordmark sits
+ *   4. DIVE    the camera dives into the R's vertical stem, through the colour
+ *              bars, and lands on the page
+ *
+ * Timings here mirror the CSS exactly; changing one without the other desyncs
+ * the sequence.
  */
 const T = {
-  /** The crossbar completes here — where the sting belongs. */
-  sting: 1900,
-  /**
-   * The A stops being a standalone mark and becomes the first letter of the
-   * wordmark. It shrinks into place while the rest types beside it — the two
-   * happen together, which is what sells it as one movement rather than two.
-   */
-  transform: 2000,
-  /** Per-character typing interval. */
-  typeStep: 62,
-  end: 5200,
+  form: 0,
+  pull: 1900,
+  hold: 3000,
+  /** The wordmark is complete — where the sting belongs. */
+  sting: 2950,
+  dive: 3500,
+  end: 4750,
 } as const;
-
-/** The A is already on screen, so only the remainder is typed. */
-const REMAINDER = "MARTYA'S WORKSHOP";
 
 @Component({
   selector: 'app-intro',
@@ -34,7 +35,6 @@ const REMAINDER = "MARTYA'S WORKSHOP";
 export class Intro implements OnInit, OnDestroy {
   private readonly introSvc = inject(IntroService);
 
-  /** Emitted once the intro has finished or been skipped. */
   readonly finished = output<void>();
 
   readonly phase = signal<'idle' | 'running' | 'leaving'>('idle');
@@ -42,64 +42,63 @@ export class Intro implements OnInit, OnDestroy {
   readonly showSkip = signal(false);
   readonly reduced = signal(false);
 
-  /** Three strokes: two legs and a crossbar. */
+  /** Beat flags, flipped on the timeline and read by the template. */
+  readonly pulled = signal(false);
+  readonly diving = signal(false);
+
+  /** The mark: three strokes, brushed in by 31 strands under 28 lamps. */
   readonly helpers = [1, 2, 3];
-  /** Brush strands and lamps, per the ported engine. */
   readonly furs = Array.from({ length: 31 }, (_, i) => i + 1);
   readonly lamps = Array.from({ length: 28 }, (_, i) => i + 1);
 
-  /** Characters typed so far, and whether the wordmark has settled. */
-  readonly typed = signal('');
-  readonly transformed = signal(false);
-  readonly typingDone = computed(() => this.typed().length === REMAINDER.length);
+  /** AMARTYA, one span per letter so each can sit on its own arc. */
+  readonly letters = 'AMARTYA'.split('').map((char, i) => ({ char, i }));
 
-  private typer?: number;
+  /**
+   * The colour bars the dive passes through. Warm on the left, cool on the right,
+   * with black gaps between — computed here rather than in CSS so the palette can
+   * skip the greens that a plain hue sweep would land on.
+   */
+  readonly bars = Array.from({ length: 46 }, (_, i) => {
+    const t = i / 45;
+    // 0 -> 55 (red..amber), then jump the greens, 185 -> 320 (cyan..magenta)
+    const hue = t < 0.48 ? t * 115 : 185 + (t - 0.48) * 260;
+    const seed = (i * 2654435761) % 1000 / 1000;
+    return {
+      i,
+      hue: Math.round(hue),
+      light: 45 + Math.round(seed * 22),
+      width: (0.4 + seed * 2.2).toFixed(2),
+      delay: Math.round(seed * 180),
+      dim: seed < 0.28,
+    };
+  });
 
   private timers: number[] = [];
 
   ngOnInit(): void {
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     this.reduced.set(reduced);
+    this.phase.set('running');
 
     if (reduced) {
-      // The finished wordmark, held still. Same design, no theatre.
-      this.phase.set('running');
-      this.transformed.set(true);
-      this.typed.set(REMAINDER);
-      this.after(1400, () => this.complete());
+      // The finished wordmark, held still. No pull, no dive, no light.
+      this.pulled.set(true);
+      this.after(1500, () => this.complete());
       return;
     }
 
-    this.phase.set('running');
     this.after(300, () => this.showSkip.set(true));
+    this.after(T.pull, () => this.pulled.set(true));
     this.after(T.sting, () => this.introSvc.playSting());
-    // Shrink and type start on the same tick, so the A settling and the word
-    // appearing read as a single movement.
-    this.after(T.transform, () => {
-      this.transformed.set(true);
-      this.startTyping();
-    });
+    this.after(T.dive, () => this.diving.set(true));
     this.after(T.end, () => this.complete());
   }
 
   ngOnDestroy(): void {
     this.timers.forEach(clearTimeout);
-    if (this.typer) clearInterval(this.typer);
   }
 
-  private startTyping(): void {
-    let i = 0;
-    this.typer = window.setInterval(() => {
-      i += 1;
-      this.typed.set(REMAINDER.slice(0, i));
-      if (i >= REMAINDER.length && this.typer) {
-        clearInterval(this.typer);
-        this.typer = undefined;
-      }
-    }, T.typeStep);
-  }
-
-  /** Any click both arms audio and, on the sound chip, replays the sting. */
   armSound(event: Event): void {
     event.stopPropagation();
     const wasArmed = this.introSvc.soundArmed();
@@ -111,11 +110,9 @@ export class Intro implements OnInit, OnDestroy {
     if (this.phase() === 'leaving') return;
     this.timers.forEach(clearTimeout);
     this.timers = [];
-    if (this.typer) { clearInterval(this.typer); this.typer = undefined; }
     this.complete();
   }
 
-  /** Esc skips; any other interaction arms audio for the rest of the session. */
   onHostClick(): void {
     this.introSvc.arm();
   }
@@ -124,7 +121,7 @@ export class Intro implements OnInit, OnDestroy {
     if (this.phase() === 'leaving') return;
     this.phase.set('leaving');
     this.introSvc.markSeen();
-    this.after(360, () => this.finished.emit());
+    this.after(420, () => this.finished.emit());
   }
 
   private after(ms: number, fn: () => void): void {

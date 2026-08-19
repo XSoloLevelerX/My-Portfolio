@@ -1,15 +1,19 @@
 <div
   class="intro"
+  [class.pulled]="pulled()"
+  [class.diving]="diving()"
   [class.leaving]="phase() === 'leaving'"
   [class.reduced]="reduced()"
   (click)="onHostClick()"
   role="presentation"
 >
-  <div class="stage">
-    <!-- The A is not a separate mark that hands off to a logo: it IS the first
-         letter of the wordmark. It shrinks into the line while the rest types
-         beside it, the way Netflix's N sits inside NETFLIX. -->
-    <div class="wordmark" [class.settled]="transformed()">
+  <!-- The camera. Everything inside is what the lens is pointed at, so the pull
+       back and the dive are one transform on one element. -->
+  <div class="camera">
+    <div class="wordmark">
+      <!-- Beat 1: the A is brushed in at full screen. It cross-fades into the
+           wordmark's own first letter during the pull back, while both are
+           moving, so the handover is invisible. -->
       <div class="netflixintro" letter="A" aria-hidden="true">
         @for (h of helpers; track h) {
           <div class="helper-{{ h }}">
@@ -23,22 +27,32 @@
         }
       </div>
 
-      <span class="typed" aria-hidden="true">{{ typed() }}</span>
-      <span class="caret" [class.blinking]="typingDone()" aria-hidden="true"></span>
+      <!-- Beat 2: the name itself, each letter on its own arc. -->
+      <div class="word" aria-hidden="true">
+        @for (l of letters; track l.i) {
+          <span class="ltr" [style.--i]="l.i">{{ l.char }}</span>
+        }
+      </div>
     </div>
-
-    <p class="roles">
-      <span class="role role-1">Software Development Engineer</span>
-      <span class="sep" aria-hidden="true">·</span>
-      <span class="role role-2">Freelancer</span>
-      <span class="sep" aria-hidden="true">·</span>
-      <span class="role role-3">Products that ship</span>
-    </p>
   </div>
 
-  <h1 class="sr-only">
-    Amartya Panigrahi — Software Development Engineer, freelancer, products that ship
-  </h1>
+  <!-- Beat 4: the colour bars the dive passes through. -->
+  <div class="lightbars" aria-hidden="true">
+    @for (b of bars; track b.i) {
+      <span
+        class="bar"
+        [class.dim]="b.dim"
+        [style.--hue]="b.hue"
+        [style.--light.%]="b.light"
+        [style.--w]="b.width + 'vw'"
+        [style.--d.ms]="b.delay"
+      ></span>
+    }
+  </div>
+
+  <div class="flood" aria-hidden="true"></div>
+
+  <h1 class="sr-only">Amartya Panigrahi — Software Development Engineer and freelancer</h1>
 
   <button
     class="sound"
