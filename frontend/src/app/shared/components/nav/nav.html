@@ -1,13 +1,18 @@
 <header class="nav" [class.solid]="scrolled()">
   <!-- The same wordmark the intro resolves into, so the logo and the title
        sequence read as one identity rather than two marks. -->
-  <a class="brand" href="/" aria-label="Amartya — home">
+  <a class="brand" routerLink="/" aria-label="Amartya — home">
     <span class="brand-word">AMARTYA</span>
   </a>
 
   <nav class="links" aria-label="Primary">
     @for (l of links; track l.path) {
-      <a class="link" [href]="l.path">{{ l.label }}</a>
+      <a
+        class="link"
+        [routerLink]="l.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: l.path === '/' }"
+      >{{ l.label }}</a>
     }
   </nav>
 
@@ -24,7 +29,7 @@
   @if (menuOpen()) {
     <nav class="drawer" aria-label="Primary mobile">
       @for (l of links; track l.path) {
-        <a class="drawer-link" [href]="l.path">{{ l.label }}</a>
+        <a class="drawer-link" [routerLink]="l.path" (click)="closeMenu()">{{ l.label }}</a>
       }
     </nav>
   }

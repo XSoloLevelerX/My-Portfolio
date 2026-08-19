@@ -1,5 +1,12 @@
 @use '../../../../styles/tokens' as *;
 
+/* Edge cards grow inward, so the first and last never expand off-screen.
+   These have to be host-level: .card is the only child of its own <app-card>,
+   so `.card:first-child` is true for every card in the shelf. */
+:host(:first-of-type) .card { transform-origin: left center; }
+:host(:last-of-type)  .card { transform-origin: right center; }
+
+
 .card {
   position: relative;
   flex: none;
@@ -26,9 +33,7 @@
     }
   }
 
-  /* Edge cards grow inward, so the first and last never expand off-screen. */
-  &:first-child  { transform-origin: left center; }
-  &:last-child   { transform-origin: right center; }
+
 }
 
 .art {

@@ -4,18 +4,32 @@
   position: fixed;
   inset: 0 0 auto 0;
   z-index: var(--z-nav);
-  height: var(--nav-h);
+  height: calc(var(--nav-h) + 22px);
   display: flex;
   align-items: center;
   gap: clamp(16px, 3vw, 40px);
   padding: 0 var(--page-x);
-  transition: background var(--t-base) ease, border-color var(--t-base) ease;
-  border-bottom: 1px solid transparent;
-  background: linear-gradient(180deg, rgb(10 10 11 / 0.85), transparent);
+  /* No border and no hard edge: a scrim that fades to nothing, so the bar has
+     no seam against whatever is behind it. */
+  transition: background var(--t-base) ease;
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 0.92) 0%,
+    rgb(0 0 0 / 0.72) 46%,
+    rgb(0 0 0 / 0.32) 76%,
+    transparent 100%
+  );
 
+  /* Once past the hero the bar is opaque, but it still fades out at the bottom
+     rather than ending on a line. */
   &.solid {
-    background: var(--bg);
-    border-bottom-color: var(--line);
+    background: linear-gradient(
+      180deg,
+      var(--backdrop) 0%,
+      var(--backdrop) 74%,
+      rgb(20 20 20 / 0.7) 88%,
+      transparent 100%
+    );
   }
 }
 
@@ -51,6 +65,11 @@
   @include focus-ring;
 
   &:hover { color: var(--text); }
+
+  &.active {
+    color: var(--text);
+    font-weight: 600;
+  }
 }
 
 .burger {

@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, HostListener, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 interface NavLink { label: string; path: string; }
 
 @Component({
   selector: 'app-nav',
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './nav.html',
   styleUrl: './nav.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,6 +21,7 @@ export class Nav {
     { label: 'Skills', path: '/skills' },
     { label: 'Certifications', path: '/certifications' },
     { label: 'Blog', path: '/blog' },
+    { label: 'Extracurricular', path: '/extracurricular' },
     { label: 'About', path: '/about' },
     { label: 'Contact', path: '/contact' },
   ];
@@ -30,5 +33,9 @@ export class Nav {
 
   toggleMenu(): void {
     this.menuOpen.update(v => !v);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
   }
 }

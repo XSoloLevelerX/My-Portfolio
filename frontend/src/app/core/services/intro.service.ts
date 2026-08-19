@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 const SEEN_KEY = 'amartya_intro_seen';
+const STING_SRC = '/audio/intro-sting.mp3';
 
 /**
  * Owns intro playback state and the signature sound.
@@ -20,6 +21,7 @@ export class IntroService {
   readonly soundArmed = signal(false);
 
   private ctx?: AudioContext;
+  private sting?: HTMLAudioElement;
 
   private alreadySeen(): boolean {
     try {
@@ -42,20 +44,42 @@ export class IntroService {
   arm(): void {
     if (this.soundArmed()) return;
     try {
+      this.sting = new Audio(STING_SRC);
+      this.sting.preload = 'auto';
+      this.sting.volume = 0.85;
+      this.sting.load();
+
+      // Kept as the fallback: if the file cannot be fetched or decoded, the
+      // synthesised hit below still fires rather than the intro going silent.
       const Ctor = window.AudioContext ?? (window as any).webkitAudioContext;
-      if (!Ctor) return;
-      this.ctx = new Ctor();
-      void this.ctx.resume();
+      if (Ctor) {
+        this.ctx = new Ctor();
+        void this.ctx.resume();
+      }
       this.soundArmed.set(true);
     } catch {
       /* audio unavailable — animation still runs silently */
     }
   }
 
-  /** The TA-DUM. No-op unless armed. */
+  /** The sting. No-op unless armed. */
   playSting(): void {
+    if (!this.soundArmed()) return;
+
+    if (this.sting) {
+      this.sting.currentTime = 0;
+      // Autoplay policies can still refuse even after a gesture; fall through
+      // to the synthesised hit rather than failing silently.
+      this.sting.play().catch(() => this.playSynthesised());
+      return;
+    }
+    this.playSynthesised();
+  }
+
+  /** Two notes and a bell, generated in-browser. The fallback path. */
+  private playSynthesised(): void {
     const ctx = this.ctx;
-    if (!ctx || !this.soundArmed()) return;
+    if (!ctx) return;
 
     const now = ctx.currentTime;
     const master = ctx.createGain();

@@ -1,0 +1,8 @@
+<main class="page">
+  <header class="head">
+    @if (eyebrow()) { <p class="eyebrow">{{ eyebrow() }}</p> }
+    <h1 class="title">{{ heading() }}</h1>
+    @if (lede()) { <p class="lede">{{ lede() }}</p> }
+  </header>
+  <ng-content />
+</main>
