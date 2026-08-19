@@ -69,6 +69,7 @@ logo you keep seeing is the object you watched assemble.
 - [x] Phase 1 — intro, navbar, billboard, static catalogue
 - [x] Phase 2a — Supabase schema, RLS, trending function, 18 projects seeded
 - [x] Phase 2b — Spring Boot API
+- [x] Phase 3 — Netflix intro (letter A), shelves, hover cards, detail modal, event tracking
 - [ ] Phase 3 — shelves, hover preview, detail modal, engagement tracking
 - [ ] Phase 4 — skills, certifications, blog, about, contact
 - [ ] Phase 5 — deploy
@@ -136,3 +137,34 @@ The formula lives in the SQL function `recompute_trending_scores()` (migration `
 not in Java. One definition, and it still works when this service is asleep.
 `TrendingService` only schedules it — nightly at 03:00, plus once on startup so a
 freshly woken instance is not serving stale ordering.
+
+## Deployment
+
+Vercel project **amartya-portfolio** is linked to this repo, so **every push to `main`
+deploys automatically**. `vercel.json` at the repo root builds `frontend/` and rewrites
+to `index.html` for client routing.
+
+Latest: https://amartya-portfolio-git-main-xsololevelerxs-projects.vercel.app
+
+## TODO
+
+1. **Make the deployment public.** Vercel Authentication (`ssoProtection`) is enabled on
+   the project, so the `.vercel.app` URLs currently serve a Vercel login page instead of
+   the site. Turn it off in *Project → Settings → Deployment Protection*. A portfolio
+   behind a login cannot do its job.
+2. **Run the backend end-to-end.** The API compiles and its web layer is tested, but a
+   live JDBC connection has never been made — port 5432 was unreachable from the
+   development sandbox. On your machine:
+   ```bash
+   cd backend && set -a; . ../.env; set +a
+   ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+   curl localhost:8080/api/v1/projects/rows | jq '.[].title'
+   ```
+   Use the **session pooler** host: the free tier's direct host is IPv6-only. Both forms
+   are in `.env.example`.
+3. **Set `EVENT_SESSION_SALT`** to a long random value before any events are recorded.
+4. **Fill in `SUPABASE_SERVICE_KEY`** from the Supabase dashboard.
+5. **Point the frontend at the deployed API** — `frontend/src/app/core/config.ts` still
+   targets `localhost:8080`.
+6. **Add live URLs** for the 14 projects that have none, and real poster art to replace
+   the generated gradients.
