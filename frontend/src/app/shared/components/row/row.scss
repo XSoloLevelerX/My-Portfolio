@@ -30,9 +30,12 @@
   display: flex;
   gap: 8px;
   padding-inline: var(--page-x);
-  /* Room for the hover scale, which would otherwise be clipped by overflow. */
-  padding-block: 24px;
-  margin-block: -24px;
+  /* overflow-x: auto makes overflow-y compute to auto, so an expanded card
+     would be clipped. The clearance has to come from padding the layout then
+     takes back with a matching negative margin — the expanded card overlaps
+     into that space instead of displacing anything. */
+  padding-block: 34px 250px;
+  margin-block: -34px -250px;
   overflow-x: auto;
   overflow-y: visible;
   scroll-behavior: smooth;

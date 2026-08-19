@@ -13,7 +13,7 @@ $base-color: #e50914;
   overflow: hidden;
   display: grid;
   place-items: center;
-  transition: opacity 420ms ease, visibility 420ms;
+  transition: opacity 620ms ease, visibility 620ms;
 
   &.leaving { opacity: 0; visibility: hidden; pointer-events: none; }
 }
@@ -34,7 +34,8 @@ $base-color: #e50914;
   /* Tops align, so every letter stands straight and only the baseline moves. */
   align-items: flex-start;
   justify-content: center;
-  perspective: 2000px;
+  perspective: 1500px;
+  transform-style: preserve-3d;
   transform-origin: var(--dive-x) 52%;
   /* The taper lives here, on the whole word, rather than on each letter — a
      single camera angle instead of seven letters leaning independently. */
@@ -54,7 +55,7 @@ $base-color: #e50914;
    rather than the letter simply growing. */
 .intro.diving .wordmark {
   transform: rotateX(9deg) scale(38);
-  transition: transform 1250ms cubic-bezier(0.6, 0, 0.9, 0.35);
+  transition: transform 1900ms cubic-bezier(0.42, 0, 0.72, 0.42);
 }
 
 .ltr {
@@ -76,29 +77,33 @@ $base-color: #e50914;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  /* Collapsed to nothing until the name unfurls. Animating max-width rather
-     than opacity alone is what widens the row and pushes the A leftward.
+  /* Each letter comes forward out of the depth of the frame rather than fading
+     in flat: it starts pushed back on Z, and rides toward the viewer as it
+     arrives. The parent's perspective is what makes that read as distance.
 
-     Every letter shares one duration and one curve with no per-letter delay:
-     the name opens as a single movement rather than arriving a letter at a
-     time. */
+     The cascade is a per-letter transition-delay, not a JS interval — the
+     letters still arrive one after another, but every one of them is on the
+     same curve, so it reads as a single soft wave rather than six separate
+     events. Animating max-width alongside it widens the row, which is what
+     drifts the A leftward. */
   max-width: 0;
   opacity: 0;
-  transform: var(--arc) scaleX(0.86);
+  transform: var(--arc) translateZ(-780px);
   transition:
-    max-width 900ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 560ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    max-width 1250ms cubic-bezier(0.32, 0.02, 0.16, 1),
+    opacity 900ms cubic-bezier(0.32, 0.02, 0.16, 1),
+    transform 1250ms cubic-bezier(0.32, 0.02, 0.16, 1);
+  transition-delay: calc(var(--i) * 115ms);
 
   &.on {
     max-width: 1.6em;
     opacity: 1;
-    transform: var(--arc) scaleX(1);
+    transform: var(--arc) translateZ(0);
   }
 }
 
 /* The lone A opens a touch larger, then settles as the others arrive. */
-.intro .wordmark { transition: transform 700ms cubic-bezier(0.22, 1, 0.3, 1); }
+.intro .wordmark { transition: transform 900ms cubic-bezier(0.33, 0.02, 0.18, 1); }
 
 .tagline {
   margin: 0;
@@ -111,12 +116,12 @@ $base-color: #e50914;
   color: #f2f2f3;
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity 620ms ease, transform 620ms cubic-bezier(0.22, 1, 0.3, 1);
+  transition: opacity 1000ms ease, transform 1000ms cubic-bezier(0.33, 0.02, 0.18, 1);
 
   &.on { opacity: 1; transform: none; }
 }
 
-.intro.diving .tagline { opacity: 0; transition: opacity 260ms ease; }
+.intro.diving .tagline { opacity: 0; transition: opacity 500ms ease; }
 
 /* ── The colour bars ───────────────────────────────────────────────────────
    Full height from the first frame: columns of light the camera passes
@@ -129,15 +134,16 @@ $base-color: #e50914;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55vw;
+  column-gap: 0.35vw;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 340ms ease;
+  transition: opacity 600ms ease;
 }
 
 .intro.diving .lightbars {
   opacity: 1;
-  animation: bars-bloom 1250ms cubic-bezier(0.6, 0, 0.9, 0.35) forwards;
+  animation: bars-bloom 1900ms cubic-bezier(0.42, 0, 0.72, 0.42) forwards;
+  will-change: column-gap;
 }
 
 .bar {
@@ -154,7 +160,7 @@ $base-color: #e50914;
     hsl(var(--hue) 96% calc(var(--light) - 8%)) 91%,
     transparent 100%
   );
-  filter: blur(1.5px);
+  filter: blur(0.4px);
   opacity: 0;
 
   /* A third stay dark, so the rack reads as gaps between lights rather than a
@@ -162,20 +168,23 @@ $base-color: #e50914;
   &.dim { background: #000; }
 
   .intro.diving & {
-    animation: bar-streak 1150ms cubic-bezier(0.45, 0, 0.9, 0.4) var(--d) forwards;
+    animation: bar-streak 1800ms cubic-bezier(0.4, 0, 0.75, 0.45) var(--d) forwards;
   }
 }
 
+/* Opacity only. Any transform here would change the bar's apparent width. */
 @keyframes bar-streak {
-  0%   { opacity: 0; transform: scaleX(0.6); }
-  30%  { opacity: 1; }
-  100% { opacity: 1; transform: scaleX(3.4); }
+  0%   { opacity: 0; }
+  28%  { opacity: 1; }
+  100% { opacity: 1; }
 }
 
+/* The rack opens by widening the gaps, not by scaling. Scaling would drag the
+   bars wider with it; the lines have to stay hairline the whole way through. */
 @keyframes bars-bloom {
-  0%   { transform: scaleX(0.55); filter: brightness(1); }
-  55%  { transform: scaleX(1.6);  filter: brightness(1.2); }
-  100% { transform: scaleX(5.5);  filter: brightness(2.4); }
+  0%   { column-gap: 0.35vw; filter: brightness(1); }
+  55%  { column-gap: 3.2vw;  filter: brightness(1.25); }
+  100% { column-gap: 15vw;   filter: brightness(2.3); }
 }
 
 /* The page is revealed from inside the light rather than after a fade to black. */
@@ -188,7 +197,7 @@ $base-color: #e50914;
 }
 
 .intro.diving .flood {
-  animation: flood-in 1250ms cubic-bezier(0.7, 0, 0.95, 0.5) forwards;
+  animation: flood-in 1900ms cubic-bezier(0.5, 0, 0.85, 0.5) forwards;
 }
 
 @keyframes flood-in {

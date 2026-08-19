@@ -17,7 +17,7 @@
       @for (l of letters; track l.i) {
         <span
           class="ltr"
-          [class.on]="l.i === 0 || grown()"
+          [class.on]="(l.i === 0 && opened()) || grown()"
           [style.--i]="l.i"
         >{{ l.char }}</span>
       }

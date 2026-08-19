@@ -21,15 +21,25 @@ const NAME = 'AMARTYA';
 /** The R, whose stem the camera dives into. */
 const DIVE_INDEX = 3;
 
+/**
+ * Paced to be read, not rushed. Each beat is given time to settle before the
+ * next begins, and the CSS durations are long enough that nothing snaps.
+ */
+/**
+ * Paced to be read, not rushed. The unfurl runs 1250ms per letter on a 115ms
+ * cascade, so the last letter lands ~1950ms after it starts; every beat after
+ * that waits for it.
+ */
 const T = {
-  /** The lone A settles at centre before anything else moves. */
-  open: 850,
-  /** The whole name unfurls on one curve; this is when it starts. */
-  grow: 900,
-  tagline: 1850,
-  sting: 2000,
-  dive: 2950,
-  end: 4200,
+  /** The lone A rides forward at centre. */
+  open: 200,
+  /** The rest of the name follows it out of the depth. */
+  grow: 1400,
+  tagline: 3450,
+  sting: 3600,
+  /** A real hold on the finished wordmark before the camera moves. */
+  dive: 4800,
+  end: 6700,
 } as const;
 
 @Component({
@@ -56,16 +66,16 @@ export class Intro implements OnInit, OnDestroy {
 
   readonly letters = NAME.split('').map((char, i) => ({ char, i }));
 
-  /** Colour bars the dive passes through. */
-  readonly bars = Array.from({ length: 46 }, (_, i) => {
-    const t = i / 45;
+  /** Colour bars the dive passes through. Thin, and they stay thin. */
+  readonly bars = Array.from({ length: 68 }, (_, i) => {
+    const t = i / 67;
     const hue = t < 0.48 ? t * 115 : 185 + (t - 0.48) * 260;
     const seed = ((i * 2654435761) % 1000) / 1000;
     return {
       i,
       hue: Math.round(hue),
       light: 45 + Math.round(seed * 22),
-      width: (0.4 + seed * 2.2).toFixed(2),
+      width: (0.1 + seed * 0.42).toFixed(2),
       delay: Math.round(seed * 180),
       dim: seed < 0.28,
     };
@@ -136,7 +146,7 @@ export class Intro implements OnInit, OnDestroy {
     if (this.phase() === 'leaving') return;
     this.phase.set('leaving');
     this.introSvc.markSeen();
-    this.after(420, () => this.finished.emit());
+    this.after(620, () => this.finished.emit());
   }
 
   private after(ms: number, fn: () => void): void {

@@ -3,7 +3,8 @@
 .card {
   position: relative;
   flex: none;
-  width: var(--card-w, 232px);
+  /* Netflix's desktop card: ~245px wide with a 16:9 still. */
+  width: var(--card-w, 245px);
   cursor: pointer;
   border-radius: var(--radius);
   background: var(--surface);
@@ -14,13 +15,20 @@
 
   &:hover,
   &:focus-visible {
-    transform: scale(1.13);
-    z-index: 20;
-    box-shadow: 0 14px 40px rgb(0 0 0 / 0.7);
+    transform: scale(1.38);
+    /* Above every neighbouring row, so the expanded card overlaps them. */
+    z-index: 60;
 
-    .panel { grid-template-rows: 1fr; opacity: 1; }
-    .art { border-radius: var(--radius) var(--radius) 0 0; }
+    .panel { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .art {
+      border-radius: var(--radius) var(--radius) 0 0;
+      box-shadow: 0 16px 44px rgb(0 0 0 / 0.75);
+    }
   }
+
+  /* Edge cards grow inward, so the first and last never expand off-screen. */
+  &:first-child  { transform-origin: left center; }
+  &:last-child   { transform-origin: right center; }
 }
 
 .art {
@@ -60,18 +68,22 @@
   color: var(--accent);
 }
 
-/* Collapsed to zero rows, so it costs no layout until hover. */
+/* Out of flow: the panel hangs below the still and floats over whatever is
+   underneath, so expanding a card overlaps the next row instead of pushing it
+   down. In flow it would grow the shelf and shove every row below it. */
 .panel {
-  display: grid;
-  grid-template-rows: 0fr;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
   opacity: 0;
-  overflow: hidden;
-  transition: grid-template-rows var(--t-base) var(--ease-out-expo),
-              opacity var(--t-fast) ease;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity var(--t-fast) ease, transform var(--t-base) var(--ease-out-expo);
   background: var(--bg-elevated);
   border-radius: 0 0 var(--radius) var(--radius);
-
-  > * { min-height: 0; }
+  box-shadow: 0 22px 44px rgb(0 0 0 / 0.75);
+  overflow: hidden;
 }
 
 .panel-inner > * { padding-inline: 12px; }
@@ -159,9 +171,16 @@
   }
 }
 
-/* Touch: no hover to reveal, so the panel is always open and the scale is dropped. */
+/* Touch: nothing to hover, so the panel sits in flow under every card and the
+   scale is dropped entirely. */
 @media (hover: none) {
-  .card:hover, .card:focus-visible { transform: none; box-shadow: none; }
-  .panel { grid-template-rows: 1fr; opacity: 1; }
+  .card:hover, .card:focus-visible { transform: none; }
+  .panel {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    box-shadow: none;
+  }
   .art { border-radius: var(--radius) var(--radius) 0 0; }
 }
