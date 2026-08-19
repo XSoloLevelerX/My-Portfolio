@@ -95,30 +95,43 @@
 
 .actions {
   display: flex;
-  gap: 7px;
-  padding-top: 11px;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
 }
 
+/* Netflix's control row: outlined circles, with Play filled white and the
+   chevron pushed to the far right. */
 .icon {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
+  flex: none;
   display: grid;
   place-items: center;
   border-radius: 50%;
-  border: 1.5px solid var(--text-3);
-  color: var(--text);
-  transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
+  border: 2px solid rgb(255 255 255 / 0.5);
+  background: rgb(42 42 42 / 0.6);
+  color: #fff;
+  transition: border-color var(--t-fast) var(--ease),
+              background var(--t-fast) var(--ease);
   @include focus-ring;
 
   svg { width: 15px; height: 15px; fill: currentColor; }
-  &:hover { border-color: var(--text); }
+
+  &:hover { border-color: #fff; background: rgb(70 70 70 / 0.7); }
 
   &.play {
-    background: var(--text);
-    border-color: var(--text);
-    color: #0a0a0b;
-    &:hover { background: var(--accent); border-color: var(--accent); }
+    background: #fff;
+    border-color: #fff;
+    color: #000;
+    &:hover { background: rgb(255 255 255 / 0.78); }
   }
+
+  /* Toggled state reads through colour and the icon swapping to a tick. */
+  &.saved, &.liked { border-color: #fff; }
+
+  /* The chevron sits apart from the rest, as it does on Netflix. */
+  &.more { margin-left: auto; }
 }
 
 .title {
@@ -131,11 +144,17 @@
 .meta {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 9px;
+  margin-top: 7px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 10.5px;
   color: var(--text-3);
+}
+
+/* Netflix prints the match figure in green, ahead of the rating. */
+.match {
+  color: #46d369;
+  font-weight: 600;
 }
 
 .rating {
@@ -144,8 +163,6 @@
   border-radius: 2px;
   color: var(--text-2);
 }
-
-.domain { color: var(--accent); }
 
 .tagline {
   margin-top: 7px;
@@ -158,22 +175,25 @@
   overflow: hidden;
 }
 
+/* Netflix lists genres as plain text separated by dots, not as chips. */
 .stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  align-items: center;
+  gap: 6px;
   margin: 9px 0 0;
-  padding-bottom: 12px;
+  padding-bottom: 14px;
   list-style: none;
 
   li {
-    padding: 2px 7px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    color: var(--text-3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: var(--text-muted);
   }
+
+  .sep { color: var(--text-dim); font-size: 9px; }
 }
 
 /* Touch: nothing to hover, so the panel sits in flow under every card and the

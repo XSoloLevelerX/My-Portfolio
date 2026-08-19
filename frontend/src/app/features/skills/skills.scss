@@ -1,0 +1,156 @@
+@use '../../../styles/tokens' as *;
+
+.shelf { margin-top: clamp(38px, 6vh, 64px); }
+
+.shelf-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 16px;
+  font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
+  font-size: clamp(19px, 2.4vw, 27px);
+  letter-spacing: 0.03em;
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill {
+  width: 100%;
+  display: grid;
+  grid-template-areas: 'name years' 'level level';
+  grid-template-columns: 1fr auto;
+  gap: 10px 8px;
+  padding: 14px 15px;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  transition: transform var(--t-fast) var(--ease),
+              border-color var(--t-fast) var(--ease),
+              background var(--t-fast) var(--ease);
+  @include focus-ring;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--text-dim);
+    background: var(--surface-hover);
+  }
+
+  /* The daily set carries the accent, so the page answers "what do you actually
+     use" before anything is clicked. */
+  &.daily { border-left: 3px solid var(--primary); }
+
+  &.open {
+    border-color: var(--primary);
+    background: var(--surface-hover);
+  }
+}
+
+.name {
+  grid-area: name;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.years {
+  grid-area: years;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-dim);
+}
+
+.level {
+  grid-area: level;
+  display: flex;
+  gap: 4px;
+}
+
+.dot {
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line);
+
+  &.filled { background: var(--primary); }
+}
+
+/* One panel for the note, so opening a card never reflows the grid. */
+.note {
+  position: sticky;
+  bottom: 20px;
+  margin-top: 40px;
+  padding: 20px 22px;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  box-shadow: 0 18px 44px rgb(0 0 0 / 0.6);
+  max-width: 70ch;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    margin: 10px 0 0;
+    font-size: 14.5px;
+    line-height: 1.68;
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+}
+
+.close {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1;
+  @include focus-ring;
+
+  &:hover { color: var(--text); border-color: var(--primary); }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 3px 9px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+  }
+}

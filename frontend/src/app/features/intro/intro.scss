@@ -129,12 +129,12 @@ $base-color: #e50914;
 .lightbars {
   position: absolute;
   inset: 0;
-  width: 150%;
-  left: -25%;
+  width: 210%;
+  left: -55%;
   display: flex;
   align-items: center;
   justify-content: center;
-  column-gap: 0.35vw;
+  column-gap: 0.3vw;
   opacity: 0;
   pointer-events: none;
   transition: opacity 600ms ease;
@@ -181,10 +181,14 @@ $base-color: #e50914;
 
 /* The rack opens by widening the gaps, not by scaling. Scaling would drag the
    bars wider with it; the lines have to stay hairline the whole way through. */
+/* The rack opens by widening the gaps, not by scaling — scaling would drag the
+   bars wider with it. The end gap is deliberately modest: open it too far and
+   only a handful of bars remain on screen, which reads as a few fat stripes
+   rather than a wall of light. */
 @keyframes bars-bloom {
-  0%   { column-gap: 0.35vw; filter: brightness(1); }
-  55%  { column-gap: 3.2vw;  filter: brightness(1.25); }
-  100% { column-gap: 15vw;   filter: brightness(2.3); }
+  0%   { column-gap: 0.3vw;  filter: brightness(1); }
+  55%  { column-gap: 1.4vw;  filter: brightness(1.3); }
+  100% { column-gap: 4.5vw;  filter: brightness(2.2); }
 }
 
 /* The page is revealed from inside the light rather than after a fade to black. */
@@ -207,24 +211,12 @@ $base-color: #e50914;
 }
 
 /* ── Controls ──────────────────────────────────────────────────────────────*/
-.sound, .skip {
+.skip {
   position: absolute;
   z-index: 10;
   color: #b3b3b3;
   transition: color 200ms, border-color 200ms, background 200ms, opacity 200ms;
   @include focus-ring;
-}
-
-.sound {
-  right: var(--page-x);
-  bottom: calc(var(--page-x) + 46px);
-  width: 40px; height: 40px;
-  display: grid; place-items: center;
-  border: 1px solid #4d4d4d;
-  border-radius: 50%;
-  background: rgb(0 0 0 / 0.6);
-  svg { width: 19px; height: 19px; fill: currentColor; stroke: currentColor; }
-  &:hover { color: #fff; border-color: $base-color; }
 }
 
 .skip {
@@ -241,7 +233,6 @@ $base-color: #e50914;
   &:hover { color: #fff; border-color: #fff; }
 }
 
-.intro.diving .sound,
 .intro.diving .skip { opacity: 0; }
 
 .sr-only {

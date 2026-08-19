@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, OnDestroy, OnInit,
+  ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit,
   computed, inject, output, signal,
 } from '@angular/core';
 import { IntroService } from '../../core/services/intro.service';
@@ -54,7 +54,6 @@ export class Intro implements OnInit, OnDestroy {
   readonly finished = output<void>();
 
   readonly phase = signal<'idle' | 'running' | 'leaving'>('idle');
-  readonly soundArmed = this.introSvc.soundArmed;
   readonly showSkip = signal(false);
   readonly reduced = signal(false);
 
@@ -66,16 +65,24 @@ export class Intro implements OnInit, OnDestroy {
 
   readonly letters = NAME.split('').map((char, i) => ({ char, i }));
 
-  /** Colour bars the dive passes through. Thin, and they stay thin. */
-  readonly bars = Array.from({ length: 68 }, (_, i) => {
-    const t = i / 67;
-    const hue = t < 0.48 ? t * 115 : 185 + (t - 0.48) * 260;
+  /**
+   * Colour bars the dive passes through. Thin, and they stay thin.
+   *
+   * The hue cycles roughly three times across the rack rather than ramping once
+   * from warm to cool. A single ramp looks right while the rack is dense, but
+   * once the gaps open only the middle slice is still on screen — and that
+   * slice is one colour. Cycling keeps warm and cool in view at any zoom.
+   */
+  readonly bars = Array.from({ length: 84 }, (_, i) => {
+    const cycles = 3.4;
+    const t = ((i / 84) * cycles) % 1;
+    const hue = t < 0.5 ? t * 2 * 58 : 188 + (t - 0.5) * 2 * 148;
     const seed = ((i * 2654435761) % 1000) / 1000;
     return {
       i,
       hue: Math.round(hue),
       light: 45 + Math.round(seed * 22),
-      width: (0.1 + seed * 0.42).toFixed(2),
+      width: (0.1 + seed * 0.38).toFixed(2),
       delay: Math.round(seed * 180),
       dim: seed < 0.28,
     };
@@ -120,13 +127,6 @@ export class Intro implements OnInit, OnDestroy {
     this.clearTimers();
   }
 
-  armSound(event: Event): void {
-    event.stopPropagation();
-    const wasArmed = this.introSvc.soundArmed();
-    this.introSvc.arm();
-    if (!wasArmed) this.introSvc.playSting();
-  }
-
   skip(): void {
     if (this.phase() === 'leaving') return;
     this.clearTimers();
@@ -134,6 +134,17 @@ export class Intro implements OnInit, OnDestroy {
   }
 
   onHostClick(): void {
+    this.introSvc.arm();
+  }
+
+  /**
+   * There is no mute control, so audio arms on the first interaction of any
+   * kind. Browsers refuse to play sound before a gesture, and without a button
+   * this is the only remaining way to satisfy that.
+   */
+  @HostListener('document:pointerdown')
+  @HostListener('document:keydown')
+  onFirstGesture(): void {
     this.introSvc.arm();
   }
 

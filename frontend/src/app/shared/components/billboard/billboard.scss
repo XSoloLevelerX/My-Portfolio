@@ -5,7 +5,9 @@
    it rather than an image bleeding to the frame. */
 .billboard {
   position: relative;
-  margin: calc(var(--nav-h) + 8px) 24px 0;
+  /* Same gutter as the shelves below, so the hero card's left edge and the row
+     headings line up exactly. */
+  margin: calc(var(--nav-h) + 8px) var(--page-x) 0;
   border-radius: 8px;
   min-height: min(74vh, 720px);
   display: flex;
@@ -175,7 +177,7 @@
 }
 
 @media (max-width: 720px) {
-  .billboard { min-height: 62vh; margin-inline: 12px; }
+  .billboard { min-height: 62vh; }
   .monogram { transform: translate(10%, 0); font-size: 48vh; }
   .scrim {
     background:

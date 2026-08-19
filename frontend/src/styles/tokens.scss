@@ -57,7 +57,9 @@
 
   // ── Layout ─────────────────────────────────────────────────────────────
   --nav-h: 68px;
-  --page-x: clamp(16px, 4vw, 60px);
+  /* One gutter for everything: the hero card, every shelf, and every page
+     header align to this edge. */
+  --page-x: clamp(16px, 2.6vw, 52px);
 
   --z-nav: 100;
   --z-modal: 200;
