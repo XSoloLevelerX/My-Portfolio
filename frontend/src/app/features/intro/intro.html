@@ -1,0 +1,58 @@
+<div
+  class="intro"
+  [class.running]="phase() === 'running'"
+  [class.leaving]="phase() === 'leaving'"
+  [class.reduced]="reduced()"
+  (click)="onHostClick()"
+  role="presentation"
+>
+  <!-- Phase 1: ignition — bars sweep down -->
+  @if (!reduced()) {
+    <div class="bars" aria-hidden="true">
+      @for (b of bars; track b) {
+        <span class="bar" [style.--i]="b"></span>
+      }
+    </div>
+  }
+
+  <!-- Phases 2-5: the A, then the labels -->
+  <div class="stage">
+    <svg class="mark" viewBox="0 0 200 220" aria-hidden="true">
+      <g class="legs">
+        <path class="leg leg-l" d="M100 22 L28 200" />
+        <path class="leg leg-r" d="M100 22 L172 200" />
+      </g>
+      <path class="crossbar" d="M60 150 L140 150" />
+    </svg>
+
+    <p class="roles">
+      <span class="role role-1">Software Development Engineer</span>
+      <span class="sep" aria-hidden="true">·</span>
+      <span class="role role-2">Freelancer</span>
+      <span class="sep" aria-hidden="true">·</span>
+      <span class="role role-3">Products that ship</span>
+    </p>
+  </div>
+
+  <!-- Screen readers get the meaning without the theatre -->
+  <h1 class="sr-only">
+    Amartya Panigrahi — Software Development Engineer, freelancer, products that ship
+  </h1>
+
+  <button
+    class="sound"
+    type="button"
+    (click)="armSound($event)"
+    [attr.aria-label]="soundArmed() ? 'Replay intro sound' : 'Enable intro sound'"
+  >
+    @if (soundArmed()) {
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a4 4 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+    } @else {
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9.5l4 5m0-5l-4 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+    }
+  </button>
+
+  @if (showSkip() || reduced()) {
+    <button class="skip" type="button" (click)="skip()">Skip intro</button>
+  }
+</div>

@@ -1,62 +1,73 @@
-# Portfolio — "Observatory"
+# Amartya's Universe — portfolio
 
-A portfolio built to the Observatory art direction: parchment and brass, with every
-project plotted by **domain × layer of the stack** rather than listed in a grid.
+A Netflix-style catalogue of my work. Browse projects like titles: a billboard hero,
+shelves that surface what is new and what is getting attention, and a detail view per project.
 
-The signature 3D moment is an armillary sphere generated entirely in code —
-three torus rings, an icosahedron core, and a runtime-canvas gradient standing in
-for an HDR environment. **Zero bytes of 3D assets are downloaded.**
+**Stack** — Angular (frontend) · Spring Boot (API) · Supabase Postgres (data).
+
+```
+frontend/  Angular 22, standalone components + signals, zoneless
+backend/   Spring Boot, Maven, Java 21 target        (Phase 2)
+```
+
+## Running the frontend
+
+```bash
+cd frontend
+npm install
+npm start          # http://localhost:4200
+```
+
+## The static-first rule
+
+`frontend/src/app/data/projects.snapshot.json` is baked into the bundle, so the site renders
+completely **before any network call** — with the backend cold and the database paused. The API
+only enriches it (live view counts, trending order). If the API never answers, the static content
+simply stays.
+
+Render's free tier sleeps after 15 minutes and Supabase pauses when idle, so this is not a
+nicety: it is the only reason the site is always fast. **A portfolio that looks broken is worse
+than one that is slightly stale.**
+
+Acceptance test: kill the backend, reload the page, everything still renders.
 
 ## Adding a project
 
-Everything reads one flat record list: [`src/data/projects.ts`](src/data/projects.ts).
-Adding a project is appending one object — there is no per-project layout work.
+One object in the snapshot (and one row in `projects` once the DB is live). No layout work:
 
-```ts
+```jsonc
 {
-  id: "my-project",
-  title: "My Project",
-  blurb: "One sentence. It is read beside every other blurb, so make it earn its place.",
-  stack: ["TypeScript", "Postgres"],
-  domain: "systems",   // ai | security | graphics | systems | ml
-  layer: 0.4,          // 1 = interface, 0 = infrastructure
-  scope: 2,            // 1 focused · 2 one quarter · 3 multi-quarter
-  featured: false,
-  links: { repo: "https://…", live: null, writeup: null },
+  "slug": "my-project",
+  "title": "My Project",
+  "tagline": "One line, shown on the card.",
+  "description": "Long copy for the detail modal.",
+  "domain": "AI",            // AI | SECURITY | GRAPHICS | SYSTEMS | ML | WEB
+  "stack": ["TypeScript"],
+  "liveUrl": null,           // set this when you deploy — it enables the Play button
+  "repoUrl": null,
+  "status": "WIP",           // LIVE once liveUrl works
+  "featured": false,
+  "complexity": 2,           // 1..3 → SDE-1 / SDE-2 / SDE-3 badge
+  "releasedAt": "2026-08-19"
 }
 ```
 
-**When you deploy something, set `links.live`.** Missing links render greyed-out
-rather than hidden — showing what isn't published yet is deliberate.
+Only projects with a working `liveUrl` get a **Play** button — there are never dead buttons.
 
-## The performance contract
+## The intro
 
-Enforced in the code, not just aspirational:
+A five-phase title sequence: bars sweep down, converge into an **A**, the crossbar wipes
+(the sting lands here), the roles unfold, and the mark **docks into the navbar logo** — so the
+logo you keep seeing is the object you watched assemble.
 
-| Rule | How it is met |
-| --- | --- |
-| LCP not gated on 3D | Hero text is server-rendered; the canvas mounts 400ms later |
-| Exactly one canvas | A single `<Canvas>`, mounted only in the hero |
-| Pause when unseen | `IntersectionObserver` + `visibilitychange` set `frameloop="never"` |
-| Degrade, never jank | 3 consecutive frames >20ms → dpr drops to 1, antialiasing off, no re-escalation |
-| 3D payload | 0 bytes — geometry is procedural, the environment is a 128px runtime canvas |
-| No-WebGL fallback | The CSS armillary that already shipped as first paint simply stays |
-| Reduced motion | Rings hold at their scroll position; damping is disabled |
+- Plays silently; sound arms on first interaction (browsers block autoplay audio).
+- The sting is synthesised with WebAudio — no audio file, no licensing exposure.
+- Once per session (`sessionStorage`), skippable, and `prefers-reduced-motion` gets a static card.
 
-## Layout
+## Status
 
-The plot needs width to stay legible, so below `lg` the same records render as a
-list instead. The axes do not pretend to work at 390px.
-
-## Develop
-
-```bash
-npm run dev     # http://localhost:3000
-npm run build
-npx eslint src
-```
-
-## Design source
-
-Art direction and full motion spec: `Portfolio Art Directions.dc.html` in the
-Claude Design project. The prompt that produced it is in [DESIGN_PROMPT.md](DESIGN_PROMPT.md).
+- [x] Phase 1 — intro, navbar, billboard, static catalogue
+- [ ] Phase 2 — Supabase schema + Spring Boot API
+- [ ] Phase 3 — shelves, hover preview, detail modal, engagement tracking
+- [ ] Phase 4 — skills, certifications, blog, about, contact
+- [ ] Phase 5 — deploy

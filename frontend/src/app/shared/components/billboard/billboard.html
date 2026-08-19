@@ -1,0 +1,47 @@
+<section class="billboard" [style.--hue]="hue()">
+  <div class="art" aria-hidden="true">
+    <span class="monogram">{{ monogram() }}</span>
+  </div>
+  <div class="scrim" aria-hidden="true"></div>
+
+  <div class="content">
+    <p class="eyebrow">
+      <span class="dot" aria-hidden="true"></span>
+      {{ domainLabel() }}
+    </p>
+
+    <h2 class="title">{{ project().title }}</h2>
+
+    <p class="meta">
+      <span class="rating">{{ badge() }}</span>
+      @if (year()) { <span>{{ year() }}</span> }
+      <span class="status" [class.wip]="project().status === 'WIP'">
+        {{ project().status === 'LIVE' ? 'Live' : 'In progress' }}
+      </span>
+    </p>
+
+    <p class="blurb">{{ project().description }}</p>
+
+    <ul class="stack">
+      @for (s of project().stack; track s) { <li>{{ s }}</li> }
+    </ul>
+
+    <div class="actions">
+      @if (project().liveUrl) {
+        <a class="btn play" [href]="project().liveUrl" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          Play
+        </a>
+      }
+      @if (project().repoUrl) {
+        <a class="btn ghost" [href]="project().repoUrl" target="_blank" rel="noopener">
+          Source
+        </a>
+      }
+      <button class="btn ghost" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>
+        More Info
+      </button>
+    </div>
+  </div>
+</section>

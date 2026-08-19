@@ -1,0 +1,52 @@
+// Amartya's Universe — design tokens.
+// Netflix's structure, deliberately not Netflix's red (#E50914 is trademark-adjacent).
+
+:root {
+  // Surfaces
+  --bg:            #0a0a0b;
+  --bg-elevated:   #141416;
+  --surface:       #1c1c1f;
+  --surface-hover: #26262a;
+  --line:          #2e2e33;
+
+  // Signature amber — the A, Play button, active nav
+  --accent:        #f5a524;
+  --accent-soft:   #ffc65c;
+  --accent-deep:   #c47f10;
+  // Warm ember — trending flame, badges
+  --accent-2:      #e0533d;
+
+  // Text
+  --text:          #f5f5f7;
+  --text-2:        #a1a1a6;
+  --text-3:        #6e6e73;
+
+  // Type
+  --font-display: 'Bebas Neue', 'Anton', 'Impact', system-ui, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  // Rhythm
+  --nav-h: 68px;
+  --page-x: clamp(16px, 4vw, 60px);
+  --radius: 4px;
+
+  // Motion
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 180ms;
+  --t-base: 320ms;
+  --t-slow: 620ms;
+
+  --z-nav: 100;
+  --z-modal: 200;
+  --z-intro: 900;
+}
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}

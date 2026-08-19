@@ -1,0 +1,21 @@
+<main class="home">
+  @if (billboard(); as hero) {
+    <app-billboard [project]="hero" />
+  }
+
+  <!-- The shelf lands in Phase 3. This is the seam it slots into. -->
+  <section class="shelf-placeholder" aria-label="Catalogue">
+    <header class="shelf-head">
+      <h3>Trending Now</h3>
+      <span class="count">{{ total().length }} projects in the catalogue</span>
+    </header>
+    <ul class="peek">
+      @for (p of trending(); track p.slug) {
+        <li class="chip" [class.live]="p.liveUrl">
+          <span class="chip-title">{{ p.title }}</span>
+          <span class="chip-domain">{{ p.domain }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+</main>
