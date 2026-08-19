@@ -67,7 +67,30 @@ logo you keep seeing is the object you watched assemble.
 ## Status
 
 - [x] Phase 1 — intro, navbar, billboard, static catalogue
-- [ ] Phase 2 — Supabase schema + Spring Boot API
+- [x] Phase 2a — Supabase schema, RLS, trending function, 18 projects seeded
+- [ ] Phase 2b — Spring Boot API
 - [ ] Phase 3 — shelves, hover preview, detail modal, engagement tracking
 - [ ] Phase 4 — skills, certifications, blog, about, contact
 - [ ] Phase 5 — deploy
+
+## Database
+
+Supabase project **My Portfolio** (`joxllpydilnextdlxzhj`, ap-southeast-2, Postgres 17).
+Migrations live in `backend/src/main/resources/db/migration/` and match what is applied.
+
+Eight tables: `projects`, `project_events`, `project_daily_stats`, `skills`,
+`certifications`, `blog_posts`, `profile`, `contact_messages`.
+
+**Access posture** — RLS is on everywhere:
+
+| Role | Can |
+| --- | --- |
+| `anon` (the browser) | read non-archived projects, skills, certifications, published posts, profile |
+| `anon` | append contact messages and engagement events — never read them back |
+| `service_role` (Spring Boot) | everything, plus the maintenance functions |
+
+The maintenance functions (`recompute_trending_scores`, `rollup_daily_stats`) are
+`service_role` only. They were briefly reachable over the public REST API as
+`SECURITY DEFINER` functions — the database linter caught it and `V4` revokes those grants.
+
+Credentials go in `.env` (gitignored); `.env.example` lists what is needed.
