@@ -28,17 +28,17 @@
 
     <div class="actions">
       @if (project().liveUrl) {
-        <a class="btn play" [href]="project().liveUrl" target="_blank" rel="noopener">
+        <button class="btn play" type="button" (click)="play.emit(project())">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
           Play
-        </a>
+        </button>
       }
       @if (project().repoUrl) {
         <a class="btn ghost" [href]="project().repoUrl" target="_blank" rel="noopener">
           Source
         </a>
       }
-      <button class="btn ghost" type="button">
+      <button class="btn ghost" type="button" (click)="moreInfo.emit(project())">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>
         More Info
       </button>

@@ -4,14 +4,16 @@ import {
 } from '@angular/core';
 import { IntroService } from '../../core/services/intro.service';
 
-/** Phase boundaries in ms. Mirrors the table in the plan. */
+/**
+ * Timeline, in ms. Matches the CSS in intro.scss: the strokes are brushed in,
+ * the roles land, then the zoom swallows the screen.
+ */
 const T = {
-  ignition: 0,
-  converge: 600,
-  crossbar: 1100,   // the sting lands here
-  unfold: 1500,
-  dock: 2400,
-  end: 3050,
+  /** The crossbar completes here — where the sting belongs. */
+  sting: 1900,
+  /** Zoom starts; CSS holds it back until the letter is legible. */
+  zoom: 3200,
+  end: 4500,
 } as const;
 
 @Component({
@@ -32,8 +34,11 @@ export class Intro implements OnInit, OnDestroy {
   readonly showSkip = signal(false);
   readonly reduced = signal(false);
 
-  /** 24 bars — the ignition sweep. */
-  readonly bars = Array.from({ length: 24 }, (_, i) => i);
+  /** Three strokes: two legs and a crossbar. */
+  readonly helpers = [1, 2, 3];
+  /** Brush strands and lamps, per the ported engine. */
+  readonly furs = Array.from({ length: 31 }, (_, i) => i + 1);
+  readonly lamps = Array.from({ length: 28 }, (_, i) => i + 1);
 
   private timers: number[] = [];
 
@@ -50,7 +55,7 @@ export class Intro implements OnInit, OnDestroy {
 
     this.phase.set('running');
     this.after(300, () => this.showSkip.set(true));
-    this.after(T.crossbar, () => this.introSvc.playSting());
+    this.after(T.sting, () => this.introSvc.playSting());
     this.after(T.end, () => this.complete());
   }
 

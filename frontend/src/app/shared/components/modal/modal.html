@@ -1,0 +1,78 @@
+@if (project(); as p) {
+  <div class="scrim" (click)="close.emit()" aria-hidden="true"></div>
+
+  <div
+    class="sheet"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="p.title"
+    [style.--hue]="hue()"
+  >
+    <div class="hero" aria-hidden="true">
+      <span class="monogram">{{ monogram() }}</span>
+      <div class="fade"></div>
+    </div>
+
+    <button class="close" type="button" (click)="close.emit()" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="body">
+      <h2 class="title">{{ p.title }}</h2>
+
+      <p class="meta">
+        <span class="rating">{{ badge() }}</span>
+        @if (year()) { <span>{{ year() }}</span> }
+        <span class="domain">{{ domainLabel() }}</span>
+        <span class="status" [class.wip]="p.status === 'WIP'">
+          {{ p.status === 'LIVE' ? 'Live' : 'In progress' }}
+        </span>
+      </p>
+
+      <div class="actions">
+        @if (p.liveUrl) {
+          <a class="btn play" [href]="p.liveUrl" target="_blank" rel="noopener" (click)="clickLive.emit(p)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            Play
+          </a>
+        }
+        @if (p.repoUrl) {
+          <a class="btn ghost" [href]="p.repoUrl" target="_blank" rel="noopener" (click)="clickRepo.emit(p)">
+            Source
+          </a>
+        }
+        @if (p.writeupUrl) {
+          <a class="btn ghost" [href]="p.writeupUrl" target="_blank" rel="noopener">Write-up</a>
+        }
+      </div>
+
+      <p class="description">{{ p.description }}</p>
+
+      <dl class="facts">
+        <div>
+          <dt>Stack</dt>
+          <dd>
+            <ul class="stack">
+              @for (s of p.stack; track s) { <li>{{ s }}</li> }
+            </ul>
+          </dd>
+        </div>
+        <div>
+          <dt>Scope</dt>
+          <dd>{{ p.complexity === 3 ? 'Multi-quarter system' : p.complexity === 2 ? 'One quarter' : 'Focused build' }}</dd>
+        </div>
+        <!-- Unavailable links are shown as unavailable rather than hidden. -->
+        <div>
+          <dt>Links</dt>
+          <dd class="links">
+            <span [class.absent]="!p.liveUrl">Live</span>
+            <span [class.absent]="!p.repoUrl">Source</span>
+            <span [class.absent]="!p.writeupUrl">Write-up</span>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+}

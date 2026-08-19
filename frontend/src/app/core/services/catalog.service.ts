@@ -1,6 +1,7 @@
 import { Injectable, computed, signal } from '@angular/core';
 import snapshot from '../../data/projects.snapshot.json';
-import { Project, ProjectSnapshot } from '../models/project.model';
+import { Project, ProjectSnapshot, DOMAIN_LABEL, Domain } from '../models/project.model';
+import { Row } from '../models/row.model';
 
 /**
  * The static-first contract.
@@ -48,6 +49,33 @@ export class CatalogService {
 
   /** Netflix's "Continue Watching" — things still on the bench. */
   readonly inProgress = computed(() => this._projects().filter(p => p.status === 'WIP'));
+
+  /**
+   * The whole shelf, built client-side from the snapshot so the home page renders
+   * with no network at all. Mirrors ProjectService.buildRows() on the backend;
+   * when the API answers, only the ordering inside "Trending Now" changes.
+   *
+   * Empty shelves are dropped rather than rendered as a heading with nothing
+   * under it.
+   */
+  readonly rows = computed<Row[]>(() => {
+    const all = this._projects();
+    const domains: Domain[] = ['AI', 'SECURITY', 'GRAPHICS', 'SYSTEMS', 'ML'];
+
+    const candidates: Row[] = [
+      { key: 'trending', title: 'Trending Now', items: this.trending() },
+      { key: 'new', title: 'New Releases', items: this.newReleases() },
+      { key: 'featured', title: "Amartya's Picks", items: this.featured() },
+      { key: 'building', title: 'Currently Building', items: this.inProgress() },
+      ...domains.map(d => ({
+        key: d.toLowerCase(),
+        title: DOMAIN_LABEL[d],
+        items: all.filter(p => p.domain === d),
+      })),
+    ];
+
+    return candidates.filter(r => r.items.length > 0).map(r => ({ ...r, items: r.items.slice(0, 12) }));
+  });
 
   byDomain(domain: Project['domain']) {
     return computed(() => this._projects().filter(p => p.domain === domain));

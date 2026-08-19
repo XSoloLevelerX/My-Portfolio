@@ -1,0 +1,73 @@
+@use '../../../../styles/tokens' as *;
+
+.row {
+  /* Cards scale up on hover, so the shelf needs vertical room to grow into. */
+  padding-block: 14px 26px;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 10px;
+  padding-inline: var(--page-x);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(18px, 2vw, 25px);
+  letter-spacing: 0.05em;
+}
+
+.flame {
+  font-size: 11px;
+  color: var(--accent-2);
+}
+
+.viewport {
+  position: relative;
+}
+
+.track {
+  display: flex;
+  gap: 8px;
+  padding-inline: var(--page-x);
+  /* Room for the hover scale, which would otherwise be clipped by overflow. */
+  padding-block: 24px;
+  margin-block: -24px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 30;
+  width: calc(var(--page-x) + 12px);
+  display: grid;
+  place-items: center;
+  background: linear-gradient(90deg, rgb(10 10 11 / 0.85), rgb(10 10 11 / 0));
+  color: var(--text);
+  opacity: 0;
+  transition: opacity var(--t-fast);
+  @include focus-ring;
+
+  svg { width: 26px; height: 26px; fill: currentColor; }
+
+  &.left  { left: 0; }
+  &.right { right: 0; transform: scaleX(-1); }
+
+  &:focus-visible { opacity: 1; }
+}
+
+.viewport:hover .arrow { opacity: 1; }
+
+/* Arrows are a pointer affordance; touch users just swipe. */
+@media (hover: none) {
+  .arrow { display: none; }
+  .track { scroll-snap-type: x proximity; }
+  app-card { scroll-snap-align: start; }
+}

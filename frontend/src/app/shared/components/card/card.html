@@ -1,0 +1,49 @@
+<article
+  class="card"
+  [style.--hue]="hue()"
+  tabindex="0"
+  role="button"
+  [attr.aria-label]="project().title + ' — ' + project().tagline"
+  (click)="onOpen()"
+  (keydown.enter)="onOpen()"
+  (keydown.space)="$event.preventDefault(); onOpen()"
+>
+  <div class="art" aria-hidden="true">
+    <span class="monogram">{{ monogram() }}</span>
+    @if (project().status === 'WIP') {
+      <span class="flag">In progress</span>
+    }
+  </div>
+
+  <!-- Netflix's hover panel: it grows out of the card rather than floating over it.
+       The contents sit in one wrapper because the 0fr -> 1fr collapse only
+       collapses a SINGLE grid child; several children get auto-sized rows. -->
+  <div class="panel">
+    <div class="panel-inner">
+    <div class="actions">
+      @if (project().liveUrl) {
+        <button class="icon play" type="button" (click)="onPlay($event)" [attr.aria-label]="'Open ' + project().title">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      }
+      <button class="icon" type="button" (click)="onOpen()" [attr.aria-label]="'More about ' + project().title">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16l-6-6h12z"/></svg>
+      </button>
+    </div>
+
+    <h4 class="title">{{ project().title }}</h4>
+
+    <p class="meta">
+      <span class="rating">{{ badge() }}</span>
+      @if (year()) { <span>{{ year() }}</span> }
+      <span class="domain">{{ project().domain }}</span>
+    </p>
+
+    <p class="tagline">{{ project().tagline }}</p>
+
+      <ul class="stack">
+        @for (s of project().stack.slice(0, 3); track s) { <li>{{ s }}</li> }
+      </ul>
+    </div>
+  </div>
+</article>

@@ -1,27 +1,22 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { Project, complexityBadge, DOMAIN_LABEL } from '../../../core/models/project.model';
+import { Project, complexityBadge } from '../../../core/models/project.model';
 
 @Component({
-  selector: 'app-billboard',
-  templateUrl: './billboard.html',
-  styleUrl: './billboard.scss',
+  selector: 'app-card',
+  templateUrl: './card.html',
+  styleUrl: './card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Billboard {
+export class Card {
   readonly project = input.required<Project>();
 
-  readonly moreInfo = output<Project>();
-  readonly play = output<Project>();
+  readonly open = output<Project>();
+  readonly playLive = output<Project>();
 
   readonly badge = computed(() => complexityBadge(this.project().complexity));
-  readonly domainLabel = computed(() => DOMAIN_LABEL[this.project().domain]);
   readonly year = computed(() => this.project().releasedAt?.slice(0, 4) ?? '');
 
-  /**
-   * Artwork is generated from the slug until real posters exist, so the billboard
-   * is never an empty grey box. Deterministic: the same project always gets the
-   * same hue, which makes it feel authored rather than random.
-   */
+  /** Same deterministic hue as the billboard, so a project looks like itself everywhere. */
   readonly hue = computed(() => {
     const s = this.project().slug;
     let h = 0;
@@ -30,4 +25,13 @@ export class Billboard {
   });
 
   readonly monogram = computed(() => this.project().title.charAt(0).toUpperCase());
+
+  onOpen(): void {
+    this.open.emit(this.project());
+  }
+
+  onPlay(event: Event): void {
+    event.stopPropagation();
+    this.playLive.emit(this.project());
+  }
 }

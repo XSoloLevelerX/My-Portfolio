@@ -1,0 +1,28 @@
+<section class="row" [attr.aria-label]="row().title">
+  <h3 class="heading">
+    {{ row().title }}
+    @if (row().key === 'trending') {
+      <span class="flame" aria-hidden="true">▲</span>
+    }
+  </h3>
+
+  <div class="viewport">
+    @if (canScrollLeft()) {
+      <button class="arrow left" type="button" (click)="scrollBy(-1)" aria-label="Scroll left">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8z"/></svg>
+      </button>
+    }
+
+    <div #track class="track" (scroll)="onScroll()">
+      @for (p of row().items; track p.slug) {
+        <app-card [project]="p" (open)="open.emit($event)" (playLive)="playLive.emit($event)" />
+      }
+    </div>
+
+    @if (canScrollRight()) {
+      <button class="arrow right" type="button" (click)="scrollBy(1)" aria-label="Scroll right">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8z"/></svg>
+      </button>
+    }
+  </div>
+</section>

@@ -1,29 +1,25 @@
 <div
   class="intro"
-  [class.running]="phase() === 'running'"
   [class.leaving]="phase() === 'leaving'"
   [class.reduced]="reduced()"
   (click)="onHostClick()"
   role="presentation"
 >
-  <!-- Phase 1: ignition — bars sweep down -->
-  @if (!reduced()) {
-    <div class="bars" aria-hidden="true">
-      @for (b of bars; track b) {
-        <span class="bar" [style.--i]="b"></span>
+  <div class="stage">
+    <!-- Netflix's own intro mechanism: each stroke is a masked box whose brush
+         strands sweep upward to "paint" it in. The letter is an A. -->
+    <div class="netflixintro" letter="A" aria-hidden="true">
+      @for (h of helpers; track h) {
+        <div class="helper-{{ h }}">
+          <div class="effect-brush">
+            @for (f of furs; track f) { <span class="fur-{{ f }}"></span> }
+          </div>
+          <div class="effect-lumieres">
+            @for (l of lamps; track l) { <span class="lamp-{{ l }}"></span> }
+          </div>
+        </div>
       }
     </div>
-  }
-
-  <!-- Phases 2-5: the A, then the labels -->
-  <div class="stage">
-    <svg class="mark" viewBox="0 0 200 220" aria-hidden="true">
-      <g class="legs">
-        <path class="leg leg-l" d="M100 22 L28 200" />
-        <path class="leg leg-r" d="M100 22 L172 200" />
-      </g>
-      <path class="crossbar" d="M60 150 L140 150" />
-    </svg>
 
     <p class="roles">
       <span class="role role-1">Software Development Engineer</span>
@@ -34,7 +30,6 @@
     </p>
   </div>
 
-  <!-- Screen readers get the meaning without the theatre -->
   <h1 class="sr-only">
     Amartya Panigrahi — Software Development Engineer, freelancer, products that ship
   </h1>
