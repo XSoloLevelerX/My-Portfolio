@@ -6,7 +6,7 @@
   /* Netflix's desktop card: ~245px wide with a 16:9 still. */
   width: var(--card-w, 245px);
   cursor: pointer;
-  border-radius: var(--radius);
+  border-radius: 4px;
   background: var(--surface);
   transition: transform var(--t-base) var(--ease-out-expo),
               box-shadow var(--t-base) ease,
@@ -21,7 +21,7 @@
 
     .panel { opacity: 1; pointer-events: auto; transform: translateY(0); }
     .art {
-      border-radius: var(--radius) var(--radius) 0 0;
+      border-radius: 4px 4px 0 0;
       box-shadow: 0 16px 44px rgb(0 0 0 / 0.75);
     }
   }
@@ -34,7 +34,7 @@
 .art {
   position: relative;
   aspect-ratio: 16 / 9;
-  border-radius: var(--radius);
+  border-radius: 4px;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -81,7 +81,7 @@
   transform: translateY(-6px);
   transition: opacity var(--t-fast) ease, transform var(--t-base) var(--ease-out-expo);
   background: var(--bg-elevated);
-  border-radius: 0 0 var(--radius) var(--radius);
+  border-radius: 0 0 4px 4px;
   box-shadow: 0 22px 44px rgb(0 0 0 / 0.75);
   overflow: hidden;
 }
@@ -182,5 +182,5 @@
     transform: none;
     box-shadow: none;
   }
-  .art { border-radius: var(--radius) var(--radius) 0 0; }
+  .art { border-radius: 4px 4px 0 0; }
 }
