@@ -25,8 +25,55 @@ $base-color: #e50914;   // Netflix_Design.md primary
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 34px;
 }
+
+// One centred line: the brushed A, then the typed remainder. Because the row is
+// centre-justified, the A slides left on its own as the word grows — no absolute
+// positioning and no hand-off between two different elements.
+.wordmark {
+  --cap: clamp(26px, 5.6vw, 72px);
+  // The A fills its box vertically, so the box is sized to the text's cap height
+  // (~0.72em) rather than to the em box — otherwise the letter stands twice as
+  // tall as the word beside it.
+  --a-box: calc(var(--cap) * 0.78);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: clamp(200px, 34vh, 300px);
+}
+
+.typed, .caret {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: var(--cap);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: $base-color;
+  white-space: pre;
+}
+
+// Sits hard against the A, which is optically padded inside its own box.
+.typed { margin-left: calc(var(--cap) * -0.04); }
+
+// The A occupies its whole box while the text sits on a baseline with descender
+// space below it, so the mark is lifted to share that baseline.
+.netflixintro { align-self: center; }
+.wordmark.settled .netflixintro { transform: translateY(calc(var(--cap) * -0.07)); }
+
+.caret {
+  width: 3px;
+  height: calc(var(--cap) * 0.78);
+  background: $base-color;
+  margin-left: 6px;
+  opacity: 0;
+
+  .wordmark.settled & { opacity: 1; }
+  &.blinking { animation: caret-blink 900ms steps(1, end) infinite; }
+}
+
+@keyframes caret-blink { 50% { opacity: 0; } }
 
 // ── The mark ──────────────────────────────────────────────────────────────
 .netflixintro {
@@ -35,8 +82,42 @@ $base-color: #e50914;   // Netflix_Design.md primary
   width: clamp(200px, 34vh, 300px);
   aspect-ratio: 1;
   overflow: hidden;
-  // The zoom is held back so the letter is legible before it swallows the screen.
-  animation: zoom-in 1.4s cubic-bezier(0.4, 0, 0.68, 0.06) 3.2s forwards;
+  // Shrinks into the wordmark rather than zooming away. Every child is
+  // percentage-positioned, so narrowing the box scales the whole letter with it.
+  width: clamp(200px, 34vh, 300px);
+  transition: width 700ms var(--ease);
+
+  // Once it stops being an animation and becomes a letter, it resolves to solid
+  // red — the brush strands and coloured lamps are formation effects, and at
+  // wordmark size they read as noise rather than light.
+  .wordmark.settled & {
+    width: var(--a-box);
+    height: var(--a-box);
+
+    &::before { display: none; }
+
+    // The formation animations use fill-mode: forwards, and a filled animation
+    // value beats a normal declaration whatever the specificity — so these have
+    // to be cancelled, not merely overridden.
+    .effect-brush,
+    .effect-lumieres {
+      animation: none;
+      opacity: 0;
+      transition: opacity 260ms var(--ease);
+    }
+
+    [class*="helper-"] {
+      animation: none;
+      background-color: $base-color;
+      transition: background-color 260ms var(--ease);
+    }
+
+    // At wordmark size the formation strokes read too light against 800-weight
+    // text, so the letter is set slightly bolder once it settles.
+    .helper-1 { width: 23%; left: 25%; }
+    .helper-2 { width: 23%; left: 52%; }
+    .helper-3 { width: 42%; left: 29%; height: 17%; top: 57%; }
+  }
 
   &::before {
     content: "";
@@ -117,20 +198,16 @@ $base-color: #e50914;   // Netflix_Design.md primary
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #b3b3b3;
-  animation: roles-out 300ms ease 3.2s both;
+  animation: roles-in 500ms var(--ease-out-expo) 3300ms both;
 }
 
-.role { opacity: 0; animation: role-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both; white-space: nowrap; }
-.role-1 { animation-delay: 2400ms; }
-.role-2 { animation-delay: 2540ms; }
-.role-3 { animation-delay: 2680ms; }
-.sep { color: $base-color; opacity: 0; animation: role-in 400ms ease 2620ms both; }
+.role { white-space: nowrap; }
+.sep { color: $base-color; }
 
-@keyframes role-in {
-  from { opacity: 0; transform: translateY(9px); filter: blur(4px); }
-  to   { opacity: 1; transform: none; filter: none; }
+@keyframes roles-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
 }
-@keyframes roles-out { to { opacity: 0; } }
 
 // ── Controls ──────────────────────────────────────────────────────────────
 .sound, .skip {
@@ -179,6 +256,9 @@ $base-color: #e50914;   // Netflix_Design.md primary
   .effect-brush, .effect-lumieres, [class*="helper-"] { animation: none !important; }
   .effect-brush { transform: translateY(-100%); }
   .helper-1 { background-color: transparent; }
-  .role, .sep { opacity: 1; animation: none; }
-  .roles { animation: none; }
+  .netflixintro { transition: none;
+    .effect-brush, .effect-lumieres { transition: none; }
+    [class*="helper-"] { transition: none; } }
+  .roles { animation: none; opacity: 1; }
+  .caret { display: none; }
 }

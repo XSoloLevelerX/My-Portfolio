@@ -6,19 +6,25 @@
   role="presentation"
 >
   <div class="stage">
-    <!-- Netflix's own intro mechanism: each stroke is a masked box whose brush
-         strands sweep upward to "paint" it in. The letter is an A. -->
-    <div class="netflixintro" letter="A" aria-hidden="true">
-      @for (h of helpers; track h) {
-        <div class="helper-{{ h }}">
-          <div class="effect-brush">
-            @for (f of furs; track f) { <span class="fur-{{ f }}"></span> }
+    <!-- The A is not a separate mark that hands off to a logo: it IS the first
+         letter of the wordmark. It shrinks into the line while the rest types
+         beside it, the way Netflix's N sits inside NETFLIX. -->
+    <div class="wordmark" [class.settled]="transformed()">
+      <div class="netflixintro" letter="A" aria-hidden="true">
+        @for (h of helpers; track h) {
+          <div class="helper-{{ h }}">
+            <div class="effect-brush">
+              @for (f of furs; track f) { <span class="fur-{{ f }}"></span> }
+            </div>
+            <div class="effect-lumieres">
+              @for (l of lamps; track l) { <span class="lamp-{{ l }}"></span> }
+            </div>
           </div>
-          <div class="effect-lumieres">
-            @for (l of lamps; track l) { <span class="lamp-{{ l }}"></span> }
-          </div>
-        </div>
-      }
+        }
+      </div>
+
+      <span class="typed" aria-hidden="true">{{ typed() }}</span>
+      <span class="caret" [class.blinking]="typingDone()" aria-hidden="true"></span>
     </div>
 
     <p class="roles">
