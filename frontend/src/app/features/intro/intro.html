@@ -7,36 +7,39 @@
   (click)="onHostClick()"
   role="presentation"
 >
-  <!-- The camera. Everything inside is what the lens is pointed at, so the pull
-       back and the dive are one transform on one element. -->
-  <div class="camera">
-    <div class="wordmark">
-      <!-- Beat 1: the A is brushed in at full screen. It cross-fades into the
-           wordmark's own first letter during the pull back, while both are
-           moving, so the handover is invisible. -->
-      <div class="netflixintro" letter="A" aria-hidden="true">
-        @for (h of helpers; track h) {
-          <div class="helper-{{ h }}">
-            <div class="effect-brush">
-              @for (f of furs; track f) { <span class="fur-{{ f }}"></span> }
-            </div>
-            <div class="effect-lumieres">
-              @for (l of lamps; track l) { <span class="lamp-{{ l }}"></span> }
-            </div>
-          </div>
-        }
-      </div>
-
-      <!-- Beat 2: the name itself, each letter on its own arc. -->
-      <div class="word" aria-hidden="true">
-        @for (l of letters; track l.i) {
-          <span class="ltr" [style.--i]="l.i">{{ l.char }}</span>
-        }
-      </div>
+  <!-- The camera. The pull back and the dive are one transform each on two
+       nested elements, because they pivot on different points. -->
+  <div class="camera" [style.--pivot.%]="firstCentre()">
+    <div class="wordmark" [style.--dive-x.%]="divePoint()">
+      @for (g of glyphs; track $index) {
+        <!-- Each glyph is drawn from polygons, not set in a typeface, and is
+             wiped on from the baseline up as it is "typed". -->
+        <svg
+          class="glyph"
+          [class.on]="$index < shown()"
+          [style.--w]="g.w"
+          [style.--i]="$index"
+          viewBox="0 0 100 140"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="fold" x1="0" y1="0" x2="1" y2="0.25">
+              <stop offset="0%"   stop-color="#f5121e" />
+              <stop offset="46%"  stop-color="#e50914" />
+              <stop offset="46.5%" stop-color="#bd0710" />
+              <stop offset="100%" stop-color="#e50914" />
+            </linearGradient>
+          </defs>
+          @for (d of g.paths; track $index) {
+            <path [attr.d]="d" />
+          }
+        </svg>
+      }
     </div>
   </div>
 
-  <!-- Beat 4: the colour bars the dive passes through. -->
+  <!-- The colour bars the dive passes through. -->
   <div class="lightbars" aria-hidden="true">
     @for (b of bars; track b.i) {
       <span

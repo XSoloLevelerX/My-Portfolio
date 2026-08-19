@@ -1,5 +1,4 @@
 @use '../../../styles/tokens' as *;
-@use './netflix-engine' with ($base-color: #e50914, $bg-color: #000000);
 
 $bg-color: #000000;
 $base-color: #e50914;
@@ -20,139 +19,86 @@ $base-color: #e50914;
 }
 
 /* ── The camera ────────────────────────────────────────────────────────────
-   Two nested transforms rather than one, because the pull back and the dive
-   pivot on different points: the pull back is anchored on the first A, the dive
-   on the R's stem. Animating transform-origin instead would snap. */
+   Two nested transforms, because the pull back and the dive pivot on different
+   points: the first A, then the R's stem. Animating transform-origin between
+   them would snap. Both pivots come from the glyph metrics. */
 .camera {
-  transform-origin: 11.7% 50%;     // centre of the first A within the word
-  transform: scale(var(--pull, 2.9));
-  transition: transform 1500ms cubic-bezier(0.42, 0, 0.22, 1);
+  transform-origin: var(--pivot) 50%;
+  transform: scale(var(--pull, 3.05));
+  transition: transform 1450ms cubic-bezier(0.42, 0, 0.22, 1);
   will-change: transform;
 }
 
 .intro.pulled .camera { --pull: 1; }
 
 .wordmark {
-  position: relative;
-  transform-origin: 44% 50%;       // the R's vertical stem
+  display: flex;
+  align-items: flex-end;
+  transform-origin: var(--dive-x) 52%;
   transform: scale(1);
   will-change: transform;
-  // Set here, not on .word, so the brushed A sizes from the same em as the
-  // letters it has to line up with.
-  font-family: 'Anton', 'Inter', sans-serif;
-  // Anton advances ~0.51em per cap, so AMARTYA is ~3.6em wide. Sized against
-  // both axes so it fills the frame without overflowing a short viewport.
-  font-size: min(20vw, 29vh);
+  /* Sized against both axes so the name fills the frame without overflowing a
+     short viewport. */
+  --unit: min(11.5vw, 18.5vh);
 }
 
-/* The dive: hard acceleration, so it reads as travelling into the letter
-   rather than the letter simply growing. */
+/* Hard acceleration, so it reads as travelling into the letter rather than the
+   letter simply growing. */
 .intro.diving .wordmark {
-  transform: scale(34);
+  transform: scale(36);
   transition: transform 1250ms cubic-bezier(0.6, 0, 0.9, 0.35);
 }
 
-/* ── The name ──────────────────────────────────────────────────────────────
-   Perspective tips the tops of the letters toward the viewer, so the strokes
-   taper downward the way they do on a physical set. */
-.word {
-  display: flex;
-  align-items: center;
-  perspective: 1400px;
-  line-height: 0.86;
-  color: $base-color;
+/* ── The glyphs ────────────────────────────────────────────────────────────*/
+.glyph {
+  flex: none;
+  /* The advance comes from the glyph's own metric, not a font's. */
+  width: calc(var(--w) * var(--unit));
+  height: calc(1.4 * var(--unit));
+  overflow: visible;
+
+  /* Flat red with a hard-stop gradient standing in for the darker inner face
+     the reference letters have where the strokes fold. */
+  path { fill: url(#fold); }
+
+  /* Every glyph is wiped on from the baseline up — this is the "typing". */
+  clip-path: inset(100% 0 0 0);
   opacity: 0;
-  transition: opacity 620ms ease 260ms;
+  transition:
+    clip-path 420ms cubic-bezier(0.3, 0.85, 0.35, 1),
+    opacity 120ms linear;
+
+  &.on {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
 }
 
-.intro.pulled .word { opacity: 1; }
+/* The arc: each letter rotates out from the centre and drops by the square of
+   its distance, so the baseline curves rather than tilts. Perspective tips the
+   tops toward the viewer, which is what tapers the strokes downward. */
+.wordmark { perspective: calc(var(--unit) * 9); }
 
-.ltr {
-  display: block;
+.glyph {
   transform-origin: 50% 100%;
-  // Each letter sits on a shallow arc: rotated out from the centre and dropped
-  // by the square of its distance, so the baseline curves rather than tilts.
   transform:
-    rotateX(9deg)
-    rotate(calc((var(--i) - 3) * 2.3deg))
-    translateY(calc((var(--i) - 3) * (var(--i) - 3) * 0.016em));
-  // A hint of a fold down each stroke, standing in for the darker inner face.
-  background: linear-gradient(96deg, #f2101c 0%, #e50914 42%, #b8070f 43%, #e50914 78%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+    rotateX(8deg)
+    rotate(calc((var(--i) - 3) * 2.2deg))
+    translateY(calc((var(--i) - 3) * (var(--i) - 3) * var(--unit) * 0.013));
 }
-
-/* ── The brushed A ─────────────────────────────────────────────────────────
-   Beat 1. Sits exactly over the word's own first letter, so the cross-fade
-   during the pull back has nothing to line up. */
-.netflixintro {
-  position: absolute;
-  left: 11.7%;
-  top: 50%;
-  width: 0.82em;
-  aspect-ratio: 1;
-  font-size: inherit;
-  transform: translate(-50%, -50%);
-  overflow: hidden;
-  transition: opacity 520ms ease;
-
-  &::before {
-    content: "";
-    position: absolute;
-    display: block;
-    background-color: $bg-color;
-    width: 150%;
-    height: 30%;
-    left: -25%;
-    bottom: -27%;
-    border-radius: 50%;
-    z-index: 5;
-  }
-
-  // Letter A: two legs leaning off vertical, plus a crossbar.
-  &[letter="A"] {
-    .helper-1 {
-      width: 17%; height: 150%; left: 29.5%; top: -25%;
-      transform: rotate(12deg);
-      background-color: rgba($base-color, 0.5);
-      overflow: hidden;
-      animation: fading-lumieres-box 2s 0.6s forwards;
-      .effect-brush { animation: brush-moving 2.1s 0.4s forwards; }
-    }
-    .helper-2 {
-      width: 17%; height: 150%; left: 53.5%; top: -25%;
-      transform: rotate(-12deg);
-      overflow: hidden;
-      .effect-brush { animation: brush-moving 2.1s 0.7s forwards; }
-    }
-    .helper-3 {
-      width: 38%; height: 13%; left: 31%; top: 60%;
-      overflow: hidden;
-      .effect-brush {
-        animation: brush-moving 1.5s 1.3s forwards;
-        [class*="fur-"] { bottom: 0; height: 60%; }
-      }
-    }
-  }
-}
-
-/* Hands over to the typeset letter as the camera starts moving. */
-.intro.pulled .netflixintro { opacity: 0; }
 
 /* ── The colour bars ───────────────────────────────────────────────────────
-   Beat 4. Splayed outward from the centre as the camera dives through them. */
+   Full height from the first frame: columns of light the camera passes
+   between, not something growing out of the middle of the screen. */
 .lightbars {
   position: absolute;
   inset: 0;
+  width: 150%;
+  left: -25%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.55vw;
-  // Wider than the viewport from the start, so spreading pushes light off the
-  // edges rather than dragging black in behind it.
-  width: 150%;
-  left: -25%;
   opacity: 0;
   pointer-events: none;
   transition: opacity 340ms ease;
@@ -163,13 +109,10 @@ $base-color: #e50914;
   animation: bars-bloom 1250ms cubic-bezier(0.6, 0, 0.9, 0.35) forwards;
 }
 
-/* Full height from the first frame: the bars are columns of light the camera
-   passes between, not something that grows out of the middle of the screen. */
 .bar {
   flex: none;
   width: var(--w);
   height: 120%;
-  align-self: center;
   background: linear-gradient(
     180deg,
     transparent 0%,
@@ -183,8 +126,8 @@ $base-color: #e50914;
   filter: blur(1.5px);
   opacity: 0;
 
-  // A third of them stay dark, so the rack reads as gaps between lights
-  // rather than a continuous gradient.
+  /* A third stay dark, so the rack reads as gaps between lights rather than a
+     continuous gradient. */
   &.dim { background: #000; }
 
   .intro.diving & {
@@ -198,16 +141,13 @@ $base-color: #e50914;
   100% { opacity: 1; transform: scaleX(3.4); }
 }
 
-/* The rack spreads as the camera moves between the columns, and the last beat
-   floods the frame so the cut to the page happens inside the light. */
 @keyframes bars-bloom {
   0%   { transform: scaleX(0.55); filter: brightness(1); }
   55%  { transform: scaleX(1.6);  filter: brightness(1.2); }
   100% { transform: scaleX(5.5);  filter: brightness(2.4); }
 }
 
-/* The last beat: the light floods the frame, and the page is revealed inside it
-   rather than after a fade to black. */
+/* The page is revealed from inside the light rather than after a fade to black. */
 .flood {
   position: absolute;
   inset: 0;
@@ -231,7 +171,7 @@ $base-color: #e50914;
   position: absolute;
   z-index: 10;
   color: #b3b3b3;
-  transition: color 200ms, border-color 200ms, background 200ms;
+  transition: color 200ms, border-color 200ms, background 200ms, opacity 200ms;
   @include focus-ring;
 }
 
@@ -261,9 +201,8 @@ $base-color: #e50914;
   &:hover { color: #fff; border-color: #fff; }
 }
 
-/* Controls get out of the way once the dive starts. */
 .intro.diving .sound,
-.intro.diving .skip { opacity: 0; transition: opacity 200ms ease; }
+.intro.diving .skip { opacity: 0; }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px;
@@ -274,7 +213,6 @@ $base-color: #e50914;
 /* ── Reduced motion: the finished wordmark, held still. ────────────────────*/
 .intro.reduced {
   .camera, .wordmark { transform: none; transition: none; }
-  .word { opacity: 1; transition: none; }
-  .netflixintro { display: none; }
+  .glyph { transition: none; }
   .lightbars, .flood { display: none; }
 }

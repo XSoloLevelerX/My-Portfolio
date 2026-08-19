@@ -1,29 +1,30 @@
 import {
   ChangeDetectionStrategy, Component, OnDestroy, OnInit,
-  inject, output, signal,
+  computed, inject, output, signal,
 } from '@angular/core';
 import { IntroService } from '../../core/services/intro.service';
+import { WORDMARK, DIVE_INDEX } from './letterforms';
 
 /**
  * The title sequence, in four beats:
  *
- *   1. FORM    the A is brushed in, filling the screen
- *   2. PULL    the camera pulls back and the rest of AMARTYA is revealed around it
- *   3. HOLD    the wordmark sits
- *   4. DIVE    the camera dives into the R's vertical stem, through the colour
- *              bars, and lands on the page
+ *   FORM  the A is drawn on, filling the screen
+ *   TYPE  the camera pulls back while the rest of the name draws itself on,
+ *         one letter at a time
+ *   HOLD  the wordmark sits
+ *   DIVE  the camera travels into the R's stem, through the colour bars, and
+ *         lands on the page
  *
- * Timings here mirror the CSS exactly; changing one without the other desyncs
- * the sequence.
+ * These timings mirror the CSS; changing one without the other desyncs it.
  */
 const T = {
   form: 0,
-  pull: 1900,
-  hold: 3000,
-  /** The wordmark is complete — where the sting belongs. */
-  sting: 2950,
-  dive: 3500,
-  end: 4750,
+  pull: 1500,
+  /** Interval between letters as the name types out. */
+  typeStep: 105,
+  sting: 2450,
+  dive: 3300,
+  end: 4550,
 } as const;
 
 @Component({
@@ -42,28 +43,18 @@ export class Intro implements OnInit, OnDestroy {
   readonly showSkip = signal(false);
   readonly reduced = signal(false);
 
-  /** Beat flags, flipped on the timeline and read by the template. */
   readonly pulled = signal(false);
   readonly diving = signal(false);
+  /** How many letters have been drawn on. Starts at the lone A. */
+  readonly shown = signal(1);
 
-  /** The mark: three strokes, brushed in by 31 strands under 28 lamps. */
-  readonly helpers = [1, 2, 3];
-  readonly furs = Array.from({ length: 31 }, (_, i) => i + 1);
-  readonly lamps = Array.from({ length: 28 }, (_, i) => i + 1);
+  readonly glyphs = WORDMARK;
 
-  /** AMARTYA, one span per letter so each can sit on its own arc. */
-  readonly letters = 'AMARTYA'.split('').map((char, i) => ({ char, i }));
-
-  /**
-   * The colour bars the dive passes through. Warm on the left, cool on the right,
-   * with black gaps between — computed here rather than in CSS so the palette can
-   * skip the greens that a plain hue sweep would land on.
-   */
+  /** Colour bars the dive passes through. */
   readonly bars = Array.from({ length: 46 }, (_, i) => {
     const t = i / 45;
-    // 0 -> 55 (red..amber), then jump the greens, 185 -> 320 (cyan..magenta)
     const hue = t < 0.48 ? t * 115 : 185 + (t - 0.48) * 260;
-    const seed = (i * 2654435761) % 1000 / 1000;
+    const seed = ((i * 2654435761) % 1000) / 1000;
     return {
       i,
       hue: Math.round(hue),
@@ -74,7 +65,27 @@ export class Intro implements OnInit, OnDestroy {
     };
   });
 
+  /** Total advance of the word, in grid units. */
+  private readonly total = WORDMARK.reduce((sum, g) => sum + g.w, 0);
+
+  /** Centre of the first A, as a percentage of the word — the pull-back pivot. */
+  readonly firstCentre = computed(() =>
+    ((WORDMARK[0].w / 2) / this.total) * 100,
+  );
+
+  /**
+   * The R's stem, as a percentage of the word — the dive pivot. Derived from
+   * the glyph metrics rather than hard-coded, so editing the name cannot leave
+   * the camera aimed at the wrong place.
+   */
+  readonly divePoint = computed(() => {
+    const before = WORDMARK.slice(0, DIVE_INDEX).reduce((s, g) => s + g.w, 0);
+    // The stem sits ~0.16 of the way across the R's own grid.
+    return ((before + 0.16) / this.total) * 100;
+  });
+
   private timers: number[] = [];
+  private typer?: number;
 
   ngOnInit(): void {
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
@@ -82,21 +93,25 @@ export class Intro implements OnInit, OnDestroy {
     this.phase.set('running');
 
     if (reduced) {
-      // The finished wordmark, held still. No pull, no dive, no light.
+      // The finished wordmark, held still. No pull, no typing, no dive.
       this.pulled.set(true);
+      this.shown.set(WORDMARK.length);
       this.after(1500, () => this.complete());
       return;
     }
 
     this.after(300, () => this.showSkip.set(true));
-    this.after(T.pull, () => this.pulled.set(true));
+    this.after(T.pull, () => {
+      this.pulled.set(true);
+      this.startTyping();
+    });
     this.after(T.sting, () => this.introSvc.playSting());
     this.after(T.dive, () => this.diving.set(true));
     this.after(T.end, () => this.complete());
   }
 
   ngOnDestroy(): void {
-    this.timers.forEach(clearTimeout);
+    this.clearTimers();
   }
 
   armSound(event: Event): void {
@@ -108,13 +123,33 @@ export class Intro implements OnInit, OnDestroy {
 
   skip(): void {
     if (this.phase() === 'leaving') return;
-    this.timers.forEach(clearTimeout);
-    this.timers = [];
+    this.clearTimers();
     this.complete();
   }
 
   onHostClick(): void {
     this.introSvc.arm();
+  }
+
+  /** Draws the remaining letters on, one at a time. */
+  private startTyping(): void {
+    this.typer = window.setInterval(() => {
+      const next = this.shown() + 1;
+      this.shown.set(next);
+      if (next >= WORDMARK.length && this.typer) {
+        clearInterval(this.typer);
+        this.typer = undefined;
+      }
+    }, T.typeStep);
+  }
+
+  private clearTimers(): void {
+    this.timers.forEach(clearTimeout);
+    this.timers = [];
+    if (this.typer) {
+      clearInterval(this.typer);
+      this.typer = undefined;
+    }
   }
 
   private complete(): void {
