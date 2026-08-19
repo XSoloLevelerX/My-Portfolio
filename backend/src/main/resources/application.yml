@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: portfolio
+  datasource:
+    # Supabase free tier: the direct host (db.<ref>.supabase.co) is IPv6-only.
+    # Use the session pooler on IPv4 networks — see .env.example.
+    url: ${SUPABASE_DB_URL:jdbc:postgresql://localhost:5432/portfolio}
+    username: ${SUPABASE_DB_USER:postgres}
+    password: ${SUPABASE_DB_PASSWORD:postgres}
+    hikari:
+      # The free tier has a small connection budget and this is a read-heavy,
+      # low-traffic API. A large pool would exhaust the database, not help.
+      maximum-pool-size: ${DB_POOL_MAX:5}
+      minimum-idle: 1
+      connection-timeout: 10000
+  jpa:
+    # Stated explicitly so a connection failure reports the real cause rather than
+    # "Unable to determine Dialect", which hides it.
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      # The schema is owned by the SQL migrations in db/migration, never by Hibernate.
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+app:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:4200}
+  events:
+    session-salt: ${EVENT_SESSION_SALT:change-me}
+    max-per-minute: ${EVENTS_MAX_PER_MINUTE:60}
+  contact:
+    max-per-hour: ${CONTACT_MAX_PER_HOUR:5}
+  trending:
+    cron: ${TRENDING_CRON:0 0 3 * * *}
+
+logging:
+  level:
+    com.amartya.portfolio: ${LOG_LEVEL:INFO}

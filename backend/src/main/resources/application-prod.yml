@@ -1,0 +1,13 @@
+# Production. Every value here must come from the environment.
+spring:
+  jpa:
+    show-sql: false
+
+app:
+  cors:
+    # Comma-separated. Set to the deployed Angular origin.
+    allowed-origins: ${CORS_ORIGINS}
+
+logging:
+  level:
+    com.amartya.portfolio: INFO

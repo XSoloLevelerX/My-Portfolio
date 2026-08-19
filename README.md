@@ -68,7 +68,7 @@ logo you keep seeing is the object you watched assemble.
 
 - [x] Phase 1 — intro, navbar, billboard, static catalogue
 - [x] Phase 2a — Supabase schema, RLS, trending function, 18 projects seeded
-- [ ] Phase 2b — Spring Boot API
+- [x] Phase 2b — Spring Boot API
 - [ ] Phase 3 — shelves, hover preview, detail modal, engagement tracking
 - [ ] Phase 4 — skills, certifications, blog, about, contact
 - [ ] Phase 5 — deploy
@@ -94,3 +94,45 @@ The maintenance functions (`recompute_trending_scores`, `rollup_daily_stats`) ar
 `SECURITY DEFINER` functions — the database linter caught it and `V4` revokes those grants.
 
 Credentials go in `.env` (gitignored); `.env.example` lists what is needed.
+
+## The API
+
+Spring Boot 4.1 on Java 25, Maven. Run it:
+
+```bash
+cd backend
+cp ../.env.example ../.env      # fill in the Supabase values
+set -a; . ../.env; set +a
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| GET | `/api/v1/projects` | `?domain=` `?status=` |
+| GET | `/api/v1/projects/rows` | the whole home page in one call |
+| GET | `/api/v1/projects/{slug}` | |
+| POST | `/api/v1/projects/{slug}/events` | `202`, fire-and-forget |
+| GET | `/api/v1/skills` · `/skills/favorites` | grouped, favourites first |
+| GET | `/api/v1/certifications` | |
+| GET | `/api/v1/blog` · `/blog/{slug}` | published only, paginated |
+| GET | `/api/v1/profile` | |
+| POST | `/api/v1/contact` | rate-limited per session |
+| GET | `/actuator/health` | plus a `/health` on every controller |
+
+`/projects/rows` exists so the home page makes **one** request instead of six.
+Empty shelves are dropped rather than rendered as a heading with nothing under it.
+
+### Connecting to Supabase
+
+On the free tier `db.<ref>.supabase.co` is **IPv6-only** — on an IPv4 network it fails
+with `No route to host`. Use the session pooler (`aws-0-<region>.pooler.supabase.com`),
+where the username is tenant-qualified: `postgres.<ref>`. Both forms are in `.env.example`.
+
+The schema is owned by the SQL migrations, never by Hibernate: `ddl-auto` is `validate`.
+
+### Trending
+
+The formula lives in the SQL function `recompute_trending_scores()` (migration `V3`),
+not in Java. One definition, and it still works when this service is asleep.
+`TrendingService` only schedules it — nightly at 03:00, plus once on startup so a
+freshly woken instance is not serving stale ordering.
