@@ -18,74 +18,98 @@ $base-color: #e50914;
   &.leaving { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
-/* ── The camera ────────────────────────────────────────────────────────────
-   Two nested transforms, because the pull back and the dive pivot on different
-   points: the first A, then the R's stem. Animating transform-origin between
-   them would snap. Both pivots come from the glyph metrics. */
-.camera {
-  transform-origin: var(--pivot) 50%;
-  transform: scale(var(--pull, 3.05));
-  transition: transform 1450ms cubic-bezier(0.42, 0, 0.22, 1);
-  will-change: transform;
+/* ── The wordmark ──────────────────────────────────────────────────────────
+   Set in Anton: a real condensed face, so the curves are smooth and the joins
+   are clean. The arc and the fold are ours; the letterforms are not something
+   worth hand-drawing badly. */
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(26px, 4.5vh, 58px);
 }
-
-.intro.pulled .camera { --pull: 1; }
 
 .wordmark {
   display: flex;
   align-items: flex-end;
+  justify-content: center;
+  perspective: 1600px;
   transform-origin: var(--dive-x) 52%;
   transform: scale(1);
   will-change: transform;
-  /* Sized against both axes so the name fills the frame without overflowing a
-     short viewport. */
-  --unit: min(11.5vw, 18.5vh);
+
+  font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
+  font-size: min(13.5vw, 22vh);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  color: $base-color;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Hard acceleration, so it reads as travelling into the letter rather than the
-   letter simply growing. */
+/* Hard acceleration, so the last beat reads as travelling into the letter
+   rather than the letter simply growing. */
 .intro.diving .wordmark {
-  transform: scale(36);
+  transform: scale(38);
   transition: transform 1250ms cubic-bezier(0.6, 0, 0.9, 0.35);
 }
 
-/* ── The glyphs ────────────────────────────────────────────────────────────*/
-.glyph {
-  flex: none;
-  /* The advance comes from the glyph's own metric, not a font's. */
-  width: calc(var(--w) * var(--unit));
-  height: calc(1.4 * var(--unit));
-  overflow: visible;
+.ltr {
+  display: block;
+  transform-origin: 50% 100%;
 
-  /* Flat red with a hard-stop gradient standing in for the darker inner face
-     the reference letters have where the strokes fold. */
-  path { fill: url(#fold); }
+  /* Each letter sits on a shallow arc: rotated out from the centre and dropped
+     by the square of its distance, so the baseline curves rather than tilts.
+     Perspective tips the tops toward the viewer, which tapers the strokes. */
+  --arc:
+    rotateX(9deg)
+    rotate(calc((var(--i) - 3) * 2.4deg))
+    translateY(calc((var(--i) - 3) * (var(--i) - 3) * 0.014em));
 
-  /* Every glyph is wiped on from the baseline up — this is the "typing". */
-  clip-path: inset(100% 0 0 0);
+  /* A hard-stop gradient stands in for the darker inner face where the
+     reference letters fold. */
+  background: linear-gradient(97deg, #f5121e 0%, #e50914 45%, #b8070f 45.6%, #e20812 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Collapsed to nothing until its turn. Animating max-width rather than
+     opacity alone is what makes the row grow and push the A leftward. */
+  max-width: 0;
   opacity: 0;
+  transform: var(--arc) scale(0.82);
   transition:
-    clip-path 420ms cubic-bezier(0.3, 0.85, 0.35, 1),
-    opacity 120ms linear;
+    max-width 520ms cubic-bezier(0.22, 1, 0.3, 1),
+    opacity 380ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.3, 1);
 
   &.on {
-    clip-path: inset(0 0 0 0);
+    max-width: 1.6em;
     opacity: 1;
+    transform: var(--arc) scale(1);
   }
 }
 
-/* The arc: each letter rotates out from the centre and drops by the square of
-   its distance, so the baseline curves rather than tilts. Perspective tips the
-   tops toward the viewer, which is what tapers the strokes downward. */
-.wordmark { perspective: calc(var(--unit) * 9); }
+/* The lone A opens a touch larger, then settles as the others arrive. */
+.intro .wordmark { transition: transform 700ms cubic-bezier(0.22, 1, 0.3, 1); }
 
-.glyph {
-  transform-origin: 50% 100%;
-  transform:
-    rotateX(8deg)
-    rotate(calc((var(--i) - 3) * 2.2deg))
-    translateY(calc((var(--i) - 3) * (var(--i) - 3) * var(--unit) * 0.013));
+.tagline {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(11px, 1.5vw, 19px);
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  text-transform: uppercase;
+  color: #f2f2f3;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 620ms ease, transform 620ms cubic-bezier(0.22, 1, 0.3, 1);
+
+  &.on { opacity: 1; transform: none; }
 }
+
+.intro.diving .tagline { opacity: 0; transition: opacity 260ms ease; }
 
 /* ── The colour bars ───────────────────────────────────────────────────────
    Full height from the first frame: columns of light the camera passes
@@ -212,7 +236,8 @@ $base-color: #e50914;
 
 /* ── Reduced motion: the finished wordmark, held still. ────────────────────*/
 .intro.reduced {
-  .camera, .wordmark { transform: none; transition: none; }
-  .glyph { transition: none; }
+  .wordmark { transform: none; transition: none; }
+  .ltr { transition: none; }
+  .tagline { transition: none; }
   .lightbars, .flood { display: none; }
 }

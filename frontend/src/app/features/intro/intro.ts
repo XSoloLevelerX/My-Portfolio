@@ -3,7 +3,7 @@ import {
   computed, inject, output, signal,
 } from '@angular/core';
 import { IntroService } from '../../core/services/intro.service';
-import { WORDMARK, DIVE_INDEX } from './letterforms';
+
 
 /**
  * The title sequence, in four beats:
@@ -17,14 +17,19 @@ import { WORDMARK, DIVE_INDEX } from './letterforms';
  *
  * These timings mirror the CSS; changing one without the other desyncs it.
  */
+const NAME = 'AMARTYA';
+/** The R, whose stem the camera dives into. */
+const DIVE_INDEX = 3;
+
 const T = {
-  form: 0,
-  pull: 1500,
-  /** Interval between letters as the name types out. */
-  typeStep: 105,
-  sting: 2450,
-  dive: 3300,
-  end: 4550,
+  /** The lone A settles at centre before anything else moves. */
+  open: 850,
+  /** Interval between letters as the name grows out from the A. */
+  step: 135,
+  tagline: 1900,
+  sting: 2100,
+  dive: 3050,
+  end: 4300,
 } as const;
 
 @Component({
@@ -43,12 +48,13 @@ export class Intro implements OnInit, OnDestroy {
   readonly showSkip = signal(false);
   readonly reduced = signal(false);
 
-  readonly pulled = signal(false);
+  readonly opened = signal(false);
   readonly diving = signal(false);
-  /** How many letters have been drawn on. Starts at the lone A. */
+  readonly taglineIn = signal(false);
+  /** How many letters are on screen. Starts at the lone A. */
   readonly shown = signal(1);
 
-  readonly glyphs = WORDMARK;
+  readonly letters = NAME.split('').map((char, i) => ({ char, i }));
 
   /** Colour bars the dive passes through. */
   readonly bars = Array.from({ length: 46 }, (_, i) => {
@@ -65,24 +71,15 @@ export class Intro implements OnInit, OnDestroy {
     };
   });
 
-  /** Total advance of the word, in grid units. */
-  private readonly total = WORDMARK.reduce((sum, g) => sum + g.w, 0);
-
-  /** Centre of the first A, as a percentage of the word — the pull-back pivot. */
-  readonly firstCentre = computed(() =>
-    ((WORDMARK[0].w / 2) / this.total) * 100,
-  );
-
   /**
-   * The R's stem, as a percentage of the word — the dive pivot. Derived from
-   * the glyph metrics rather than hard-coded, so editing the name cannot leave
-   * the camera aimed at the wrong place.
+   * The R's stem as a percentage across the name — the dive pivot. Derived from
+   * the letter's index rather than hard-coded, so editing the name cannot leave
+   * the camera aimed at empty space. The stem sits at the left of the glyph,
+   * hence the 0.22 rather than 0.5.
    */
-  readonly divePoint = computed(() => {
-    const before = WORDMARK.slice(0, DIVE_INDEX).reduce((s, g) => s + g.w, 0);
-    // The stem sits ~0.16 of the way across the R's own grid.
-    return ((before + 0.16) / this.total) * 100;
-  });
+  readonly divePoint = computed(
+    () => ((DIVE_INDEX + 0.22) / NAME.length) * 100,
+  );
 
   private timers: number[] = [];
   private typer?: number;
@@ -93,18 +90,18 @@ export class Intro implements OnInit, OnDestroy {
     this.phase.set('running');
 
     if (reduced) {
-      // The finished wordmark, held still. No pull, no typing, no dive.
-      this.pulled.set(true);
-      this.shown.set(WORDMARK.length);
-      this.after(1500, () => this.complete());
+      // The finished wordmark, held still. No growth, no dive.
+      this.opened.set(true);
+      this.shown.set(NAME.length);
+      this.taglineIn.set(true);
+      this.after(1600, () => this.complete());
       return;
     }
 
+    this.after(120, () => this.opened.set(true));
     this.after(300, () => this.showSkip.set(true));
-    this.after(T.pull, () => {
-      this.pulled.set(true);
-      this.startTyping();
-    });
+    this.after(T.open, () => this.grow());
+    this.after(T.tagline, () => this.taglineIn.set(true));
     this.after(T.sting, () => this.introSvc.playSting());
     this.after(T.dive, () => this.diving.set(true));
     this.after(T.end, () => this.complete());
@@ -131,16 +128,20 @@ export class Intro implements OnInit, OnDestroy {
     this.introSvc.arm();
   }
 
-  /** Draws the remaining letters on, one at a time. */
-  private startTyping(): void {
+  /**
+   * Brings the remaining letters in one at a time. The row is centre-justified,
+   * so every letter that arrives pushes the A left on its own — no separate
+   * animation for the shift, and it can never drift out of sync.
+   */
+  private grow(): void {
     this.typer = window.setInterval(() => {
       const next = this.shown() + 1;
       this.shown.set(next);
-      if (next >= WORDMARK.length && this.typer) {
+      if (next >= NAME.length && this.typer) {
         clearInterval(this.typer);
         this.typer = undefined;
       }
-    }, T.typeStep);
+    }, T.step);
   }
 
   private clearTimers(): void {

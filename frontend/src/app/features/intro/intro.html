@@ -1,45 +1,27 @@
 <div
   class="intro"
-  [class.pulled]="pulled()"
+  [class.opened]="opened()"
   [class.diving]="diving()"
   [class.leaving]="phase() === 'leaving'"
   [class.reduced]="reduced()"
   (click)="onHostClick()"
   role="presentation"
 >
-  <!-- The camera. The pull back and the dive are one transform each on two
-       nested elements, because they pivot on different points. -->
-  <div class="camera" [style.--pivot.%]="firstCentre()">
+  <div class="stage">
+    <!-- The dive pivots on the R's stem, so it lives on its own element. -->
     <div class="wordmark" [style.--dive-x.%]="divePoint()">
-      @for (g of glyphs; track $index) {
-        <!-- Each glyph is drawn from polygons, not set in a typeface, and is
-             wiped on from the baseline up as it is "typed". -->
-        <svg
-          class="glyph"
-          [class.on]="$index < shown()"
-          [style.--w]="g.w"
-          [style.--i]="$index"
-          viewBox="0 0 100 140"
-          preserveAspectRatio="xMidYMid meet"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="fold" x1="0" y1="0" x2="1" y2="0.25">
-              <stop offset="0%"   stop-color="#f5121e" />
-              <stop offset="46%"  stop-color="#e50914" />
-              <stop offset="46.5%" stop-color="#bd0710" />
-              <stop offset="100%" stop-color="#e50914" />
-            </linearGradient>
-          </defs>
-          @for (d of g.paths; track $index) {
-            <path [attr.d]="d" />
-          }
-        </svg>
+      <!-- Centre-justified: the A sits in the middle on its own, and every
+           letter that arrives shifts it left to make room. The slide is a
+           consequence of the layout rather than a second animation to keep
+           in sync. -->
+      @for (l of letters; track l.i) {
+        <span class="ltr" [class.on]="l.i < shown()" [style.--i]="l.i">{{ l.char }}</span>
       }
     </div>
+
+    <p class="tagline" [class.on]="taglineIn()">Learn. Build. Inspire.</p>
   </div>
 
-  <!-- The colour bars the dive passes through. -->
   <div class="lightbars" aria-hidden="true">
     @for (b of bars; track b.i) {
       <span
@@ -55,7 +37,7 @@
 
   <div class="flood" aria-hidden="true"></div>
 
-  <h1 class="sr-only">Amartya Panigrahi — Software Development Engineer and freelancer</h1>
+  <h1 class="sr-only">Amartya — learn, build, inspire</h1>
 
   <button
     class="sound"
