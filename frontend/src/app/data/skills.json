@@ -2,103 +2,139 @@
   "skills": [
     {
       "slug": "angular",
-      "name": "angular",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: Angular\ncategory: FRAMEWORK\nlevel: 5\ndaily: true\nyears: 3\ntags: [Signals, Standalone, Zoneless]\n---\nSignals and standalone components made this genuinely pleasant. Zoneless removes the last piece of magic I could never fully explain to a reviewer."
-    },
-    {
-      "slug": "docker",
-      "name": "docker",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: Docker\ncategory: DEVOPS\nlevel: 4\ndaily: false\nyears: 3\ntags: [Compose, Multi-stage]\n---\nMulti-stage builds, small final images, and a compose file so a new machine is running the stack in one command."
-    },
-    {
-      "slug": "flutter",
-      "name": "flutter",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: Flutter\ncategory: MOBILE\nlevel: 3\ndaily: false\nyears: 2\ntags: [Dart, Riverpod]\n---\nOne codebase when a project genuinely needs to be on a phone, rather than because it sounded good in the plan."
+      "name": "Angular",
+      "category": "FRAMEWORK",
+      "level": 5,
+      "daily": true,
+      "years": 3,
+      "tags": [
+        "Signals",
+        "Standalone",
+        "Zoneless"
+      ],
+      "note": "Signals and standalone components made this genuinely pleasant. Zoneless removes the last piece of magic I could never fully explain to a reviewer."
     },
     {
       "slug": "java",
-      "name": "java",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: Java\ncategory: LANGUAGE\nlevel: 5\ndaily: true\nyears: 4\ntags: [Java 21, JVM, Records]\n---\nThe language I reach for when a system has to still be correct in two years. Records, sealed types and pattern matching removed most of the ceremony that used to make Java tedious."
-    },
-    {
-      "slug": "llm",
-      "name": "llm",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: LLMs & RAG\ncategory: AI\nlevel: 4\ndaily: true\nyears: 2\ntags: [Claude, Embeddings, MCP]\n---\nRetrieval that cites its sources, and tool definitions treated as untrusted input. Most of the failure modes are prompt-shaped, not model-shaped."
-    },
-    {
-      "slug": "postgres",
-      "name": "postgres",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: PostgreSQL\ncategory: DATA\nlevel: 4\ndaily: true\nyears: 3\ntags: [RLS, Supabase, Migrations]\n---\nRow Level Security is the feature I underestimated longest. Getting the policies right means the database stays correct even when a client is wrong."
-    },
-    {
-      "slug": "python",
-      "name": "python",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: Python\ncategory: LANGUAGE\nlevel: 4\ndaily: true\nyears: 5\ntags: [FastAPI, asyncio]\n---\nFor anything touching models, data or a quick proof. FastAPI when it needs an edge, a plain script when it does not."
+      "name": "Java",
+      "category": "LANGUAGE",
+      "level": 5,
+      "daily": true,
+      "years": 4,
+      "tags": [
+        "Java 21",
+        "JVM",
+        "Records"
+      ],
+      "note": "The language I reach for when a system has to still be correct in two years. Records, sealed types and pattern matching removed most of the ceremony that used to make Java tedious."
     },
     {
       "slug": "spring-boot",
-      "name": "spring-boot",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: Spring Boot\ncategory: FRAMEWORK\nlevel: 5\ndaily: true\nyears: 3\ntags: [Spring Boot 4, JPA, Actuator]\n---\nWhere most of my backend work lives. Constructor injection on final fields, one exception advice, and configuration that fails loudly at startup rather than quietly at 3am."
-    },
-    {
-      "slug": "threejs",
-      "name": "threejs",
-      "category": "TOOLING",
-      "level": 3,
-      "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: Three.js\ncategory: FRAMEWORK\nlevel: 4\ndaily: false\nyears: 2\ntags: [WebGL, R3F, GLSL]\n---\nProcedural geometry over downloaded models wherever possible. The cheapest asset is the one you generate at runtime."
+      "name": "Spring Boot",
+      "category": "FRAMEWORK",
+      "level": 5,
+      "daily": true,
+      "years": 3,
+      "tags": [
+        "Spring Boot 4",
+        "JPA",
+        "Actuator"
+      ],
+      "note": "Where most of my backend work lives. Constructor injection on final fields, one exception advice, and configuration that fails loudly at startup rather than quietly at 3am."
     },
     {
       "slug": "typescript",
-      "name": "typescript",
-      "category": "TOOLING",
+      "name": "TypeScript",
+      "category": "LANGUAGE",
+      "level": 5,
+      "daily": true,
+      "years": 4,
+      "tags": [
+        "Strict",
+        "Generics"
+      ],
+      "note": "Strict mode from the first commit. The type system is the cheapest test suite there is, and the only one that runs on every keystroke."
+    },
+    {
+      "slug": "llm",
+      "name": "LLMs & RAG",
+      "category": "AI",
+      "level": 4,
+      "daily": true,
+      "years": 2,
+      "tags": [
+        "Claude",
+        "Embeddings",
+        "MCP"
+      ],
+      "note": "Retrieval that cites its sources, and tool definitions treated as untrusted input. Most of the failure modes are prompt-shaped, not model-shaped."
+    },
+    {
+      "slug": "postgres",
+      "name": "PostgreSQL",
+      "category": "DATA",
+      "level": 4,
+      "daily": true,
+      "years": 3,
+      "tags": [
+        "RLS",
+        "Supabase",
+        "Migrations"
+      ],
+      "note": "Row Level Security is the feature I underestimated longest. Getting the policies right means the database stays correct even when a client is wrong."
+    },
+    {
+      "slug": "python",
+      "name": "Python",
+      "category": "LANGUAGE",
+      "level": 4,
+      "daily": true,
+      "years": 5,
+      "tags": [
+        "FastAPI",
+        "asyncio"
+      ],
+      "note": "For anything touching models, data or a quick proof. FastAPI when it needs an edge, a plain script when it does not."
+    },
+    {
+      "slug": "docker",
+      "name": "Docker",
+      "category": "DEVOPS",
+      "level": 4,
+      "daily": false,
+      "years": 3,
+      "tags": [
+        "Compose",
+        "Multi-stage"
+      ],
+      "note": "Multi-stage builds, small final images, and a compose file so a new machine is running the stack in one command."
+    },
+    {
+      "slug": "threejs",
+      "name": "Three.js",
+      "category": "FRAMEWORK",
+      "level": 4,
+      "daily": false,
+      "years": 2,
+      "tags": [
+        "WebGL",
+        "R3F",
+        "GLSL"
+      ],
+      "note": "Procedural geometry over downloaded models wherever possible. The cheapest asset is the one you generate at runtime."
+    },
+    {
+      "slug": "flutter",
+      "name": "Flutter",
+      "category": "MOBILE",
       "level": 3,
       "daily": false,
-      "years": null,
-      "tags": [],
-      "note": "name: TypeScript\ncategory: LANGUAGE\nlevel: 5\ndaily: true\nyears: 4\ntags: [Strict, Generics]\n---\nStrict mode from the first commit. The type system is the cheapest test suite there is, and the only one that runs on every keystroke."
+      "years": 2,
+      "tags": [
+        "Dart",
+        "Riverpod"
+      ],
+      "note": "One codebase when a project genuinely needs to be on a phone, rather than because it sounded good in the plan."
     }
   ]
 }

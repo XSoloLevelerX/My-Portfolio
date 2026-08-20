@@ -1,0 +1,45 @@
+@if (entries().length === 0) {
+  <p class="empty">{{ emptyNote() }}</p>
+} @else {
+  @for (g of groups(); track g.category) {
+    <section class="shelf" [attr.aria-label]="g.category">
+      <h2 class="shelf-title">{{ g.category }}</h2>
+
+      <ul class="grid">
+        @for (e of g.items; track e.slug) {
+          <li>
+            <article class="entry" [class.open]="open() === e.slug">
+              <button
+                class="head"
+                type="button"
+                [attr.aria-expanded]="open() === e.slug"
+                (click)="toggle(e.slug)"
+              >
+                <span class="row">
+                  <span class="title">{{ e.title }}</span>
+                  @if (e.featured) { <span class="pin" aria-label="Featured">★</span> }
+                </span>
+                <span class="blurb">{{ e.blurb }}</span>
+                <span class="meta">
+                  @if (year(e.date)) { <span>{{ year(e.date) }}</span> }
+                  @for (t of e.tags; track t) { <span class="tag">{{ t }}</span> }
+                </span>
+              </button>
+
+              @if (open() === e.slug) {
+                <div class="body">
+                  <p>{{ e.body }}</p>
+                  @if (e.link) {
+                    <a [href]="e.link" target="_blank" rel="noopener noreferrer">
+                      {{ e.linkLabel ?? 'Open' }} ↗
+                    </a>
+                  }
+                </div>
+              }
+            </article>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+}

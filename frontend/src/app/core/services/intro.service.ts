@@ -96,13 +96,23 @@ export class IntroService {
   }
 
   /**
-   * Called on any interaction. Only does work if autoplay was refused earlier,
-   * in which case the sting fires now.
+   * Called on any interaction *during* the title sequence. Only does work if
+   * autoplay was refused earlier, in which case the sting fires now.
    */
   arm(): void {
     if (!this.pending) return;
     this.pending = false;
     this.playSting();
+  }
+
+  /**
+   * The sting belongs to the animation. Once that is over, a queued one is
+   * dropped rather than firing against whatever is on screen next — a sting
+   * landing on the profile picker is worse than no sting at all.
+   */
+  expire(): void {
+    this.pending = false;
+    this.sting?.pause();
   }
 
   /** The sting. Plays outright rather than waiting to be unlocked. */

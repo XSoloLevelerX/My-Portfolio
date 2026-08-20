@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, computed, inject, input, output, signal,
+} from '@angular/core';
 import { Project, complexityBadge } from '../../../core/models/project.model';
+import { BookmarkService } from '../../../core/services/bookmark.service';
 
 @Component({
   selector: 'app-card',
@@ -8,6 +11,8 @@ import { Project, complexityBadge } from '../../../core/models/project.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Card {
+  private readonly bookmarks = inject(BookmarkService);
+
   readonly project = input.required<Project>();
 
   readonly open = output<Project>();
@@ -56,7 +61,17 @@ export class Card {
 
   onSave(event: Event): void {
     event.stopPropagation();
-    this.saved.update(v => !v);
+    const next = !this.saved();
+    this.saved.set(next);
+    if (!next) return;
+
+    // Browsers do not let a page write a bookmark, so this opens the native
+    // share sheet where one exists and otherwise surfaces the real shortcut.
+    const p = this.project();
+    void this.bookmarks.add(
+      `${p.title} — Amartya`,
+      p.liveUrl ?? window.location.href,
+    );
   }
 
   onLike(event: Event): void {

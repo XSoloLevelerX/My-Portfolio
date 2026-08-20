@@ -1,0 +1,304 @@
+{
+  "skills": [
+    {
+      "slug": "angular",
+      "name": "Angular",
+      "category": "FRAMEWORK",
+      "level": 5,
+      "daily": true,
+      "years": 3,
+      "tags": [
+        "Signals",
+        "Standalone",
+        "Zoneless"
+      ],
+      "note": "Signals and standalone components made this genuinely pleasant. Zoneless removes the last piece of magic I could never fully explain to a reviewer."
+    },
+    {
+      "slug": "java",
+      "name": "Java",
+      "category": "LANGUAGE",
+      "level": 5,
+      "daily": true,
+      "years": 4,
+      "tags": [
+        "Java 21",
+        "JVM",
+        "Records"
+      ],
+      "note": "The language I reach for when a system has to still be correct in two years. Records, sealed types and pattern matching removed most of the ceremony that used to make Java tedious."
+    },
+    {
+      "slug": "spring-boot",
+      "name": "Spring Boot",
+      "category": "FRAMEWORK",
+      "level": 5,
+      "daily": true,
+      "years": 3,
+      "tags": [
+        "Spring Boot 4",
+        "JPA",
+        "Actuator"
+      ],
+      "note": "Where most of my backend work lives. Constructor injection on final fields, one exception advice, and configuration that fails loudly at startup rather than quietly at 3am."
+    },
+    {
+      "slug": "typescript",
+      "name": "TypeScript",
+      "category": "LANGUAGE",
+      "level": 5,
+      "daily": true,
+      "years": 4,
+      "tags": [
+        "Strict",
+        "Generics"
+      ],
+      "note": "Strict mode from the first commit. The type system is the cheapest test suite there is, and the only one that runs on every keystroke."
+    },
+    {
+      "slug": "llm",
+      "name": "LLMs & RAG",
+      "category": "AI",
+      "level": 4,
+      "daily": true,
+      "years": 2,
+      "tags": [
+        "Claude",
+        "Embeddings",
+        "MCP"
+      ],
+      "note": "Retrieval that cites its sources, and tool definitions treated as untrusted input. Most of the failure modes are prompt-shaped, not model-shaped."
+    },
+    {
+      "slug": "postgres",
+      "name": "PostgreSQL",
+      "category": "DATA",
+      "level": 4,
+      "daily": true,
+      "years": 3,
+      "tags": [
+        "RLS",
+        "Supabase",
+        "Migrations"
+      ],
+      "note": "Row Level Security is the feature I underestimated longest. Getting the policies right means the database stays correct even when a client is wrong."
+    },
+    {
+      "slug": "python",
+      "name": "Python",
+      "category": "LANGUAGE",
+      "level": 4,
+      "daily": true,
+      "years": 5,
+      "tags": [
+        "FastAPI",
+        "asyncio"
+      ],
+      "note": "For anything touching models, data or a quick proof. FastAPI when it needs an edge, a plain script when it does not."
+    },
+    {
+      "slug": "docker",
+      "name": "Docker",
+      "category": "DEVOPS",
+      "level": 4,
+      "daily": false,
+      "years": 3,
+      "tags": [
+        "Compose",
+        "Multi-stage"
+      ],
+      "note": "Multi-stage builds, small final images, and a compose file so a new machine is running the stack in one command."
+    },
+    {
+      "slug": "threejs",
+      "name": "Three.js",
+      "category": "FRAMEWORK",
+      "level": 4,
+      "daily": false,
+      "years": 2,
+      "tags": [
+        "WebGL",
+        "R3F",
+        "GLSL"
+      ],
+      "note": "Procedural geometry over downloaded models wherever possible. The cheapest asset is the one you generate at runtime."
+    },
+    {
+      "slug": "flutter",
+      "name": "Flutter",
+      "category": "MOBILE",
+      "level": 3,
+      "daily": false,
+      "years": 2,
+      "tags": [
+        "Dart",
+        "Riverpod"
+      ],
+      "note": "One codebase when a project genuinely needs to be on a phone, rather than because it sounded good in the plan."
+    }
+  ],
+  "extracurricular": [
+    {
+      "slug": "hackathons",
+      "title": "Hackathons",
+      "category": "COMPETITION",
+      "blurb": "Building something real in 36 hours, then defending it.",
+      "link": null,
+      "linkLabel": null,
+      "platform": null,
+      "date": "2026-07-01",
+      "tags": [
+        "Teams",
+        "Prototyping"
+      ],
+      "featured": true,
+      "body": "Where most of my projects started life. The constraint is the point: 36 hours forces you to decide what the thing actually is before you write a line of it."
+    },
+    {
+      "slug": "open-source",
+      "title": "Open Source",
+      "category": "COMMUNITY",
+      "blurb": "Publishing the tools rather than keeping them local.",
+      "link": null,
+      "linkLabel": null,
+      "platform": null,
+      "date": "2026-06-01",
+      "tags": [
+        "GitHub",
+        "Docs"
+      ],
+      "featured": true,
+      "body": "GlyphGuard and the smaller utilities are public because a tool nobody can read is a tool nobody can trust. Writing the README properly usually improves the code."
+    },
+    {
+      "slug": "mentoring",
+      "title": "Mentoring",
+      "category": "TEACHING",
+      "blurb": "Walking juniors through their first real codebase.",
+      "link": null,
+      "linkLabel": null,
+      "platform": null,
+      "date": "2026-05-01",
+      "tags": [
+        "Reviews",
+        "Pairing"
+      ],
+      "featured": false,
+      "body": "Mostly code review and pairing. Explaining why a boundary exists is the fastest way to find out whether it should."
+    },
+    {
+      "slug": "college-tech",
+      "title": "College Tech Events",
+      "category": "COMMUNITY",
+      "blurb": "Organising and presenting at campus technical sessions.",
+      "link": null,
+      "linkLabel": null,
+      "platform": null,
+      "date": "2026-04-01",
+      "tags": [
+        "Talks",
+        "Events"
+      ],
+      "featured": false,
+      "body": "Running the session is harder than speaking at it. Both taught me more about explaining a system than any amount of writing it did."
+    }
+  ],
+  "hobbies": [
+    {
+      "slug": "formula-one",
+      "title": "Formula 1",
+      "category": "SPORT",
+      "blurb": "Strategy, telemetry, and arguing about pit windows.",
+      "link": null,
+      "linkLabel": null,
+      "platform": null,
+      "date": "2026-08-01",
+      "tags": [
+        "Strategy",
+        "Data"
+      ],
+      "featured": true,
+      "body": "The reason PitLane AI exists. A race is a live optimisation problem with incomplete information — the closest thing in sport to a systems design interview."
+    },
+    {
+      "slug": "anime",
+      "title": "Anime",
+      "category": "WATCHING",
+      "blurb": "Long-form stories that commit to their premise.",
+      "link": null,
+      "linkLabel": null,
+      "platform": null,
+      "date": "2026-07-01",
+      "tags": [
+        "Series",
+        "Film"
+      ],
+      "featured": false,
+      "body": "Mostly the ones willing to be slow. MECCHA CHAMELEON came out of wanting to build something with that visual language rather than just watch it."
+    },
+    {
+      "slug": "chess",
+      "title": "Chess",
+      "category": "GAMES",
+      "blurb": "Losing on time in otherwise winning positions.",
+      "link": null,
+      "linkLabel": null,
+      "platform": null,
+      "date": "2026-06-01",
+      "tags": [
+        "Tactics"
+      ],
+      "featured": false,
+      "body": "Rapid, mostly. Useful practice at the thing engineering also demands: committing to a plan without full information, then adjusting when it stops being true."
+    },
+    {
+      "slug": "music",
+      "title": "Music",
+      "category": "LISTENING",
+      "blurb": "What is playing while the tests run.",
+      "link": null,
+      "linkLabel": null,
+      "platform": null,
+      "date": "2026-05-01",
+      "tags": [
+        "Discovery"
+      ],
+      "featured": false,
+      "body": "VibeMatch AI started here — the observation that what I actually want is a song with the same emotional shape, not the same genre tag."
+    }
+  ],
+  "blog": [
+    {
+      "slug": "welcome",
+      "title": "Why this portfolio looks like Netflix",
+      "category": "DESIGN",
+      "blurb": "A catalogue is a better metaphor for a body of work than a list.",
+      "link": null,
+      "linkLabel": null,
+      "platform": "SITE",
+      "date": "2026-08-20",
+      "tags": [
+        "Design",
+        "Angular"
+      ],
+      "featured": true,
+      "body": "A list of projects asks the reader to do the sorting. A catalogue does it for them: what is new, what is getting attention, what the author would pick. The rows are an argument about the work, not just a way to fit it on screen."
+    },
+    {
+      "slug": "rls-lesson",
+      "title": "The Supabase policy I got wrong",
+      "category": "ENGINEERING",
+      "blurb": "SECURITY DEFINER functions were reachable over the public REST API.",
+      "link": null,
+      "linkLabel": null,
+      "platform": "SITE",
+      "date": "2026-08-19",
+      "tags": [
+        "Postgres",
+        "Security"
+      ],
+      "featured": false,
+      "body": "Row Level Security covered the tables, but the maintenance functions were SECURITY DEFINER and still granted to anon — reachable over PostgREST. The database linter caught it. Enabling RLS is not the same as being locked down."
+    }
+  ]
+}

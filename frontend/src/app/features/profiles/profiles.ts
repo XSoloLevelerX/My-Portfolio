@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
-import { IntroService } from '../../core/services/intro.service';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 
 export interface Profile {
   key: string;
@@ -14,9 +13,6 @@ export interface Profile {
 /**
  * Netflix's "Who's watching?", shown once the title sequence finishes.
  *
- * It also does real work beyond the theatre: picking a profile is a genuine user
- * gesture, which is what unlocks audio in browsers that refused the sting on a
- * cold load.
  */
 @Component({
   selector: 'app-profiles',
@@ -25,8 +21,6 @@ export interface Profile {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Profiles {
-  private readonly introSvc = inject(IntroService);
-
   readonly chosen = output<Profile>();
 
   readonly profiles: Profile[] = [
@@ -57,9 +51,9 @@ export class Profiles {
   ];
 
   select(profile: Profile): void {
-    // A real click, so anything the browser refused to autoplay can run now.
-    this.introSvc.arm();
-    // Navigation is the shell's job: it has to mount the outlet first, or the
+    // Deliberately does not arm audio: the sting belongs to the title sequence,
+    // and firing it on this click would land it minutes late.
+    // Navigation is the shell's job — it has to mount the outlet first, or the
     // route would resolve into nothing.
     this.chosen.emit(profile);
   }

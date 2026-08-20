@@ -8,6 +8,7 @@ import { Intro } from './features/intro/intro';
 import { Profiles, Profile } from './features/profiles/profiles';
 import { Nav } from './shared/components/nav/nav';
 import { Loader } from './shared/components/loader/loader';
+import { Toast } from './shared/components/toast/toast';
 
 const PROFILE_KEY = 'amartya_profile';
 
@@ -23,7 +24,7 @@ const PROFILE_KEY = 'amartya_profile';
  */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Intro, Profiles, Nav, Loader],
+  imports: [RouterOutlet, Intro, Profiles, Nav, Loader, Toast],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,6 +69,9 @@ export class App implements OnInit {
   }
 
   onIntroFinished(): void {
+    // Drop any sting the browser refused during the animation; its moment has
+    // passed and it would otherwise fire on the picker.
+    this.introSvc.expire();
     this.introSvc.markSeen();
     this.showIntro.set(false);
     this.showProfiles.set(true);

@@ -1,0 +1,128 @@
+- generic [ref=f1e2]:
+  - banner [ref=f1e3]:
+    - link "Amartya — home" [ref=f1e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=f1e5]: AMARTYA
+    - button "Menu" [ref=f1e6] [cursor=pointer]
+  - main [ref=f1e12]:
+    - generic [ref=f1e13]:
+      - paragraph [ref=f1e14]: WHAT I USE
+      - heading "Skills" [level=1] [ref=f1e15]
+      - paragraph [ref=f1e16]: The tools I reach for daily, and the ones I keep sharp. Each one is a markdown file — click any card for the reason it earns its place.
+    - region "Used daily" [ref=f1e17]:
+      - heading "Daily drivers 7 of 10" [level=2] [ref=f1e18]:
+        - text: Daily drivers
+        - generic [ref=f1e19]: 7 of 10
+      - list [ref=f1e20]:
+        - listitem [ref=f1e21]:
+          - button "Angular Level 5 of 5 3y" [expanded] [ref=f1e22] [cursor=pointer]:
+            - generic [ref=f1e23]: Angular
+            - generic "Level 5 of 5" [ref=f1e24]
+            - generic [ref=f1e30]: 3y
+        - listitem [ref=f1e31]:
+          - button "Java Level 5 of 5 4y" [ref=f1e32] [cursor=pointer]:
+            - generic [ref=f1e33]: Java
+            - generic "Level 5 of 5" [ref=f1e34]
+            - generic [ref=f1e40]: 4y
+        - listitem [ref=f1e41]:
+          - button "Spring Boot Level 5 of 5 3y" [ref=f1e42] [cursor=pointer]:
+            - generic [ref=f1e43]: Spring Boot
+            - generic "Level 5 of 5" [ref=f1e44]
+            - generic [ref=f1e50]: 3y
+        - listitem [ref=f1e51]:
+          - button "TypeScript Level 5 of 5 4y" [ref=f1e52] [cursor=pointer]:
+            - generic [ref=f1e53]: TypeScript
+            - generic "Level 5 of 5" [ref=f1e54]
+            - generic [ref=f1e60]: 4y
+        - listitem [ref=f1e61]:
+          - button "LLMs & RAG Level 4 of 5 2y" [ref=f1e62] [cursor=pointer]:
+            - generic [ref=f1e63]: LLMs & RAG
+            - generic "Level 4 of 5" [ref=f1e64]
+            - generic [ref=f1e70]: 2y
+        - listitem [ref=f1e71]:
+          - button "PostgreSQL Level 4 of 5 3y" [ref=f1e72] [cursor=pointer]:
+            - generic [ref=f1e73]: PostgreSQL
+            - generic "Level 4 of 5" [ref=f1e74]
+            - generic [ref=f1e80]: 3y
+        - listitem [ref=f1e81]:
+          - button "Python Level 4 of 5 5y" [ref=f1e82] [cursor=pointer]:
+            - generic [ref=f1e83]: Python
+            - generic "Level 4 of 5" [ref=f1e84]
+            - generic [ref=f1e90]: 5y
+    - region "Languages" [ref=f1e91]:
+      - heading "Languages" [level=2] [ref=f1e92]
+      - list [ref=f1e93]:
+        - listitem [ref=f1e94]:
+          - button "Java Level 5 of 5 4y" [ref=f1e95] [cursor=pointer]:
+            - generic [ref=f1e96]: Java
+            - generic "Level 5 of 5" [ref=f1e97]
+            - generic [ref=f1e103]: 4y
+        - listitem [ref=f1e104]:
+          - button "TypeScript Level 5 of 5 4y" [ref=f1e105] [cursor=pointer]:
+            - generic [ref=f1e106]: TypeScript
+            - generic "Level 5 of 5" [ref=f1e107]
+            - generic [ref=f1e113]: 4y
+        - listitem [ref=f1e114]:
+          - button "Python Level 4 of 5 5y" [ref=f1e115] [cursor=pointer]:
+            - generic [ref=f1e116]: Python
+            - generic "Level 4 of 5" [ref=f1e117]
+            - generic [ref=f1e123]: 5y
+    - region "Frameworks" [ref=f1e124]:
+      - heading "Frameworks" [level=2] [ref=f1e125]
+      - list [ref=f1e126]:
+        - listitem [ref=f1e127]:
+          - button "Angular Level 5 of 5 3y" [expanded] [active] [ref=f1e128] [cursor=pointer]:
+            - generic [ref=f1e129]: Angular
+            - generic "Level 5 of 5" [ref=f1e130]
+            - generic [ref=f1e136]: 3y
+        - listitem [ref=f1e137]:
+          - button "Spring Boot Level 5 of 5 3y" [ref=f1e138] [cursor=pointer]:
+            - generic [ref=f1e139]: Spring Boot
+            - generic "Level 5 of 5" [ref=f1e140]
+            - generic [ref=f1e146]: 3y
+        - listitem [ref=f1e147]:
+          - button "Three.js Level 4 of 5 2y" [ref=f1e148] [cursor=pointer]:
+            - generic [ref=f1e149]: Three.js
+            - generic "Level 4 of 5" [ref=f1e150]
+            - generic [ref=f1e156]: 2y
+    - region "Data" [ref=f1e157]:
+      - heading "Data" [level=2] [ref=f1e158]
+      - list [ref=f1e159]:
+        - listitem [ref=f1e160]:
+          - button "PostgreSQL Level 4 of 5 3y" [ref=f1e161] [cursor=pointer]:
+            - generic [ref=f1e162]: PostgreSQL
+            - generic "Level 4 of 5" [ref=f1e163]
+            - generic [ref=f1e169]: 3y
+    - region "Infrastructure" [ref=f1e170]:
+      - heading "Infrastructure" [level=2] [ref=f1e171]
+      - list [ref=f1e172]:
+        - listitem [ref=f1e173]:
+          - button "Docker Level 4 of 5 3y" [ref=f1e174] [cursor=pointer]:
+            - generic [ref=f1e175]: Docker
+            - generic "Level 4 of 5" [ref=f1e176]
+            - generic [ref=f1e182]: 3y
+    - region "AI & Agents" [ref=f1e183]:
+      - heading "AI & Agents" [level=2] [ref=f1e184]
+      - list [ref=f1e185]:
+        - listitem [ref=f1e186]:
+          - button "LLMs & RAG Level 4 of 5 2y" [ref=f1e187] [cursor=pointer]:
+            - generic [ref=f1e188]: LLMs & RAG
+            - generic "Level 4 of 5" [ref=f1e189]
+            - generic [ref=f1e195]: 2y
+    - region "Mobile" [ref=f1e196]:
+      - heading "Mobile" [level=2] [ref=f1e197]
+      - list [ref=f1e198]:
+        - listitem [ref=f1e199]:
+          - button "Flutter Level 3 of 5 2y" [ref=f1e200] [cursor=pointer]:
+            - generic [ref=f1e201]: Flutter
+            - generic "Level 3 of 5" [ref=f1e202]
+            - generic [ref=f1e208]: 2y
+    - region "Angular notes" [ref=f1e209]:
+      - generic [ref=f1e210]:
+        - heading "Angular" [level=3] [ref=f1e211]
+        - button "Close" [ref=f1e212] [cursor=pointer]: ×
+      - paragraph [ref=f1e213]: Signals and standalone components made this genuinely pleasant. Zoneless removes the last piece of magic I could never fully explain to a reviewer.
+      - list [ref=f1e214]:
+        - listitem [ref=f1e215]: Signals
+        - listitem [ref=f1e216]: Standalone
+        - listitem [ref=f1e217]: Zoneless
