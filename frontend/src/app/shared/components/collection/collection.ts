@@ -77,9 +77,14 @@ export class Collection {
     );
   }
 
-  /** Capped so one very tall post cannot dominate the wall. */
+  /**
+   * The iframe keeps its natural height and the frame around it windows the
+   * overflow. Shrinking the iframe itself would make LinkedIn re-flow the post
+   * into a scrollbar; letting it run full height and clipping shows the top of
+   * the post cleanly, with the CTA carrying the reader to the rest.
+   */
   embedHeight(entry: Entry): number {
-    return Math.min(entry.embedHeight ?? 900, 1100);
+    return entry.embedHeight ?? 900;
   }
 
   toggle(slug: string): void {

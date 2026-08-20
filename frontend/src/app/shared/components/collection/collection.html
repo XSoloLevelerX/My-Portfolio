@@ -45,24 +45,34 @@
   </section>
 }
 
-<!-- Social posts: a wall. The post is the content, so it is simply shown. -->
+<!-- Social posts: alternating editorial rows. The post is the content, so it is
+     shown outright — and given a full row rather than a column in a wall, so the
+     copy beside it has somewhere to live. -->
 @if (embedded().length) {
-  <section class="shelf" aria-label="Social posts">
-    <h2 class="shelf-title">From the feed</h2>
+  <section class="feed" aria-label="Social posts">
+    @for (e of embedded(); track e.slug; let i = $index) {
+      <article class="feature" [class.flip]="i % 2 === 1">
+        <div class="feature-copy">
+          @if (e.platform) { <p class="kicker">{{ e.platform }}</p> }
+          <h2 class="feature-title">{{ e.title }}</h2>
+          <p class="feature-body">{{ e.blurb }}</p>
 
-    <div class="wall">
-      @for (e of embedded(); track e.slug) {
-        <article class="post">
-          <header class="post-head">
-            <span class="post-title">{{ e.title }}</span>
-            <span class="post-meta">
-              @if (e.platform) { <span class="platform">{{ e.platform }}</span> }
-              @if (year(e.date)) { <span>{{ year(e.date) }}</span> }
-            </span>
-          </header>
+          @if (e.tags.length) {
+            <ul class="feature-tags">
+              @for (t of e.tags; track t) { <li>{{ t }}</li> }
+            </ul>
+          }
 
-          @if (embedUrl(e); as src) {
-            <div class="embed">
+          @if (e.link) {
+            <a class="cta" [href]="e.link" target="_blank" rel="noopener noreferrer">
+              {{ e.linkLabel ?? 'Read the post' }}
+            </a>
+          }
+        </div>
+
+        @if (embedUrl(e); as src) {
+          <div class="feature-media">
+            <div class="frame">
               <iframe
                 [src]="src"
                 [height]="embedHeight(e)"
@@ -74,15 +84,9 @@
                 [title]="e.title + ' — embedded post'"
               ></iframe>
             </div>
-          }
-
-          @if (e.link) {
-            <a class="post-link" [href]="e.link" target="_blank" rel="noopener noreferrer">
-              {{ e.linkLabel ?? 'Open' }} ↗
-            </a>
-          }
-        </article>
-      }
-    </div>
+          </div>
+        }
+      </article>
+    }
   </section>
 }
