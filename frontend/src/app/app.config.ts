@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import {
-  provideRouter, withInMemoryScrolling, withViewTransitions,
+  provideRouter, withDisabledInitialNavigation, withInMemoryScrolling,
+  withViewTransitions,
 } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
@@ -15,6 +16,10 @@ export const appConfig: ApplicationConfig = {
       // inheriting the previous route's scroll position.
       withViewTransitions(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+      // Nothing routes — and so nothing loads or fetches — until a profile is
+      // chosen. Without this the home route resolves during the title sequence
+      // and its data is already on the wire before anyone has picked anything.
+      withDisabledInitialNavigation(),
     ),
     provideHttpClient(withFetch())
   ]

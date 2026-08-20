@@ -1,11 +1,15 @@
 @if (showIntro()) {
   <app-intro (finished)="onIntroFinished()" />
 } @else if (showProfiles()) {
-  <app-profiles (chosen)="onProfileChosen()" />
+  <app-profiles (chosen)="onProfileChosen($event)" />
 }
 
-<app-nav />
-<router-outlet />
+<!-- The shell only exists once a profile has been picked, so nothing behind the
+     intro or the picker can render or fetch. -->
+@if (entered()) {
+  <app-nav />
+  <router-outlet />
+}
 
 @if (loading()) {
   <app-loader [message]="loadingMessage()" />

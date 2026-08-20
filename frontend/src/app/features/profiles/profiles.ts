@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
-import { Router } from '@angular/router';
 import { IntroService } from '../../core/services/intro.service';
 
 export interface Profile {
@@ -26,7 +25,6 @@ export interface Profile {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Profiles {
-  private readonly router = inject(Router);
   private readonly introSvc = inject(IntroService);
 
   readonly chosen = output<Profile>();
@@ -61,7 +59,8 @@ export class Profiles {
   select(profile: Profile): void {
     // A real click, so anything the browser refused to autoplay can run now.
     this.introSvc.arm();
+    // Navigation is the shell's job: it has to mount the outlet first, or the
+    // route would resolve into nothing.
     this.chosen.emit(profile);
-    void this.router.navigateByUrl(profile.route);
   }
 }
