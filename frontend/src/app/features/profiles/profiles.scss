@@ -64,15 +64,24 @@
   place-items: center;
   border-radius: 6px;
   border: 3px solid transparent;
-  font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
-  font-size: clamp(38px, 7vw, 64px);
-  color: rgb(255 255 255 / 0.9);
+  color: rgb(255 255 255 / 0.92);
   background:
     radial-gradient(120% 120% at 32% 24%,
       hsl(var(--hue) 62% 42%) 0%,
       hsl(calc(var(--hue) + 22) 58% 22%) 62%,
       #101012 100%);
   transition: border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+
+.icon {
+  width: 46%;
+  height: 46%;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Scales with the tile, so the stroke stays visually even at every size. */
+  vector-effect: non-scaling-stroke;
 }
 
 .name {
@@ -101,7 +110,7 @@
     gap: 4px 14px;
   }
 
-  .tile  { grid-area: tile; font-size: 30px; }
+  .tile  { grid-area: tile; }
   .name  { grid-area: name; align-self: end; }
   .blurb { grid-area: blurb; align-self: start; text-align: left; }
 }

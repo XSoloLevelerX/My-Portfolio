@@ -31,10 +31,12 @@ const LETTER_STAGGER = 115;
 
 /**
  * Measured from the file, not guessed: intro-sting.mp3 is silent for its first
- * 300ms, peaks at 0.30s (amplitude 0.625), and decays to nothing by 2.84s.
- * Playback therefore has to begin 300ms *before* the moment the hit should land.
+ * 300ms, rises through 0.35s, and peaks at 0.45s (amplitude 0.58), decaying to
+ * nothing by 3.37s. Playback therefore has to begin 450ms *before* the moment
+ * the hit should land, so the loudest instant — not just the onset — lands on
+ * the beat.
  */
-const STING_LEAD_IN = 300;
+const STING_LEAD_IN = 450;
 
 /**
  * Paced to be read, not rushed. The unfurl runs 1250ms per letter on a 115ms
@@ -75,7 +77,6 @@ export class Intro implements OnInit, OnDestroy {
   readonly finished = output<void>();
 
   readonly phase = signal<'idle' | 'running' | 'leaving'>('idle');
-  readonly showSkip = signal(false);
   readonly reduced = signal(false);
 
   readonly opened = signal(false);
@@ -136,7 +137,6 @@ export class Intro implements OnInit, OnDestroy {
     }
 
     this.after(120, () => this.opened.set(true));
-    this.after(300, () => this.showSkip.set(true));
     this.after(T.grow, () => this.grown.set(true));
     this.after(T.tagline, () => this.taglineIn.set(true));
     this.after(T.sting, () => this.introSvc.playSting());
@@ -146,12 +146,6 @@ export class Intro implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clearTimers();
-  }
-
-  skip(): void {
-    if (this.phase() === 'leaving') return;
-    this.clearTimers();
-    this.complete();
   }
 
   onHostClick(): void {

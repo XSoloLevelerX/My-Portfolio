@@ -7,7 +7,6 @@ export interface Profile {
   route: string;
   /** Deterministic tile colour, so each profile reads as its own thing. */
   hue: number;
-  initial: string;
 }
 
 /**
@@ -30,7 +29,6 @@ export class Profiles {
       blurb: 'Projects, systems, and the things that ship',
       route: '/',
       hue: 6,
-      initial: 'C',
     },
     {
       key: 'extracurricular',
@@ -38,7 +36,6 @@ export class Profiles {
       blurb: 'Competitions, communities, and volunteering',
       route: '/extracurricular',
       hue: 205,
-      initial: 'E',
     },
     {
       key: 'hobbies',
@@ -46,7 +43,6 @@ export class Profiles {
       blurb: 'What I do when nothing is compiling',
       route: '/hobbies',
       hue: 42,
-      initial: 'H',
     },
   ];
 

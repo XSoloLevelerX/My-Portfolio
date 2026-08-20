@@ -5,7 +5,37 @@
     @for (p of profiles; track p.key) {
       <li>
         <button class="profile" type="button" (click)="select(p)" [style.--hue]="p.hue">
-          <span class="tile" aria-hidden="true">{{ p.initial }}</span>
+          <span class="tile" aria-hidden="true">
+            <!-- Stroked icons rather than a letter: at tile size a glyph reads
+                 as a placeholder, and these say what each section is. -->
+            @switch (p.key) {
+              @case ('coding') {
+                <svg class="icon" viewBox="0 0 24 24" fill="none">
+                  <path d="M9.2 16.8 4.4 12l4.8-4.8" />
+                  <path d="M14.8 7.2 19.6 12l-4.8 4.8" />
+                  <path d="M13.1 4.9 10.9 19.1" />
+                </svg>
+              }
+              @case ('extracurricular') {
+                <svg class="icon" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="7.4" r="3.1" />
+                  <path d="M6.6 19.4a5.4 5.4 0 0 1 10.8 0" />
+                  <circle cx="4.6" cy="10.2" r="2.1" />
+                  <path d="M1.4 18.2a3.3 3.3 0 0 1 3.4-3.2" />
+                  <circle cx="19.4" cy="10.2" r="2.1" />
+                  <path d="M22.6 18.2a3.3 3.3 0 0 0-3.4-3.2" />
+                </svg>
+              }
+              @case ('hobbies') {
+                <svg class="icon" viewBox="0 0 24 24" fill="none">
+                  <path d="M7.6 7.5h8.8a4.6 4.6 0 0 1 4.5 3.6l1 4.6a2.5 2.5 0 0 1-4.5 2l-1.7-2.2H8.3l-1.7 2.2a2.5 2.5 0 0 1-4.5-2l1-4.6a4.6 4.6 0 0 1 4.5-3.6Z" />
+                  <path d="M6.4 11.6v2.6M5.1 12.9h2.6" />
+                  <circle cx="16.4" cy="12" r="1" fill="currentColor" stroke="none" />
+                  <circle cx="18.4" cy="14" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              }
+            }
+          </span>
           <span class="name">{{ p.name }}</span>
           <span class="blurb">{{ p.blurb }}</span>
         </button>
