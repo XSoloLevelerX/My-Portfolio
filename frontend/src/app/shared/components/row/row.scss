@@ -71,6 +71,16 @@
 /* Arrows are a pointer affordance; touch users just swipe. */
 @media (hover: none) {
   .arrow { display: none; }
-  .track { scroll-snap-type: x proximity; }
+  .track {
+    scroll-snap-type: x proximity;
+    /* No hover means no expanded card, so the clearance is wasted space. */
+    padding-block: 10px;
+    margin-block: -10px;
+  }
   app-card { scroll-snap-align: start; }
+}
+
+@media (max-width: 720px) {
+  .row { padding-block: 8px 16px; }
+  .heading { font-size: clamp(16px, 4.6vw, 21px); }
 }

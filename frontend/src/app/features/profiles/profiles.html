@@ -1,0 +1,15 @@
+<div class="screen">
+  <h1 class="prompt">Who&rsquo;s watching?</h1>
+
+  <ul class="list">
+    @for (p of profiles; track p.key) {
+      <li>
+        <button class="profile" type="button" (click)="select(p)" [style.--hue]="p.hue">
+          <span class="tile" aria-hidden="true">{{ p.initial }}</span>
+          <span class="name">{{ p.name }}</span>
+          <span class="blurb">{{ p.blurb }}</span>
+        </button>
+      </li>
+    }
+  </ul>
+</div>

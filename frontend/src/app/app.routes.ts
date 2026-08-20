@@ -39,6 +39,11 @@ export const routes: Routes = [
     title: 'Extracurricular — Amartya',
   },
   {
+    path: 'hobbies',
+    loadComponent: () => import('./features/hobbies/hobbies').then(m => m.Hobbies),
+    title: 'Hobbies — Amartya',
+  },
+  {
     path: 'about',
     loadComponent: () => import('./features/about/about').then(m => m.About),
     title: 'About — Amartya',

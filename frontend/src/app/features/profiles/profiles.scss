@@ -1,0 +1,112 @@
+@use '../../../styles/tokens' as *;
+
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-intro) - 5);
+  background: var(--backdrop);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 5vh, 56px);
+  padding: clamp(24px, 6vw, 64px);
+  overflow-y: auto;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.prompt {
+  margin: 0;
+  animation: fade-up 520ms cubic-bezier(0.33, 0.02, 0.18, 1) both;
+  font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
+  font-size: clamp(30px, 5.6vw, 62px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--text);
+}
+
+.list {
+  animation: fade-up 560ms cubic-bezier(0.33, 0.02, 0.18, 1) 90ms both;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(18px, 3vw, 40px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: clamp(116px, 20vw, 176px);
+  padding: 0;
+  color: var(--text-muted);
+  transition: color var(--t-fast) var(--ease);
+  @include focus-ring;
+
+  &:hover, &:focus-visible {
+    color: var(--text);
+    .tile { border-color: #fff; transform: scale(1.04); }
+  }
+}
+
+.tile {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  border: 3px solid transparent;
+  font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
+  font-size: clamp(38px, 7vw, 64px);
+  color: rgb(255 255 255 / 0.9);
+  background:
+    radial-gradient(120% 120% at 32% 24%,
+      hsl(var(--hue) 62% 42%) 0%,
+      hsl(calc(var(--hue) + 22) 58% 22%) 62%,
+      #101012 100%);
+  transition: border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+
+.name {
+  font-size: clamp(13px, 1.5vw, 16px);
+  font-weight: 600;
+}
+
+.blurb {
+  font-size: clamp(10.5px, 1.1vw, 12px);
+  line-height: 1.45;
+  text-align: center;
+  color: var(--text-dim);
+  text-wrap: pretty;
+}
+
+/* One column on a narrow phone: three tiles side by side become unreadable. */
+@media (max-width: 460px) {
+  .list { flex-direction: column; align-items: center; gap: 16px; }
+
+  .profile {
+    width: min(300px, 84vw);
+    grid-template-columns: 68px 1fr;
+    grid-template-areas: 'tile name' 'tile blurb';
+    justify-items: start;
+    align-items: center;
+    gap: 4px 14px;
+  }
+
+  .tile  { grid-area: tile; font-size: 30px; }
+  .name  { grid-area: name; align-self: end; }
+  .blurb { grid-area: blurb; align-self: start; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt, .list { animation: none; }
+  .profile:hover .tile { transform: none; }
+}

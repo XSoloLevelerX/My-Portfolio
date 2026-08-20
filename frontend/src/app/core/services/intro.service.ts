@@ -32,6 +32,12 @@ export class IntroService {
   private sting?: HTMLAudioElement;
   /** Set when playback was refused, so the next gesture plays it immediately. */
   private pending = false;
+  /**
+   * True once the sting has actually been asked for. The muted prime resolves
+   * asynchronously and then pauses the element; without this guard that pause
+   * can land *after* real playback has started and silence it.
+   */
+  private requested = false;
 
   constructor() {
     this.prime();
@@ -76,6 +82,8 @@ export class IntroService {
 
       el.play()
         .then(() => {
+          // Do not touch the element if the sting has already been requested.
+          if (this.requested) return;
           el.pause();
           el.currentTime = 0;
         })
@@ -99,6 +107,7 @@ export class IntroService {
 
   /** The sting. Plays outright rather than waiting to be unlocked. */
   playSting(): void {
+    this.requested = true;
     const el = this.sting;
     if (!el) {
       this.playSynthesised();

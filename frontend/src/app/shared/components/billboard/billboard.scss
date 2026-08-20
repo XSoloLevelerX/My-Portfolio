@@ -177,7 +177,27 @@
 }
 
 @media (max-width: 720px) {
-  .billboard { min-height: 62vh; }
+  .billboard {
+    min-height: 54vh;
+    padding: 20px;
+    border-radius: 6px;
+  }
+
+  .actions { gap: 8px; }
+
+  .btn {
+    padding: 9px 16px;
+    font-size: 13.5px;
+  }
+
+  .blurb {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .stack { display: none; }
   .monogram { transform: translate(10%, 0); font-size: 48vh; }
   .scrim {
     background:

@@ -20,3 +20,5 @@ backend/.gradle/
 .DS_Store
 .idea/
 *.iml
+.vercel
+.env*

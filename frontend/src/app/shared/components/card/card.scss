@@ -10,8 +10,12 @@
 .card {
   position: relative;
   flex: none;
-  /* Netflix's desktop card: ~245px wide with a 16:9 still. */
+  /* Netflix's desktop card: ~245px wide with a 16:9 still. Narrower on a phone,
+     so more than one card is visible at a time. */
   width: var(--card-w, 245px);
+
+  @media (max-width: 720px) { width: 168px; }
+  @media (max-width: 420px) { width: 148px; }
   cursor: pointer;
   border-radius: 4px;
   background: var(--surface);

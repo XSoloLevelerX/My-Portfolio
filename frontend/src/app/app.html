@@ -1,5 +1,7 @@
 @if (showIntro()) {
   <app-intro (finished)="onIntroFinished()" />
+} @else if (showProfiles()) {
+  <app-profiles (chosen)="onProfileChosen()" />
 }
 
 <app-nav />

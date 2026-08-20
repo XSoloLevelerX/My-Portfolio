@@ -157,7 +157,9 @@ export class Intro implements OnInit, OnDestroy {
   private complete(): void {
     if (this.phase() === 'leaving') return;
     this.phase.set('leaving');
-    this.introSvc.markSeen();
+    // Deliberately not calling markSeen() here: it unmounts this component
+    // straight away, which clears the timer below before it can fire. The
+    // parent marks it seen once `finished` has actually been emitted.
     this.after(620, () => this.finished.emit());
   }
 
