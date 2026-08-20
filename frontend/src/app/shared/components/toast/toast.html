@@ -1,0 +1,20 @@
+@if (prompt(); as p) {
+  <div class="prompt" role="status" aria-live="polite">
+    @if (p.status === 'bookmarked') {
+      <span class="tick" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M20.3 5.7 9 17l-5.3-5.3 1.4-1.4L9 14.2l9.9-9.9z"/></svg>
+      </span>
+      <span class="text">Bookmarked</span>
+    } @else {
+      <span class="text">Press</span>
+      <kbd>{{ p.modifier }}</kbd>
+      <kbd>{{ p.key }}</kbd>
+      <span class="text">to bookmark</span>
+      @if (p.status === 'copied') {
+        <span class="sub">· link copied</span>
+      }
+    }
+
+    <button class="close" type="button" (click)="dismiss()" aria-label="Dismiss">×</button>
+  </div>
+}

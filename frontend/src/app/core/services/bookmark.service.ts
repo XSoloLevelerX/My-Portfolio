@@ -1,30 +1,48 @@
 import { Injectable, signal } from '@angular/core';
 
+export interface BookmarkPrompt {
+  /** Modifier keycap, e.g. '⌘' or 'Ctrl'. */
+  modifier: string;
+  /** Second keycap, always 'D'. */
+  key: string;
+  title: string;
+  /** Set once the real shortcut is detected, or the URL is copied. */
+  status: 'waiting' | 'bookmarked' | 'copied';
+}
+
 /**
  * The "add to my list" action, mapped onto what browsers actually allow.
  *
- * No browser exposes an API to add a bookmark. `window.external.AddFavorite`
- * was IE-only and is long gone; Chrome, Safari and Firefox deliberately have no
- * equivalent, because a page that could write to your bookmarks unprompted is a
- * security problem. So this does the closest real thing on each platform:
+ * There is no API for this, and it is worth being exact about why rather than
+ * treating it as an oversight. Probed directly in Chrome:
  *
- *  - Where the Web Share API exists (phones, and Safari on desktop), it opens
- *    the native share sheet, which is where "Add to Home Screen" and "Add
- *    Bookmark" actually live.
- *  - Everywhere else it surfaces the real keyboard shortcut, with the right
- *    modifier for the platform, and copies the URL so the next step is one
- *    paste rather than a retype.
+ *   window.external.AddFavorite  -> undefined   (IE-only, removed)
+ *   window.sidebar.addPanel      -> undefined   (old Firefox, removed)
+ *   any bookmark/favourite API   -> none
+ *   synthetic Ctrl+D             -> isTrusted: false
+ *
+ * That last one is the reason a workaround cannot exist: browser chrome only
+ * acts on trusted events originating from real hardware, so a dispatched
+ * KeyboardEvent reaches page scripts and stops there. If it did not, any site
+ * could write itself into your bookmarks unprompted.
+ *
+ * So this does the nearest real thing on each platform:
+ *
+ *  - Where the Web Share API exists (phones, Safari), it opens the native share
+ *    sheet, which is where "Add Bookmark" and "Add to Home Screen" actually are.
+ *  - Otherwise it shows the shortcut as keycaps, copies the URL so nothing has
+ *    to be retyped, and *listens for the real keypress* so the prompt can
+ *    confirm rather than just instruct.
  */
 @Injectable({ providedIn: 'root' })
 export class BookmarkService {
-  /** Transient message for the toast; null when nothing is showing. */
-  readonly hint = signal<string | null>(null);
+  readonly prompt = signal<BookmarkPrompt | null>(null);
 
   private timer?: number;
+  private listening = false;
 
-  /** True on Apple platforms, which use ⌘ rather than Ctrl. */
   private get isApple(): boolean {
-    return /Mac|iPhone|iPad|iPod/.test(navigator.platform ?? navigator.userAgent);
+    return /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent);
   }
 
   private get canShare(): boolean {
@@ -37,11 +55,10 @@ export class BookmarkService {
         await navigator.share({ title, url });
         return;
       } catch {
-        // Dismissed, or share refused — fall through to the shortcut hint.
+        // Dismissed or refused — fall through to the keycap prompt.
       }
     }
 
-    const combo = this.isApple ? '⌘ D' : 'Ctrl + D';
     let copied = false;
     try {
       await navigator.clipboard?.writeText(url);
@@ -50,16 +67,46 @@ export class BookmarkService {
       /* clipboard blocked — the shortcut alone still works */
     }
 
-    this.show(
-      copied
-        ? `Press ${combo} to bookmark — link copied`
-        : `Press ${combo} to bookmark`,
-    );
+    this.show({
+      modifier: this.isApple ? '⌘' : 'Ctrl',
+      key: 'D',
+      title,
+      status: copied ? 'copied' : 'waiting',
+    });
+    this.listen();
   }
 
-  private show(message: string): void {
-    this.hint.set(message);
+  dismiss(): void {
     window.clearTimeout(this.timer);
-    this.timer = window.setTimeout(() => this.hint.set(null), 3600);
+    this.prompt.set(null);
+  }
+
+  private show(p: BookmarkPrompt): void {
+    this.prompt.set(p);
+    window.clearTimeout(this.timer);
+    this.timer = window.setTimeout(() => this.prompt.set(null), 6000);
+  }
+
+  /**
+   * Watches for the real shortcut. The page cannot open the dialog, but it can
+   * tell that the visitor did — so the prompt confirms instead of leaving them
+   * wondering whether it worked.
+   */
+  private listen(): void {
+    if (this.listening) return;
+    this.listening = true;
+
+    window.addEventListener('keydown', (e: KeyboardEvent) => {
+      const current = this.prompt();
+      if (!current || current.status === 'bookmarked') return;
+      if (e.key?.toLowerCase() !== 'd') return;
+      if (!(e.metaKey || e.ctrlKey)) return;
+
+      // Deliberately not preventing the default: the browser's own dialog is
+      // the entire point, so it must be allowed through.
+      this.prompt.set({ ...current, status: 'bookmarked' });
+      window.clearTimeout(this.timer);
+      this.timer = window.setTimeout(() => this.prompt.set(null), 2200);
+    });
   }
 }

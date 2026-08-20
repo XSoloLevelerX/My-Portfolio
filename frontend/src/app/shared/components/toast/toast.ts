@@ -1,17 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BookmarkService } from '../../../core/services/bookmark.service';
 
-/** One transient message, bottom-centre. Announced politely for screen readers. */
+/**
+ * The bookmark prompt. Shows the real shortcut as keycaps, then confirms once
+ * the visitor actually presses it — the page cannot open the dialog itself, but
+ * it can tell that it happened.
+ */
 @Component({
   selector: 'app-toast',
-  template: `
-    @if (hint(); as message) {
-      <div class="toast" role="status" aria-live="polite">{{ message }}</div>
-    }
-  `,
+  templateUrl: './toast.html',
   styleUrl: './toast.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Toast {
-  readonly hint = inject(BookmarkService).hint;
+  private readonly bookmarks = inject(BookmarkService);
+  readonly prompt = this.bookmarks.prompt;
+
+  dismiss(): void {
+    this.bookmarks.dismiss();
+  }
 }
