@@ -29,11 +29,6 @@
   list-style: none;
 }
 
-/* An entry carrying an embed spans the grid: a 504px frame in a 300px column
-   would be scaled to illegibility. The rule belongs on the li, since the list
-   items are the grid children — not the .entry inside them. */
-.grid > li:has(.embed) { grid-column: 1 / -1; }
-
 .entry {
   height: 100%;
   border: 1px solid var(--line);
@@ -87,30 +82,73 @@
   border-radius: 999px;
 }
 
-/* LinkedIn serves a fixed 504px-wide frame. Below that it is scaled down rather
-   than clipped, so the post stays whole on a phone. */
+/* The wall. Columns rather than a grid, because the posts are wildly different
+   heights and a grid would leave a ragged row of gaps under the short ones. */
+.wall {
+  columns: 504px;
+  column-gap: 18px;
+}
+
+.post {
+  break-inside: avoid;
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: hidden;
+  transition: border-color var(--t-fast) var(--ease);
+
+  &:hover { border-color: var(--text-dim); }
+}
+
+.post-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.post-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.platform { color: var(--primary); letter-spacing: 0.1em; }
+
+/* The frame is 504px by LinkedIn's own markup; below that it fills the column
+   rather than being clipped. */
 .embed {
-  margin-top: 14px;
   display: flex;
   justify-content: center;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 6px;
+  background: #fff;
 
   iframe {
     width: 504px;
     max-width: 100%;
     border: 0;
-    background: #fff;
-    border-radius: 6px;
+    display: block;
   }
 }
 
-@media (max-width: 560px) {
-  .embed iframe {
-    width: 100%;
-    min-width: 0;
-  }
+.post-link {
+  display: block;
+  padding: 12px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary);
+  &:hover { text-decoration: underline; }
 }
 
 .body {

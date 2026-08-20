@@ -40,10 +40,21 @@ export class Collection {
 
   readonly open = signal<string | null>(null);
 
-  /** Grouped by category, insertion-ordered so the content file controls it. */
+  /**
+   * Entries carrying an embed are shown as a wall rather than as cards to open:
+   * a social post is the content, so hiding it behind a disclosure and then
+   * floating a 504px frame in a full-width card is two clicks and a lot of dead
+   * space for something that should just be readable.
+   */
+  readonly embedded = computed(() => this.entries().filter(e => !!e.linkedin));
+
+  /** Everything else keeps the expand-to-read card. */
+  readonly written = computed(() => this.entries().filter(e => !e.linkedin));
+
+  /** Written entries grouped by category, in content-file order. */
   readonly groups = computed(() => {
     const by = new Map<string, Entry[]>();
-    for (const e of this.entries()) {
+    for (const e of this.written()) {
       const list = by.get(e.category) ?? [];
       list.push(e);
       by.set(e.category, list);
@@ -66,9 +77,9 @@ export class Collection {
     );
   }
 
-  /** Capped so one very tall post cannot push everything else off the page. */
+  /** Capped so one very tall post cannot dominate the wall. */
   embedHeight(entry: Entry): number {
-    return Math.min(entry.embedHeight ?? 900, 1200);
+    return Math.min(entry.embedHeight ?? 900, 1100);
   }
 
   toggle(slug: string): void {

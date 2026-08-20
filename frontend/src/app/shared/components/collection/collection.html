@@ -1,60 +1,88 @@
 @if (entries().length === 0) {
   <p class="empty">{{ emptyNote() }}</p>
-} @else {
-  @for (g of groups(); track g.category) {
-    <section class="shelf" [attr.aria-label]="g.category">
-      <h2 class="shelf-title">{{ g.category }}</h2>
+}
 
-      <ul class="grid">
-        @for (e of g.items; track e.slug) {
-          <li>
-            <article class="entry" [class.open]="open() === e.slug">
-              <button
-                class="head"
-                type="button"
-                [attr.aria-expanded]="open() === e.slug"
-                (click)="toggle(e.slug)"
-              >
-                <span class="row">
-                  <span class="title">{{ e.title }}</span>
-                  @if (e.featured) { <span class="pin" aria-label="Featured">★</span> }
-                </span>
-                <span class="blurb">{{ e.blurb }}</span>
-                <span class="meta">
-                  @if (year(e.date)) { <span>{{ year(e.date) }}</span> }
-                  @for (t of e.tags; track t) { <span class="tag">{{ t }}</span> }
-                </span>
-              </button>
+<!-- Written posts: a card you open. -->
+@for (g of groups(); track g.category) {
+  <section class="shelf" [attr.aria-label]="g.category">
+    <h2 class="shelf-title">{{ g.category }}</h2>
 
-              @if (open() === e.slug) {
-                <div class="body">
-                  <p>{{ e.body }}</p>
+    <ul class="grid">
+      @for (e of g.items; track e.slug) {
+        <li>
+          <article class="entry" [class.open]="open() === e.slug">
+            <button
+              class="head"
+              type="button"
+              [attr.aria-expanded]="open() === e.slug"
+              (click)="toggle(e.slug)"
+            >
+              <span class="row">
+                <span class="title">{{ e.title }}</span>
+                @if (e.featured) { <span class="pin" aria-label="Featured">★</span> }
+              </span>
+              <span class="blurb">{{ e.blurb }}</span>
+              <span class="meta">
+                @if (year(e.date)) { <span>{{ year(e.date) }}</span> }
+                @for (t of e.tags; track t) { <span class="tag">{{ t }}</span> }
+              </span>
+            </button>
 
-                  @if (embedUrl(e); as src) {
-                    <div class="embed">
-                      <iframe
-                        [src]="src"
-                        [height]="embedHeight(e)"
-                        width="504"
-                        loading="lazy"
-                        frameborder="0"
-                        allowfullscreen
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        [title]="e.title + ' — embedded LinkedIn post'"
-                      ></iframe>
-                    </div>
-                  }
-                  @if (e.link) {
-                    <a [href]="e.link" target="_blank" rel="noopener noreferrer">
-                      {{ e.linkLabel ?? 'Open' }} ↗
-                    </a>
-                  }
-                </div>
-              }
-            </article>
-          </li>
-        }
-      </ul>
-    </section>
-  }
+            @if (open() === e.slug) {
+              <div class="body">
+                <p>{{ e.body }}</p>
+                @if (e.link) {
+                  <a [href]="e.link" target="_blank" rel="noopener noreferrer">
+                    {{ e.linkLabel ?? 'Open' }} ↗
+                  </a>
+                }
+              </div>
+            }
+          </article>
+        </li>
+      }
+    </ul>
+  </section>
+}
+
+<!-- Social posts: a wall. The post is the content, so it is simply shown. -->
+@if (embedded().length) {
+  <section class="shelf" aria-label="Social posts">
+    <h2 class="shelf-title">From the feed</h2>
+
+    <div class="wall">
+      @for (e of embedded(); track e.slug) {
+        <article class="post">
+          <header class="post-head">
+            <span class="post-title">{{ e.title }}</span>
+            <span class="post-meta">
+              @if (e.platform) { <span class="platform">{{ e.platform }}</span> }
+              @if (year(e.date)) { <span>{{ year(e.date) }}</span> }
+            </span>
+          </header>
+
+          @if (embedUrl(e); as src) {
+            <div class="embed">
+              <iframe
+                [src]="src"
+                [height]="embedHeight(e)"
+                width="504"
+                loading="lazy"
+                frameborder="0"
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin"
+                [title]="e.title + ' — embedded post'"
+              ></iframe>
+            </div>
+          }
+
+          @if (e.link) {
+            <a class="post-link" [href]="e.link" target="_blank" rel="noopener noreferrer">
+              {{ e.linkLabel ?? 'Open' }} ↗
+            </a>
+          }
+        </article>
+      }
+    </div>
+  </section>
 }
