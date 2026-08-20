@@ -29,6 +29,11 @@
   list-style: none;
 }
 
+/* An entry carrying an embed spans the grid: a 504px frame in a 300px column
+   would be scaled to illegibility. The rule belongs on the li, since the list
+   items are the grid children — not the .entry inside them. */
+.grid > li:has(.embed) { grid-column: 1 / -1; }
+
 .entry {
   height: 100%;
   border: 1px solid var(--line);
@@ -80,6 +85,32 @@
   padding: 2px 7px;
   border: 1px solid var(--line);
   border-radius: 999px;
+}
+
+/* LinkedIn serves a fixed 504px-wide frame. Below that it is scaled down rather
+   than clipped, so the post stays whole on a phone. */
+.embed {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+
+  iframe {
+    width: 504px;
+    max-width: 100%;
+    border: 0;
+    background: #fff;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 560px) {
+  .embed iframe {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 .body {

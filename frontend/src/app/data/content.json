@@ -146,6 +146,8 @@
       "link": null,
       "linkLabel": null,
       "platform": null,
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-07-01",
       "tags": [
         "Teams",
@@ -162,6 +164,8 @@
       "link": null,
       "linkLabel": null,
       "platform": null,
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-06-01",
       "tags": [
         "GitHub",
@@ -178,6 +182,8 @@
       "link": null,
       "linkLabel": null,
       "platform": null,
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-05-01",
       "tags": [
         "Reviews",
@@ -194,6 +200,8 @@
       "link": null,
       "linkLabel": null,
       "platform": null,
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-04-01",
       "tags": [
         "Talks",
@@ -212,6 +220,8 @@
       "link": null,
       "linkLabel": null,
       "platform": null,
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-08-01",
       "tags": [
         "Strategy",
@@ -228,6 +238,8 @@
       "link": null,
       "linkLabel": null,
       "platform": null,
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-07-01",
       "tags": [
         "Series",
@@ -244,6 +256,8 @@
       "link": null,
       "linkLabel": null,
       "platform": null,
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-06-01",
       "tags": [
         "Tactics"
@@ -259,6 +273,8 @@
       "link": null,
       "linkLabel": null,
       "platform": null,
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-05-01",
       "tags": [
         "Discovery"
@@ -276,6 +292,8 @@
       "link": null,
       "linkLabel": null,
       "platform": "SITE",
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-08-20",
       "tags": [
         "Design",
@@ -285,6 +303,23 @@
       "body": "A list of projects asks the reader to do the sorting. A catalogue does it for them: what is new, what is getting attention, what the author would pick. The rows are an argument about the work, not just a way to fit it on screen."
     },
     {
+      "slug": "linkedin-1",
+      "title": "Six months at Reliance Industries",
+      "category": "LINKEDIN",
+      "blurb": "Looking back on the SDE internship — expand to read the post.",
+      "link": "https://lnkd.in/p/gkk27KKC",
+      "linkLabel": "View on LinkedIn",
+      "platform": "LINKEDIN",
+      "linkedin": "urn:li:ugcPost:7489990373394796544",
+      "embedHeight": 1699,
+      "date": "2026-08-10",
+      "tags": [
+        "LinkedIn"
+      ],
+      "featured": true,
+      "body": "Published to LinkedIn. The embed below is the post itself, loaded from LinkedIn rather than copied here, so it stays current if I edit it."
+    },
+    {
       "slug": "rls-lesson",
       "title": "The Supabase policy I got wrong",
       "category": "ENGINEERING",
@@ -292,6 +327,8 @@
       "link": null,
       "linkLabel": null,
       "platform": "SITE",
+      "linkedin": null,
+      "embedHeight": null,
       "date": "2026-08-19",
       "tags": [
         "Postgres",
@@ -299,6 +336,23 @@
       ],
       "featured": false,
       "body": "Row Level Security covered the tables, but the maintenance functions were SECURITY DEFINER and still granted to anon — reachable over PostgREST. The database linter caught it. Enabling RLS is not the same as being locked down."
+    },
+    {
+      "slug": "linkedin-2",
+      "title": "Notes from a recent build",
+      "category": "LINKEDIN",
+      "blurb": "Another from the feed — expand to read it inline.",
+      "link": "https://lnkd.in/p/gMzp8BY4",
+      "linkLabel": "View on LinkedIn",
+      "platform": "LINKEDIN",
+      "linkedin": "urn:li:ugcPost:7467148050378010624",
+      "embedHeight": 1552,
+      "date": "2026-06-05",
+      "tags": [
+        "LinkedIn"
+      ],
+      "featured": false,
+      "body": "Published to LinkedIn. The embed below is the post itself, loaded from LinkedIn rather than copied here, so it stays current if I edit it."
     }
   ]
 }

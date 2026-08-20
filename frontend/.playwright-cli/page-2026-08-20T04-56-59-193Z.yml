@@ -1,0 +1,12 @@
+- generic [ref=f1e1]:
+  - generic:
+    - generic:
+      - generic: A
+      - generic: M
+      - generic: A
+      - generic: R
+      - generic: T
+      - generic: "Y"
+      - generic: A
+    - paragraph [ref=f1e2]: Software Developer Engineer and Professional Freelancer
+  - heading "Amartya — learn, build, inspire" [level=1] [ref=f1e3]

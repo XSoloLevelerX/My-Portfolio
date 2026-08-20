@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, computed, inject, input, signal,
+} from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export interface Entry {
   slug: string;
@@ -8,6 +11,9 @@ export interface Entry {
   link: string | null;
   linkLabel: string | null;
   platform: string | null;
+  /** A LinkedIn post URN, already validated at build time. Never markup. */
+  linkedin: string | null;
+  embedHeight: number | null;
   date: string | null;
   tags: string[];
   featured: boolean;
@@ -26,6 +32,8 @@ export interface Entry {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Collection {
+  private readonly sanitizer = inject(DomSanitizer);
+
   readonly entries = input.required<Entry[]>();
   /** Shown when there is nothing yet, instead of an empty page. */
   readonly emptyNote = input('Nothing here yet.');
@@ -42,6 +50,26 @@ export class Collection {
     }
     return [...by.entries()].map(([category, items]) => ({ category, items }));
   });
+
+  /**
+   * Builds the embed URL from the stored URN against a fixed template.
+   *
+   * The bypass is safe precisely because nothing user-supplied reaches it as
+   * markup: the URN is shape-checked at build time and the origin and path are
+   * hard-coded here. Storing LinkedIn's own <iframe> string and trusting that
+   * instead is what would be dangerous.
+   */
+  embedUrl(entry: Entry): SafeResourceUrl | null {
+    if (!entry.linkedin || !/^urn:li:[a-zA-Z]+:\d+$/.test(entry.linkedin)) return null;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.linkedin.com/embed/feed/update/${entry.linkedin}`,
+    );
+  }
+
+  /** Capped so one very tall post cannot push everything else off the page. */
+  embedHeight(entry: Entry): number {
+    return Math.min(entry.embedHeight ?? 900, 1200);
+  }
 
   toggle(slug: string): void {
     this.open.update(cur => (cur === slug ? null : slug));

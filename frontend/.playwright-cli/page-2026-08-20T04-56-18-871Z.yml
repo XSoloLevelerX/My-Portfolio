@@ -1,0 +1,1395 @@
+- generic [ref=e33]:
+  - banner [ref=e34]:
+    - link "Amartya — home" [ref=e35] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e36]: AMARTYA
+    - button "Menu" [ref=e37] [cursor=pointer]
+  - main [ref=e42]:
+    - generic [ref=e44]:
+      - generic [ref=e45]: D
+      - generic [ref=e48]:
+        - paragraph [ref=e49]: Systems
+        - heading "DentOS" [level=2] [ref=e51]
+        - paragraph [ref=e52]:
+          - generic [ref=e53]: SDE-3
+          - generic [ref=e54]: "2026"
+          - generic [ref=e55]: Live
+        - paragraph [ref=e56]: A clinical operating system for dental practice. Twenty-seven modules in one deployable, where module boundaries are enforced by the compiler — the build fails before a reviewer has to catch a violation.
+        - list [ref=e57]:
+          - listitem [ref=e58]: Java 21
+          - listitem [ref=e59]: Spring Boot
+          - listitem [ref=e60]: Angular
+          - listitem [ref=e61]: PostgreSQL
+        - generic [ref=e62]:
+          - button "Play" [ref=e63] [cursor=pointer]
+          - link "Source" [ref=e66] [cursor=pointer]:
+            - /url: https://github.com/XSoloLevelerX/dentos
+          - button "More Info" [ref=e67] [cursor=pointer]
+    - generic [ref=e70]:
+      - region "Trending Now" [ref=e72]:
+        - heading "Trending Now" [level=3] [ref=e73]:
+          - text: Trending Now
+          - generic [ref=e74]: ▲
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - button "DentOS — A clinical operating system for dental practice." [ref=e78] [cursor=pointer]:
+              - generic [ref=e79]: D
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open DentOS"
+                    - button "Add DentOS to My List"
+                    - button "Like DentOS"
+                    - button "More about DentOS"
+                  - heading "DentOS" [level=4]
+                  - paragraph:
+                    - generic: 98% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Java 21
+                      - generic: •
+                    - listitem:
+                      - text: Spring Boot
+                      - generic: •
+                    - listitem: Angular
+            - button "GlyphGuard — A trust proxy for the Model Context Protocol." [ref=e82] [cursor=pointer]:
+              - generic [ref=e83]: G
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open GlyphGuard"
+                    - button "Add GlyphGuard to My List"
+                    - button "Like GlyphGuard"
+                    - button "More about GlyphGuard"
+                  - heading "GlyphGuard" [level=4]
+                  - paragraph:
+                    - generic: 98% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: MCP
+                      - generic: •
+                    - listitem: Docker
+            - button "ContractCal — Self-hosted contract obligation tracking." [ref=e86] [cursor=pointer]:
+              - generic [ref=e87]: C
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open ContractCal"
+                    - button "Add ContractCal to My List"
+                    - button "Like ContractCal"
+                    - button "More about ContractCal"
+                  - heading "ContractCal" [level=4]
+                  - paragraph:
+                    - generic: 78% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: RAG
+                      - generic: •
+                    - listitem:
+                      - text: Supabase
+                      - generic: •
+                    - listitem: Docker
+            - button "EnvForge — Prompt to game-ready 3D environment in the browser." [ref=e90] [cursor=pointer]:
+              - generic [ref=e91]:
+                - generic [ref=e92]: E
+                - generic [ref=e93]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add EnvForge to My List"
+                    - button "Like EnvForge"
+                    - button "More about EnvForge"
+                  - heading "EnvForge" [level=4]
+                  - paragraph:
+                    - generic: 86% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: React Three Fiber
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Zustand
+            - button "SaveYourLivestock — Real-time livestock intrusion detection on ordinary security cameras." [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]:
+                - generic [ref=e97]: S
+                - generic [ref=e98]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SaveYourLivestock to My List"
+                    - button "Like SaveYourLivestock"
+                    - button "More about SaveYourLivestock"
+                  - heading "SaveYourLivestock" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: YOLOv8
+                      - generic: •
+                    - listitem: OpenCV
+            - button "Hermes — A self-hosted coding agent that persists your identity across sessions." [ref=e100] [cursor=pointer]:
+              - generic [ref=e101]:
+                - generic [ref=e102]: H
+                - generic [ref=e103]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Hermes to My List"
+                    - button "Like Hermes"
+                    - button "More about Hermes"
+                  - heading "Hermes" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: Ollama
+                      - generic: •
+                    - listitem: Claude
+            - 'button "PitLane AI — An F1 intelligence platform built on the APEX engine: live telemetry, cross-era statistical comparison, and 3D circuit visualisation behind an LLM race engineer that argues strategy with you." [ref=e105] [cursor=pointer]':
+              - generic [ref=e106]:
+                - generic [ref=e107]: P
+                - generic [ref=e108]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add PitLane AI to My List"
+                    - button "Like PitLane AI"
+                    - button "More about PitLane AI"
+                  - heading "PitLane AI" [level=4]
+                  - paragraph:
+                    - generic: 90% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Next.js
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Anthropic
+            - button "MECCHA CHAMELEON — A browser game built on a BVH-accelerated Three." [ref=e110] [cursor=pointer]:
+              - generic [ref=e111]: M
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open MECCHA CHAMELEON"
+                    - button "Add MECCHA CHAMELEON to My List"
+                    - button "Like MECCHA CHAMELEON"
+                    - button "More about MECCHA CHAMELEON"
+                  - heading "MECCHA CHAMELEON" [level=4]
+                  - paragraph:
+                    - generic: 82% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem:
+                      - text: three-mesh-bvh
+                      - generic: •
+                    - listitem: React
+            - button "SafeMap — Safety-aware routing across four surfaces — Flutter app, Kotlin client, web UI and a microservice backend — sharing one incident dataset and one scoring model." [ref=e114] [cursor=pointer]:
+              - generic [ref=e115]:
+                - generic [ref=e116]: S
+                - generic [ref=e117]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SafeMap to My List"
+                    - button "Like SafeMap"
+                    - button "More about SafeMap"
+                  - heading "SafeMap" [level=4]
+                  - paragraph:
+                    - generic: 70% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Flutter
+                      - generic: •
+                    - listitem:
+                      - text: Kotlin
+                      - generic: •
+                    - listitem: Microservices
+            - button "Grand Luxury — An AI concierge platform for hotels." [ref=e119] [cursor=pointer]:
+              - generic [ref=e120]:
+                - generic [ref=e121]: G
+                - generic [ref=e122]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Grand Luxury to My List"
+                    - button "Like Grand Luxury"
+                    - button "More about Grand Luxury"
+                  - heading "Grand Luxury" [level=4]
+                  - paragraph:
+                    - generic: 74% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: LLM
+                      - generic: •
+                    - listitem: React Native
+          - button "Scroll right" [ref=e123] [cursor=pointer]
+      - region "New Releases" [ref=e127]:
+        - heading "New Releases" [level=3] [ref=e128]
+        - generic [ref=e129]:
+          - generic [ref=e130]:
+            - button "ContractCal — Self-hosted contract obligation tracking." [ref=e132] [cursor=pointer]:
+              - generic [ref=e133]: C
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open ContractCal"
+                    - button "Add ContractCal to My List"
+                    - button "Like ContractCal"
+                    - button "More about ContractCal"
+                  - heading "ContractCal" [level=4]
+                  - paragraph:
+                    - generic: 78% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: RAG
+                      - generic: •
+                    - listitem:
+                      - text: Supabase
+                      - generic: •
+                    - listitem: Docker
+            - button "DentOS — A clinical operating system for dental practice." [ref=e136] [cursor=pointer]:
+              - generic [ref=e137]: D
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open DentOS"
+                    - button "Add DentOS to My List"
+                    - button "Like DentOS"
+                    - button "More about DentOS"
+                  - heading "DentOS" [level=4]
+                  - paragraph:
+                    - generic: 98% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Java 21
+                      - generic: •
+                    - listitem:
+                      - text: Spring Boot
+                      - generic: •
+                    - listitem: Angular
+            - button "EnvForge — Prompt to game-ready 3D environment in the browser." [ref=e140] [cursor=pointer]:
+              - generic [ref=e141]:
+                - generic [ref=e142]: E
+                - generic [ref=e143]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add EnvForge to My List"
+                    - button "Like EnvForge"
+                    - button "More about EnvForge"
+                  - heading "EnvForge" [level=4]
+                  - paragraph:
+                    - generic: 86% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: React Three Fiber
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Zustand
+            - button "SaveYourLivestock — Real-time livestock intrusion detection on ordinary security cameras." [ref=e145] [cursor=pointer]:
+              - generic [ref=e146]:
+                - generic [ref=e147]: S
+                - generic [ref=e148]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SaveYourLivestock to My List"
+                    - button "Like SaveYourLivestock"
+                    - button "More about SaveYourLivestock"
+                  - heading "SaveYourLivestock" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: YOLOv8
+                      - generic: •
+                    - listitem: OpenCV
+            - button "SafeMap — Safety-aware routing across four surfaces — Flutter app, Kotlin client, web UI and a microservice backend — sharing one incident dataset and one scoring model." [ref=e150] [cursor=pointer]:
+              - generic [ref=e151]:
+                - generic [ref=e152]: S
+                - generic [ref=e153]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SafeMap to My List"
+                    - button "Like SafeMap"
+                    - button "More about SafeMap"
+                  - heading "SafeMap" [level=4]
+                  - paragraph:
+                    - generic: 70% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Flutter
+                      - generic: •
+                    - listitem:
+                      - text: Kotlin
+                      - generic: •
+                    - listitem: Microservices
+            - button "Grand Luxury — An AI concierge platform for hotels." [ref=e155] [cursor=pointer]:
+              - generic [ref=e156]:
+                - generic [ref=e157]: G
+                - generic [ref=e158]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Grand Luxury to My List"
+                    - button "Like Grand Luxury"
+                    - button "More about Grand Luxury"
+                  - heading "Grand Luxury" [level=4]
+                  - paragraph:
+                    - generic: 74% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: LLM
+                      - generic: •
+                    - listitem: React Native
+            - button "GlyphGuard — A trust proxy for the Model Context Protocol." [ref=e160] [cursor=pointer]:
+              - generic [ref=e161]: G
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open GlyphGuard"
+                    - button "Add GlyphGuard to My List"
+                    - button "Like GlyphGuard"
+                    - button "More about GlyphGuard"
+                  - heading "GlyphGuard" [level=4]
+                  - paragraph:
+                    - generic: 98% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: MCP
+                      - generic: •
+                    - listitem: Docker
+            - button "ExcelFlow — A browser-based cleanup tool for people who find Excel formulas painful — twelve-plus filter operators with AND/OR composition, running entirely client-side so nothing ever leaves the browser." [ref=e164] [cursor=pointer]:
+              - generic [ref=e165]:
+                - generic [ref=e166]: E
+                - generic [ref=e167]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add ExcelFlow to My List"
+                    - button "Like ExcelFlow"
+                    - button "More about ExcelFlow"
+                  - heading "ExcelFlow" [level=4]
+                  - paragraph:
+                    - generic: 65% match
+                    - generic: SDE-1
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: FastAPI
+                      - generic: •
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem: JavaScript
+            - button "VMS — A visitor management system for multi-site operations — OTP and OAuth2 login, role-scoped access across admin, security, and warehouse roles, and a Flutter client talking to one Spring Boot API." [ref=e169] [cursor=pointer]:
+              - generic [ref=e170]:
+                - generic [ref=e171]: V
+                - generic [ref=e172]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add VMS to My List"
+                    - button "Like VMS"
+                    - button "More about VMS"
+                  - heading "VMS" [level=4]
+                  - paragraph:
+                    - generic: 68% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Spring Boot
+                      - generic: •
+                    - listitem:
+                      - text: Flutter
+                      - generic: •
+                    - listitem: JWT / OAuth2
+            - button "MECCHA CHAMELEON — A browser game built on a BVH-accelerated Three." [ref=e174] [cursor=pointer]:
+              - generic [ref=e175]: M
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open MECCHA CHAMELEON"
+                    - button "Add MECCHA CHAMELEON to My List"
+                    - button "Like MECCHA CHAMELEON"
+                    - button "More about MECCHA CHAMELEON"
+                  - heading "MECCHA CHAMELEON" [level=4]
+                  - paragraph:
+                    - generic: 82% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem:
+                      - text: three-mesh-bvh
+                      - generic: •
+                    - listitem: React
+            - button "Hermes — A self-hosted coding agent that persists your identity across sessions." [ref=e178] [cursor=pointer]:
+              - generic [ref=e179]:
+                - generic [ref=e180]: H
+                - generic [ref=e181]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Hermes to My List"
+                    - button "Like Hermes"
+                    - button "More about Hermes"
+                  - heading "Hermes" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: Ollama
+                      - generic: •
+                    - listitem: Claude
+            - 'button "PitLane AI — An F1 intelligence platform built on the APEX engine: live telemetry, cross-era statistical comparison, and 3D circuit visualisation behind an LLM race engineer that argues strategy with you." [ref=e183] [cursor=pointer]':
+              - generic [ref=e184]:
+                - generic [ref=e185]: P
+                - generic [ref=e186]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add PitLane AI to My List"
+                    - button "Like PitLane AI"
+                    - button "More about PitLane AI"
+                  - heading "PitLane AI" [level=4]
+                  - paragraph:
+                    - generic: 90% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Next.js
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Anthropic
+          - button "Scroll right" [ref=e187] [cursor=pointer]
+      - region "Amartya's Picks" [ref=e191]:
+        - heading "Amartya's Picks" [level=3] [ref=e192]
+        - generic [ref=e193]:
+          - generic [ref=e194]:
+            - button "DentOS — A clinical operating system for dental practice." [ref=e196] [cursor=pointer]:
+              - generic [ref=e197]: D
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open DentOS"
+                    - button "Add DentOS to My List"
+                    - button "Like DentOS"
+                    - button "More about DentOS"
+                  - heading "DentOS" [level=4]
+                  - paragraph:
+                    - generic: 98% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Java 21
+                      - generic: •
+                    - listitem:
+                      - text: Spring Boot
+                      - generic: •
+                    - listitem: Angular
+            - button "EnvForge — Prompt to game-ready 3D environment in the browser." [ref=e200] [cursor=pointer]:
+              - generic [ref=e201]:
+                - generic [ref=e202]: E
+                - generic [ref=e203]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add EnvForge to My List"
+                    - button "Like EnvForge"
+                    - button "More about EnvForge"
+                  - heading "EnvForge" [level=4]
+                  - paragraph:
+                    - generic: 86% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: React Three Fiber
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Zustand
+            - button "SaveYourLivestock — Real-time livestock intrusion detection on ordinary security cameras." [ref=e205] [cursor=pointer]:
+              - generic [ref=e206]:
+                - generic [ref=e207]: S
+                - generic [ref=e208]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SaveYourLivestock to My List"
+                    - button "Like SaveYourLivestock"
+                    - button "More about SaveYourLivestock"
+                  - heading "SaveYourLivestock" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: YOLOv8
+                      - generic: •
+                    - listitem: OpenCV
+            - button "GlyphGuard — A trust proxy for the Model Context Protocol." [ref=e210] [cursor=pointer]:
+              - generic [ref=e211]: G
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open GlyphGuard"
+                    - button "Add GlyphGuard to My List"
+                    - button "Like GlyphGuard"
+                    - button "More about GlyphGuard"
+                  - heading "GlyphGuard" [level=4]
+                  - paragraph:
+                    - generic: 98% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: MCP
+                      - generic: •
+                    - listitem: Docker
+            - button "Hermes — A self-hosted coding agent that persists your identity across sessions." [ref=e214] [cursor=pointer]:
+              - generic [ref=e215]:
+                - generic [ref=e216]: H
+                - generic [ref=e217]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Hermes to My List"
+                    - button "Like Hermes"
+                    - button "More about Hermes"
+                  - heading "Hermes" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: Ollama
+                      - generic: •
+                    - listitem: Claude
+            - 'button "PitLane AI — An F1 intelligence platform built on the APEX engine: live telemetry, cross-era statistical comparison, and 3D circuit visualisation behind an LLM race engineer that argues strategy with you." [ref=e219] [cursor=pointer]':
+              - generic [ref=e220]:
+                - generic [ref=e221]: P
+                - generic [ref=e222]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add PitLane AI to My List"
+                    - button "Like PitLane AI"
+                    - button "More about PitLane AI"
+                  - heading "PitLane AI" [level=4]
+                  - paragraph:
+                    - generic: 90% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Next.js
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Anthropic
+          - button "Scroll right" [ref=e223] [cursor=pointer]
+      - region "Currently Building" [ref=e227]:
+        - heading "Currently Building" [level=3] [ref=e228]
+        - generic [ref=e229]:
+          - generic [ref=e230]:
+            - button "EnvForge — Prompt to game-ready 3D environment in the browser." [ref=e232] [cursor=pointer]:
+              - generic [ref=e233]:
+                - generic [ref=e234]: E
+                - generic [ref=e235]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add EnvForge to My List"
+                    - button "Like EnvForge"
+                    - button "More about EnvForge"
+                  - heading "EnvForge" [level=4]
+                  - paragraph:
+                    - generic: 86% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: React Three Fiber
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Zustand
+            - button "SaveYourLivestock — Real-time livestock intrusion detection on ordinary security cameras." [ref=e237] [cursor=pointer]:
+              - generic [ref=e238]:
+                - generic [ref=e239]: S
+                - generic [ref=e240]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SaveYourLivestock to My List"
+                    - button "Like SaveYourLivestock"
+                    - button "More about SaveYourLivestock"
+                  - heading "SaveYourLivestock" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: YOLOv8
+                      - generic: •
+                    - listitem: OpenCV
+            - button "SafeMap — Safety-aware routing across four surfaces — Flutter app, Kotlin client, web UI and a microservice backend — sharing one incident dataset and one scoring model." [ref=e242] [cursor=pointer]:
+              - generic [ref=e243]:
+                - generic [ref=e244]: S
+                - generic [ref=e245]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SafeMap to My List"
+                    - button "Like SafeMap"
+                    - button "More about SafeMap"
+                  - heading "SafeMap" [level=4]
+                  - paragraph:
+                    - generic: 70% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Flutter
+                      - generic: •
+                    - listitem:
+                      - text: Kotlin
+                      - generic: •
+                    - listitem: Microservices
+            - button "Grand Luxury — An AI concierge platform for hotels." [ref=e247] [cursor=pointer]:
+              - generic [ref=e248]:
+                - generic [ref=e249]: G
+                - generic [ref=e250]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Grand Luxury to My List"
+                    - button "Like Grand Luxury"
+                    - button "More about Grand Luxury"
+                  - heading "Grand Luxury" [level=4]
+                  - paragraph:
+                    - generic: 74% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: LLM
+                      - generic: •
+                    - listitem: React Native
+            - button "ExcelFlow — A browser-based cleanup tool for people who find Excel formulas painful — twelve-plus filter operators with AND/OR composition, running entirely client-side so nothing ever leaves the browser." [ref=e252] [cursor=pointer]:
+              - generic [ref=e253]:
+                - generic [ref=e254]: E
+                - generic [ref=e255]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add ExcelFlow to My List"
+                    - button "Like ExcelFlow"
+                    - button "More about ExcelFlow"
+                  - heading "ExcelFlow" [level=4]
+                  - paragraph:
+                    - generic: 65% match
+                    - generic: SDE-1
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: FastAPI
+                      - generic: •
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem: JavaScript
+            - button "VMS — A visitor management system for multi-site operations — OTP and OAuth2 login, role-scoped access across admin, security, and warehouse roles, and a Flutter client talking to one Spring Boot API." [ref=e257] [cursor=pointer]:
+              - generic [ref=e258]:
+                - generic [ref=e259]: V
+                - generic [ref=e260]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add VMS to My List"
+                    - button "Like VMS"
+                    - button "More about VMS"
+                  - heading "VMS" [level=4]
+                  - paragraph:
+                    - generic: 68% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Spring Boot
+                      - generic: •
+                    - listitem:
+                      - text: Flutter
+                      - generic: •
+                    - listitem: JWT / OAuth2
+            - button "Hermes — A self-hosted coding agent that persists your identity across sessions." [ref=e262] [cursor=pointer]:
+              - generic [ref=e263]:
+                - generic [ref=e264]: H
+                - generic [ref=e265]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Hermes to My List"
+                    - button "Like Hermes"
+                    - button "More about Hermes"
+                  - heading "Hermes" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: Ollama
+                      - generic: •
+                    - listitem: Claude
+            - 'button "PitLane AI — An F1 intelligence platform built on the APEX engine: live telemetry, cross-era statistical comparison, and 3D circuit visualisation behind an LLM race engineer that argues strategy with you." [ref=e267] [cursor=pointer]':
+              - generic [ref=e268]:
+                - generic [ref=e269]: P
+                - generic [ref=e270]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add PitLane AI to My List"
+                    - button "Like PitLane AI"
+                    - button "More about PitLane AI"
+                  - heading "PitLane AI" [level=4]
+                  - paragraph:
+                    - generic: 90% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Next.js
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Anthropic
+            - button "Token Lens — A VS Code extension that tracks LLM token spend per session, right where the tokens get spent — a webview dashboard instead of a bill you only see at the end of the month." [ref=e272] [cursor=pointer]:
+              - generic [ref=e273]:
+                - generic [ref=e274]: T
+                - generic [ref=e275]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Token Lens to My List"
+                    - button "Like Token Lens"
+                    - button "More about Token Lens"
+                  - heading "Token Lens" [level=4]
+                  - paragraph:
+                    - generic: 65% match
+                    - generic: SDE-1
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: TypeScript
+                      - generic: •
+                    - listitem:
+                      - text: VS Code API
+                      - generic: •
+                    - listitem: esbuild
+            - 'button "DocParser — Template-driven document extraction: define the fields once, then pull structured data out of scanned or digital documents via Tesseract OCR without hand-rolling a parser per document type." [ref=e277] [cursor=pointer]':
+              - generic [ref=e278]:
+                - generic [ref=e279]: D
+                - generic [ref=e280]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add DocParser to My List"
+                    - button "Like DocParser"
+                    - button "More about DocParser"
+                  - heading "DocParser" [level=4]
+                  - paragraph:
+                    - generic: 68% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Next.js
+                      - generic: •
+                    - listitem:
+                      - text: Tesseract.js
+                      - generic: •
+                    - listitem: Express
+            - button "Hotel Management System — Full-stack property management with a shared type layer between frontend and backend, Supabase persistence, and Playwright end-to-end coverage over the booking flow." [ref=e282] [cursor=pointer]:
+              - generic [ref=e283]:
+                - generic [ref=e284]: H
+                - generic [ref=e285]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Hotel Management System to My List"
+                    - button "Like Hotel Management System"
+                    - button "More about Hotel Management System"
+                  - heading "Hotel Management System" [level=4]
+                  - paragraph:
+                    - generic: 72% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: TypeScript
+                      - generic: •
+                    - listitem:
+                      - text: Supabase
+                      - generic: •
+                    - listitem: Playwright
+            - button "Indian Stock Sidebar — A Manifest V3 Chrome extension that turns any tab into an NSE ticker — alarm-driven refresh, a badge that changes color with the stock, no dashboard tab required." [ref=e287] [cursor=pointer]:
+              - generic [ref=e288]:
+                - generic [ref=e289]: I
+                - generic [ref=e290]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Indian Stock Sidebar to My List"
+                    - button "Like Indian Stock Sidebar"
+                    - button "More about Indian Stock Sidebar"
+                  - heading "Indian Stock Sidebar" [level=4]
+                  - paragraph:
+                    - generic: 65% match
+                    - generic: SDE-1
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Chrome Extension
+                      - generic: •
+                    - listitem:
+                      - text: JavaScript
+                      - generic: •
+                    - listitem: Manifest V3
+          - button "Scroll right" [ref=e291] [cursor=pointer]
+      - region "AI & Agents" [ref=e295]:
+        - heading "AI & Agents" [level=3] [ref=e296]
+        - generic [ref=e297]:
+          - generic [ref=e298]:
+            - button "ContractCal — Self-hosted contract obligation tracking." [ref=e300] [cursor=pointer]:
+              - generic [ref=e301]: C
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open ContractCal"
+                    - button "Add ContractCal to My List"
+                    - button "Like ContractCal"
+                    - button "More about ContractCal"
+                  - heading "ContractCal" [level=4]
+                  - paragraph:
+                    - generic: 78% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: RAG
+                      - generic: •
+                    - listitem:
+                      - text: Supabase
+                      - generic: •
+                    - listitem: Docker
+            - button "Grand Luxury — An AI concierge platform for hotels." [ref=e304] [cursor=pointer]:
+              - generic [ref=e305]:
+                - generic [ref=e306]: G
+                - generic [ref=e307]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Grand Luxury to My List"
+                    - button "Like Grand Luxury"
+                    - button "More about Grand Luxury"
+                  - heading "Grand Luxury" [level=4]
+                  - paragraph:
+                    - generic: 74% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: LLM
+                      - generic: •
+                    - listitem: React Native
+            - button "Hermes — A self-hosted coding agent that persists your identity across sessions." [ref=e309] [cursor=pointer]:
+              - generic [ref=e310]:
+                - generic [ref=e311]: H
+                - generic [ref=e312]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Hermes to My List"
+                    - button "Like Hermes"
+                    - button "More about Hermes"
+                  - heading "Hermes" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: Ollama
+                      - generic: •
+                    - listitem: Claude
+            - 'button "PitLane AI — An F1 intelligence platform built on the APEX engine: live telemetry, cross-era statistical comparison, and 3D circuit visualisation behind an LLM race engineer that argues strategy with you." [ref=e314] [cursor=pointer]':
+              - generic [ref=e315]:
+                - generic [ref=e316]: P
+                - generic [ref=e317]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add PitLane AI to My List"
+                    - button "Like PitLane AI"
+                    - button "More about PitLane AI"
+                  - heading "PitLane AI" [level=4]
+                  - paragraph:
+                    - generic: 90% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Next.js
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Anthropic
+            - button "Token Lens — A VS Code extension that tracks LLM token spend per session, right where the tokens get spent — a webview dashboard instead of a bill you only see at the end of the month." [ref=e319] [cursor=pointer]:
+              - generic [ref=e320]:
+                - generic [ref=e321]: T
+                - generic [ref=e322]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Token Lens to My List"
+                    - button "Like Token Lens"
+                    - button "More about Token Lens"
+                  - heading "Token Lens" [level=4]
+                  - paragraph:
+                    - generic: 65% match
+                    - generic: SDE-1
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: TypeScript
+                      - generic: •
+                    - listitem:
+                      - text: VS Code API
+                      - generic: •
+                    - listitem: esbuild
+            - button "IndiFolio Pro — An investment portfolio tracker that pairs live yfinance market data with a Gemini-driven 'Deep Search' for equity research, so the numbers and the narrative sit in one place." [ref=e324] [cursor=pointer]:
+              - generic [ref=e325]:
+                - generic [ref=e326]: I
+                - generic [ref=e327]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add IndiFolio Pro to My List"
+                    - button "Like IndiFolio Pro"
+                    - button "More about IndiFolio Pro"
+                  - heading "IndiFolio Pro" [level=4]
+                  - paragraph:
+                    - generic: 68% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: FastAPI
+                      - generic: •
+                    - listitem:
+                      - text: Next.js
+                      - generic: •
+                    - listitem: yfinance
+          - button "Scroll right" [ref=e328] [cursor=pointer]
+      - region "Security" [ref=e332]:
+        - heading "Security" [level=3] [ref=e333]
+        - generic [ref=e334]:
+          - button "GlyphGuard — A trust proxy for the Model Context Protocol." [ref=e337] [cursor=pointer]:
+            - generic [ref=e338]: G
+            - generic:
+              - generic:
+                - generic:
+                  - button "Open GlyphGuard"
+                  - button "Add GlyphGuard to My List"
+                  - button "Like GlyphGuard"
+                  - button "More about GlyphGuard"
+                - heading "GlyphGuard" [level=4]
+                - paragraph:
+                  - generic: 98% match
+                  - generic: SDE-3
+                  - generic: "2026"
+                - list:
+                  - listitem:
+                    - text: Python
+                    - generic: •
+                  - listitem:
+                    - text: MCP
+                    - generic: •
+                  - listitem: Docker
+          - button "Scroll right" [ref=e340] [cursor=pointer]
+      - region "3D & Graphics" [ref=e344]:
+        - heading "3D & Graphics" [level=3] [ref=e345]
+        - generic [ref=e346]:
+          - generic [ref=e347]:
+            - button "EnvForge — Prompt to game-ready 3D environment in the browser." [ref=e349] [cursor=pointer]:
+              - generic [ref=e350]:
+                - generic [ref=e351]: E
+                - generic [ref=e352]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add EnvForge to My List"
+                    - button "Like EnvForge"
+                    - button "More about EnvForge"
+                  - heading "EnvForge" [level=4]
+                  - paragraph:
+                    - generic: 86% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: React Three Fiber
+                      - generic: •
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem: Zustand
+            - button "MECCHA CHAMELEON — A browser game built on a BVH-accelerated Three." [ref=e354] [cursor=pointer]:
+              - generic [ref=e355]: M
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open MECCHA CHAMELEON"
+                    - button "Add MECCHA CHAMELEON to My List"
+                    - button "Like MECCHA CHAMELEON"
+                    - button "More about MECCHA CHAMELEON"
+                  - heading "MECCHA CHAMELEON" [level=4]
+                  - paragraph:
+                    - generic: 82% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Three.js
+                      - generic: •
+                    - listitem:
+                      - text: three-mesh-bvh
+                      - generic: •
+                    - listitem: React
+          - button "Scroll right" [ref=e357] [cursor=pointer]
+      - region "Systems" [ref=e361]:
+        - heading "Systems" [level=3] [ref=e362]
+        - generic [ref=e363]:
+          - generic [ref=e364]:
+            - button "DentOS — A clinical operating system for dental practice." [ref=e366] [cursor=pointer]:
+              - generic [ref=e367]: D
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Open DentOS"
+                    - button "Add DentOS to My List"
+                    - button "Like DentOS"
+                    - button "More about DentOS"
+                  - heading "DentOS" [level=4]
+                  - paragraph:
+                    - generic: 98% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Java 21
+                      - generic: •
+                    - listitem:
+                      - text: Spring Boot
+                      - generic: •
+                    - listitem: Angular
+            - button "SafeMap — Safety-aware routing across four surfaces — Flutter app, Kotlin client, web UI and a microservice backend — sharing one incident dataset and one scoring model." [ref=e370] [cursor=pointer]:
+              - generic [ref=e371]:
+                - generic [ref=e372]: S
+                - generic [ref=e373]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SafeMap to My List"
+                    - button "Like SafeMap"
+                    - button "More about SafeMap"
+                  - heading "SafeMap" [level=4]
+                  - paragraph:
+                    - generic: 70% match
+                    - generic: SDE-3
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Flutter
+                      - generic: •
+                    - listitem:
+                      - text: Kotlin
+                      - generic: •
+                    - listitem: Microservices
+            - button "ExcelFlow — A browser-based cleanup tool for people who find Excel formulas painful — twelve-plus filter operators with AND/OR composition, running entirely client-side so nothing ever leaves the browser." [ref=e375] [cursor=pointer]:
+              - generic [ref=e376]:
+                - generic [ref=e377]: E
+                - generic [ref=e378]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add ExcelFlow to My List"
+                    - button "Like ExcelFlow"
+                    - button "More about ExcelFlow"
+                  - heading "ExcelFlow" [level=4]
+                  - paragraph:
+                    - generic: 65% match
+                    - generic: SDE-1
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: FastAPI
+                      - generic: •
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem: JavaScript
+            - button "VMS — A visitor management system for multi-site operations — OTP and OAuth2 login, role-scoped access across admin, security, and warehouse roles, and a Flutter client talking to one Spring Boot API." [ref=e380] [cursor=pointer]:
+              - generic [ref=e381]:
+                - generic [ref=e382]: V
+                - generic [ref=e383]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add VMS to My List"
+                    - button "Like VMS"
+                    - button "More about VMS"
+                  - heading "VMS" [level=4]
+                  - paragraph:
+                    - generic: 68% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Spring Boot
+                      - generic: •
+                    - listitem:
+                      - text: Flutter
+                      - generic: •
+                    - listitem: JWT / OAuth2
+            - button "Hotel Management System — Full-stack property management with a shared type layer between frontend and backend, Supabase persistence, and Playwright end-to-end coverage over the booking flow." [ref=e385] [cursor=pointer]:
+              - generic [ref=e386]:
+                - generic [ref=e387]: H
+                - generic [ref=e388]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Hotel Management System to My List"
+                    - button "Like Hotel Management System"
+                    - button "More about Hotel Management System"
+                  - heading "Hotel Management System" [level=4]
+                  - paragraph:
+                    - generic: 72% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: TypeScript
+                      - generic: •
+                    - listitem:
+                      - text: Supabase
+                      - generic: •
+                    - listitem: Playwright
+            - button "Indian Stock Sidebar — A Manifest V3 Chrome extension that turns any tab into an NSE ticker — alarm-driven refresh, a badge that changes color with the stock, no dashboard tab required." [ref=e390] [cursor=pointer]:
+              - generic [ref=e391]:
+                - generic [ref=e392]: I
+                - generic [ref=e393]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add Indian Stock Sidebar to My List"
+                    - button "Like Indian Stock Sidebar"
+                    - button "More about Indian Stock Sidebar"
+                  - heading "Indian Stock Sidebar" [level=4]
+                  - paragraph:
+                    - generic: 65% match
+                    - generic: SDE-1
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Chrome Extension
+                      - generic: •
+                    - listitem:
+                      - text: JavaScript
+                      - generic: •
+                    - listitem: Manifest V3
+          - button "Scroll right" [ref=e394] [cursor=pointer]
+      - region "ML & Vision" [ref=e398]:
+        - heading "ML & Vision" [level=3] [ref=e399]
+        - generic [ref=e400]:
+          - generic [ref=e401]:
+            - button "SaveYourLivestock — Real-time livestock intrusion detection on ordinary security cameras." [ref=e403] [cursor=pointer]:
+              - generic [ref=e404]:
+                - generic [ref=e405]: S
+                - generic [ref=e406]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add SaveYourLivestock to My List"
+                    - button "Like SaveYourLivestock"
+                    - button "More about SaveYourLivestock"
+                  - heading "SaveYourLivestock" [level=4]
+                  - paragraph:
+                    - generic: 84% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: YOLOv8
+                      - generic: •
+                    - listitem: OpenCV
+            - 'button "DocParser — Template-driven document extraction: define the fields once, then pull structured data out of scanned or digital documents via Tesseract OCR without hand-rolling a parser per document type." [ref=e408] [cursor=pointer]':
+              - generic [ref=e409]:
+                - generic [ref=e410]: D
+                - generic [ref=e411]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add DocParser to My List"
+                    - button "Like DocParser"
+                    - button "More about DocParser"
+                  - heading "DocParser" [level=4]
+                  - paragraph:
+                    - generic: 68% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Next.js
+                      - generic: •
+                    - listitem:
+                      - text: Tesseract.js
+                      - generic: •
+                    - listitem: Express
+            - button "VibeMatch AI — Music discovery by emotional arc rather than genre." [ref=e413] [cursor=pointer]:
+              - generic [ref=e414]:
+                - generic [ref=e415]: V
+                - generic [ref=e416]: In progress
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Add VibeMatch AI to My List"
+                    - button "Like VibeMatch AI"
+                    - button "More about VibeMatch AI"
+                  - heading "VibeMatch AI" [level=4]
+                  - paragraph:
+                    - generic: 68% match
+                    - generic: SDE-2
+                    - generic: "2026"
+                  - list:
+                    - listitem:
+                      - text: Python
+                      - generic: •
+                    - listitem:
+                      - text: ML
+                      - generic: •
+                    - listitem: Audio DSP
+          - button "Scroll right" [ref=e417] [cursor=pointer]
+    - paragraph [ref=e420]: 18 projects in the catalogue.

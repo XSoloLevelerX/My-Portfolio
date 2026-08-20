@@ -1,0 +1,13 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: A
+      - generic [ref=e5]: M
+      - generic [ref=e6]: A
+      - generic [ref=e7]: R
+      - generic [ref=e8]: T
+      - generic [ref=e9]: "Y"
+      - generic [ref=e10]: A
+    - paragraph [ref=e11]: Software Developer Engineer and Professional Freelancer
+  - heading "Amartya — learn, build, inspire" [level=1] [ref=e12]
+  - button "Skip intro" [ref=e13] [cursor=pointer]

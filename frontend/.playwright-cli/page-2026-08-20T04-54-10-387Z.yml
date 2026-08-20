@@ -1,0 +1,38 @@
+- generic [ref=f5e2]:
+  - banner [ref=f5e3]:
+    - link "Amartya — home" [ref=f5e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=f5e5]: AMARTYA
+    - button "Menu" [ref=f5e6] [cursor=pointer]
+  - main [ref=f5e12]:
+    - generic [ref=f5e13]:
+      - paragraph [ref=f5e14]: WRITING
+      - heading "Blog" [level=1] [ref=f5e15]
+      - paragraph [ref=f5e16]: Posts, findings, and things worth writing down. LinkedIn and other external posts appear here too — add a link field to any entry.
+    - generic [ref=f5e17]:
+      - region "DESIGN" [ref=f5e18]:
+        - heading "DESIGN" [level=2] [ref=f5e19]
+        - list [ref=f5e20]:
+          - listitem [ref=f5e21]:
+            - article [ref=f5e22]:
+              - button "Why this portfolio looks like Netflix Featured A catalogue is a better metaphor for a body of work than a list. 2026 Design Angular" [ref=f5e23] [cursor=pointer]:
+                - generic [ref=f5e24]:
+                  - generic [ref=f5e25]: Why this portfolio looks like Netflix
+                  - generic "Featured" [ref=f5e26]: ★
+                - generic [ref=f5e27]: A catalogue is a better metaphor for a body of work than a list.
+                - generic [ref=f5e28]:
+                  - generic [ref=f5e29]: "2026"
+                  - generic [ref=f5e30]: Design
+                  - generic [ref=f5e31]: Angular
+      - region "ENGINEERING" [ref=f5e32]:
+        - heading "ENGINEERING" [level=2] [ref=f5e33]
+        - list [ref=f5e34]:
+          - listitem [ref=f5e35]:
+            - article [ref=f5e36]:
+              - button "The Supabase policy I got wrong SECURITY DEFINER functions were reachable over the public REST API. 2026 Postgres Security" [ref=f5e37] [cursor=pointer]:
+                - generic [ref=f5e38]: The Supabase policy I got wrong
+                - generic [ref=f5e40]: SECURITY DEFINER functions were reachable over the public REST API.
+                - generic [ref=f5e41]:
+                  - generic [ref=f5e42]: "2026"
+                  - generic [ref=f5e43]: Postgres
+                  - generic [ref=f5e44]: Security

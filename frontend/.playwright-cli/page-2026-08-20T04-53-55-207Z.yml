@@ -1,0 +1,119 @@
+- generic [ref=f3e2]:
+  - banner [ref=f3e3]:
+    - link "Amartya — home" [ref=f3e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=f3e5]: AMARTYA
+    - button "Menu" [ref=f3e6] [cursor=pointer]
+  - main [ref=f3e12]:
+    - generic [ref=f3e13]:
+      - paragraph [ref=f3e14]: WHAT I USE
+      - heading "Skills" [level=1] [ref=f3e15]
+      - paragraph [ref=f3e16]: The tools I reach for daily, and the ones I keep sharp. Each one is a markdown file — click any card for the reason it earns its place.
+    - region "Used daily" [ref=f3e17]:
+      - heading "Daily drivers 7 of 10" [level=2] [ref=f3e18]:
+        - text: Daily drivers
+        - generic [ref=f3e19]: 7 of 10
+      - list [ref=f3e20]:
+        - listitem [ref=f3e21]:
+          - button "Angular Level 5 of 5 3y" [ref=f3e22] [cursor=pointer]:
+            - generic [ref=f3e23]: Angular
+            - generic "Level 5 of 5" [ref=f3e24]
+            - generic [ref=f3e30]: 3y
+        - listitem [ref=f3e31]:
+          - button "Java Level 5 of 5 4y" [ref=f3e32] [cursor=pointer]:
+            - generic [ref=f3e33]: Java
+            - generic "Level 5 of 5" [ref=f3e34]
+            - generic [ref=f3e40]: 4y
+        - listitem [ref=f3e41]:
+          - button "Spring Boot Level 5 of 5 3y" [ref=f3e42] [cursor=pointer]:
+            - generic [ref=f3e43]: Spring Boot
+            - generic "Level 5 of 5" [ref=f3e44]
+            - generic [ref=f3e50]: 3y
+        - listitem [ref=f3e51]:
+          - button "TypeScript Level 5 of 5 4y" [ref=f3e52] [cursor=pointer]:
+            - generic [ref=f3e53]: TypeScript
+            - generic "Level 5 of 5" [ref=f3e54]
+            - generic [ref=f3e60]: 4y
+        - listitem [ref=f3e61]:
+          - button "LLMs & RAG Level 4 of 5 2y" [ref=f3e62] [cursor=pointer]:
+            - generic [ref=f3e63]: LLMs & RAG
+            - generic "Level 4 of 5" [ref=f3e64]
+            - generic [ref=f3e70]: 2y
+        - listitem [ref=f3e71]:
+          - button "PostgreSQL Level 4 of 5 3y" [ref=f3e72] [cursor=pointer]:
+            - generic [ref=f3e73]: PostgreSQL
+            - generic "Level 4 of 5" [ref=f3e74]
+            - generic [ref=f3e80]: 3y
+        - listitem [ref=f3e81]:
+          - button "Python Level 4 of 5 5y" [ref=f3e82] [cursor=pointer]:
+            - generic [ref=f3e83]: Python
+            - generic "Level 4 of 5" [ref=f3e84]
+            - generic [ref=f3e90]: 5y
+    - region "Languages" [ref=f3e91]:
+      - heading "Languages" [level=2] [ref=f3e92]
+      - list [ref=f3e93]:
+        - listitem [ref=f3e94]:
+          - button "Java Level 5 of 5 4y" [ref=f3e95] [cursor=pointer]:
+            - generic [ref=f3e96]: Java
+            - generic "Level 5 of 5" [ref=f3e97]
+            - generic [ref=f3e103]: 4y
+        - listitem [ref=f3e104]:
+          - button "TypeScript Level 5 of 5 4y" [ref=f3e105] [cursor=pointer]:
+            - generic [ref=f3e106]: TypeScript
+            - generic "Level 5 of 5" [ref=f3e107]
+            - generic [ref=f3e113]: 4y
+        - listitem [ref=f3e114]:
+          - button "Python Level 4 of 5 5y" [ref=f3e115] [cursor=pointer]:
+            - generic [ref=f3e116]: Python
+            - generic "Level 4 of 5" [ref=f3e117]
+            - generic [ref=f3e123]: 5y
+    - region "Frameworks" [ref=f3e124]:
+      - heading "Frameworks" [level=2] [ref=f3e125]
+      - list [ref=f3e126]:
+        - listitem [ref=f3e127]:
+          - button "Angular Level 5 of 5 3y" [ref=f3e128] [cursor=pointer]:
+            - generic [ref=f3e129]: Angular
+            - generic "Level 5 of 5" [ref=f3e130]
+            - generic [ref=f3e136]: 3y
+        - listitem [ref=f3e137]:
+          - button "Spring Boot Level 5 of 5 3y" [ref=f3e138] [cursor=pointer]:
+            - generic [ref=f3e139]: Spring Boot
+            - generic "Level 5 of 5" [ref=f3e140]
+            - generic [ref=f3e146]: 3y
+        - listitem [ref=f3e147]:
+          - button "Three.js Level 4 of 5 2y" [ref=f3e148] [cursor=pointer]:
+            - generic [ref=f3e149]: Three.js
+            - generic "Level 4 of 5" [ref=f3e150]
+            - generic [ref=f3e156]: 2y
+    - region "Data" [ref=f3e157]:
+      - heading "Data" [level=2] [ref=f3e158]
+      - list [ref=f3e159]:
+        - listitem [ref=f3e160]:
+          - button "PostgreSQL Level 4 of 5 3y" [ref=f3e161] [cursor=pointer]:
+            - generic [ref=f3e162]: PostgreSQL
+            - generic "Level 4 of 5" [ref=f3e163]
+            - generic [ref=f3e169]: 3y
+    - region "Infrastructure" [ref=f3e170]:
+      - heading "Infrastructure" [level=2] [ref=f3e171]
+      - list [ref=f3e172]:
+        - listitem [ref=f3e173]:
+          - button "Docker Level 4 of 5 3y" [ref=f3e174] [cursor=pointer]:
+            - generic [ref=f3e175]: Docker
+            - generic "Level 4 of 5" [ref=f3e176]
+            - generic [ref=f3e182]: 3y
+    - region "AI & Agents" [ref=f3e183]:
+      - heading "AI & Agents" [level=2] [ref=f3e184]
+      - list [ref=f3e185]:
+        - listitem [ref=f3e186]:
+          - button "LLMs & RAG Level 4 of 5 2y" [ref=f3e187] [cursor=pointer]:
+            - generic [ref=f3e188]: LLMs & RAG
+            - generic "Level 4 of 5" [ref=f3e189]
+            - generic [ref=f3e195]: 2y
+    - region "Mobile" [ref=f3e196]:
+      - heading "Mobile" [level=2] [ref=f3e197]
+      - list [ref=f3e198]:
+        - listitem [ref=f3e199]:
+          - button "Flutter Level 3 of 5 2y" [ref=f3e200] [cursor=pointer]:
+            - generic [ref=f3e201]: Flutter
+            - generic "Level 3 of 5" [ref=f3e202]
+            - generic [ref=f3e208]: 2y

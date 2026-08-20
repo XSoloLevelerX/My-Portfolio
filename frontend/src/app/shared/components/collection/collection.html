@@ -29,6 +29,21 @@
               @if (open() === e.slug) {
                 <div class="body">
                   <p>{{ e.body }}</p>
+
+                  @if (embedUrl(e); as src) {
+                    <div class="embed">
+                      <iframe
+                        [src]="src"
+                        [height]="embedHeight(e)"
+                        width="504"
+                        loading="lazy"
+                        frameborder="0"
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        [title]="e.title + ' — embedded LinkedIn post'"
+                      ></iframe>
+                    </div>
+                  }
                   @if (e.link) {
                     <a [href]="e.link" target="_blank" rel="noopener noreferrer">
                       {{ e.linkLabel ?? 'Open' }} ↗

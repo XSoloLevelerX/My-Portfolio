@@ -1,0 +1,61 @@
+- generic [ref=f6e2]:
+  - banner [ref=f6e3]:
+    - link "Amartya — home" [ref=f6e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=f6e5]: AMARTYA
+    - button "Menu" [ref=f6e6] [cursor=pointer]
+  - main [ref=f6e12]:
+    - generic [ref=f6e13]:
+      - paragraph [ref=f6e14]: BEYOND THE EDITOR
+      - heading "Extracurricular" [level=1] [ref=f6e15]
+      - paragraph [ref=f6e16]: Competitions, communities and the work that is not shipped as a repo.
+    - generic [ref=f6e17]:
+      - region "COMPETITION" [ref=f6e18]:
+        - heading "COMPETITION" [level=2] [ref=f6e19]
+        - list [ref=f6e20]:
+          - listitem [ref=f6e21]:
+            - article [ref=f6e22]:
+              - button "Hackathons Featured Building something real in 36 hours, then defending it. 2026 Teams Prototyping" [ref=f6e23] [cursor=pointer]:
+                - generic [ref=f6e24]:
+                  - generic [ref=f6e25]: Hackathons
+                  - generic "Featured" [ref=f6e26]: ★
+                - generic [ref=f6e27]: Building something real in 36 hours, then defending it.
+                - generic [ref=f6e28]:
+                  - generic [ref=f6e29]: "2026"
+                  - generic [ref=f6e30]: Teams
+                  - generic [ref=f6e31]: Prototyping
+      - region "COMMUNITY" [ref=f6e32]:
+        - heading "COMMUNITY" [level=2] [ref=f6e33]
+        - list [ref=f6e34]:
+          - listitem [ref=f6e35]:
+            - article [ref=f6e36]:
+              - button "Open Source Featured Publishing the tools rather than keeping them local. 2026 GitHub Docs" [ref=f6e37] [cursor=pointer]:
+                - generic [ref=f6e38]:
+                  - generic [ref=f6e39]: Open Source
+                  - generic "Featured" [ref=f6e40]: ★
+                - generic [ref=f6e41]: Publishing the tools rather than keeping them local.
+                - generic [ref=f6e42]:
+                  - generic [ref=f6e43]: "2026"
+                  - generic [ref=f6e44]: GitHub
+                  - generic [ref=f6e45]: Docs
+          - listitem [ref=f6e46]:
+            - article [ref=f6e47]:
+              - button "College Tech Events Organising and presenting at campus technical sessions. 2026 Talks Events" [ref=f6e48] [cursor=pointer]:
+                - generic [ref=f6e49]: College Tech Events
+                - generic [ref=f6e51]: Organising and presenting at campus technical sessions.
+                - generic [ref=f6e52]:
+                  - generic [ref=f6e53]: "2026"
+                  - generic [ref=f6e54]: Talks
+                  - generic [ref=f6e55]: Events
+      - region "TEACHING" [ref=f6e56]:
+        - heading "TEACHING" [level=2] [ref=f6e57]
+        - list [ref=f6e58]:
+          - listitem [ref=f6e59]:
+            - article [ref=f6e60]:
+              - button "Mentoring Walking juniors through their first real codebase. 2026 Reviews Pairing" [ref=f6e61] [cursor=pointer]:
+                - generic [ref=f6e62]: Mentoring
+                - generic [ref=f6e64]: Walking juniors through their first real codebase.
+                - generic [ref=f6e65]:
+                  - generic [ref=f6e66]: "2026"
+                  - generic [ref=f6e67]: Reviews
+                  - generic [ref=f6e68]: Pairing

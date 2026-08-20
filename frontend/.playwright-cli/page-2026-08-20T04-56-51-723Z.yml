@@ -1,0 +1,12 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - link "Amartya — home" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e5]: AMARTYA
+    - button "Menu" [ref=e6] [cursor=pointer]
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - paragraph [ref=e14]: CATALOGUE
+      - heading "Every project" [level=1] [ref=e15]
+      - paragraph [ref=e16]: The full catalogue, browsable by domain and stack.
+    - paragraph [ref=e17]: Coming next.

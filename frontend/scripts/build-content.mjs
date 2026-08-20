@@ -78,6 +78,13 @@ function collection(section) {
       link: e.link ?? null,
       linkLabel: e.linkLabel ?? null,
       platform: e.platform ?? null,
+      // Only the URN is carried through, never the vendor's iframe markup: the
+      // player URL is rebuilt from a fixed template at render time, so nothing
+      // in a content file can inject HTML.
+      linkedin: typeof e.linkedin === 'string' && /^urn:li:[a-zA-Z]+:\d+$/.test(e.linkedin)
+        ? e.linkedin
+        : null,
+      embedHeight: e.embedHeight ?? null,
       date: e.date ?? null,
       tags: e.tags ?? [],
       featured: e.featured === true,

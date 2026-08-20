@@ -1,0 +1,5 @@
+- banner [ref=f2e1]:
+  - link "Amartya — home" [ref=f2e2] [cursor=pointer]:
+    - /url: /
+    - generic [ref=f2e3]: AMARTYA
+  - button "Menu" [ref=f2e4] [cursor=pointer]
