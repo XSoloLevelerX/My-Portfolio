@@ -23,10 +23,10 @@ $base-color: #e50914;
    are clean. The arc and the fold are ours; the letterforms are not something
    worth hand-drawing badly. */
 .stage {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(26px, 4.5vh, 58px);
 }
 
 .wordmark {
@@ -43,7 +43,7 @@ $base-color: #e50914;
   will-change: transform;
 
   font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
-  font-size: min(13.5vw, 22vh);
+  font-size: min(10.2vw, 16.5vh);
   line-height: 0.9;
   letter-spacing: 0.005em;
   color: $base-color;
@@ -106,7 +106,13 @@ $base-color: #e50914;
 .intro .wordmark { transition: transform 900ms cubic-bezier(0.33, 0.02, 0.18, 1); }
 
 .tagline {
-  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin: clamp(22px, 3.6vh, 46px) 0 0;
+  width: max-content;
+  max-width: 92vw;
+  text-align: center;
   font-family: var(--font-sans);
   font-size: clamp(11px, 1.5vw, 19px);
   font-weight: 500;
@@ -115,10 +121,10 @@ $base-color: #e50914;
   text-transform: uppercase;
   color: #f2f2f3;
   opacity: 0;
-  transform: translateY(8px);
+  transform: translate(-50%, 8px);
   transition: opacity 1000ms ease, transform 1000ms cubic-bezier(0.33, 0.02, 0.18, 1);
 
-  &.on { opacity: 1; transform: none; }
+  &.on { opacity: 1; transform: translate(-50%, 0); }
 }
 
 .intro.diving .tagline { opacity: 0; transition: opacity 500ms ease; }

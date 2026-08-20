@@ -143,6 +143,7 @@ export class Intro implements OnInit, OnDestroy {
    * this is the only remaining way to satisfy that.
    */
   @HostListener('document:pointerdown')
+  @HostListener('document:touchstart')
   @HostListener('document:keydown')
   onFirstGesture(): void {
     this.introSvc.arm();

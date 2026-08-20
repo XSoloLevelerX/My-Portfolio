@@ -9,11 +9,17 @@ const STING_SRC = '/audio/intro-sting.mp3';
  * Sound is on by default: the audio element is created and primed as soon as the
  * service is constructed, and playback is attempted without waiting for a click.
  *
- * Browsers will still refuse unmuted autoplay on a cold first visit — that is a
- * platform policy, not something code can opt out of. So there are two nets
- * under it: a pending flag that fires the sting the instant any interaction
- * happens, and a synthesised two-note hit if the file itself cannot be played.
- * The visitor never has to press anything, and there is no mute control to press.
+ * Three paths, in order of preference:
+ *
+ *  1. The element is started muted at construction, which every browser permits,
+ *     then paused at time 0. Unmuting an already-played element is not gated the
+ *     way a fresh play() is, so the sting can be heard with no interaction.
+ *  2. If that is refused, the first pointer, key or touch event plays it.
+ *  3. If the file cannot play at all, a synthesised two-note hit covers it.
+ *
+ * What no code can do is force unmuted audio on a cold visit in Chrome: play()
+ * rejects with NotAllowedError and that is deliberate platform policy. Path 2
+ * makes that gap as small as one click.
  */
 @Injectable({ providedIn: 'root' })
 export class IntroService {
@@ -24,7 +30,7 @@ export class IntroService {
 
   private ctx?: AudioContext;
   private sting?: HTMLAudioElement;
-  /** Set when autoplay was refused, so the next gesture plays it immediately. */
+  /** Set when playback was refused, so the next gesture plays it immediately. */
   private pending = false;
 
   constructor() {
@@ -48,14 +54,34 @@ export class IntroService {
     this.shouldPlay.set(false);
   }
 
-  /** Build the audio element up front so playback needs no further setup. */
+  /**
+   * Start the element playing *muted* immediately.
+   *
+   * Chrome refuses unmuted autoplay outright (NotAllowedError), but muted
+   * autoplay is always permitted, and the autoplay policy gates play() rather
+   * than the muted property. So the element is already running by the time the
+   * sting is due, and unmuting it then produces sound without a gesture.
+   *
+   * It is held at time 0 and paused once primed, so nothing is heard early.
+   */
   private prime(): void {
     if (typeof window === 'undefined') return;
     try {
-      this.sting = new Audio(STING_SRC);
-      this.sting.preload = 'auto';
-      this.sting.volume = 0.9;
-      this.sting.load();
+      const el = new Audio(STING_SRC);
+      el.preload = 'auto';
+      el.volume = 0.9;
+      el.muted = true;
+      this.sting = el;
+      el.load();
+
+      el.play()
+        .then(() => {
+          el.pause();
+          el.currentTime = 0;
+        })
+        .catch(() => {
+          /* even muted playback refused — the gesture path still covers it */
+        });
     } catch {
       /* audio unavailable — the animation still runs silently */
     }
@@ -71,22 +97,28 @@ export class IntroService {
     this.playSting();
   }
 
-  /** The sting. Attempts playback outright rather than waiting to be unlocked. */
+  /** The sting. Plays outright rather than waiting to be unlocked. */
   playSting(): void {
-    if (this.sting) {
-      this.sting.currentTime = 0;
-      this.sting
-        .play()
-        .then(() => this.soundArmed.set(true))
-        .catch(() => {
-          // Autoplay refused. Try the synthesised hit, and queue the file for
-          // the first gesture in case that is refused too.
-          this.pending = true;
-          this.playSynthesised();
-        });
+    const el = this.sting;
+    if (!el) {
+      this.playSynthesised();
       return;
     }
-    this.playSynthesised();
+
+    el.currentTime = 0;
+    // Unmuting an element that has already played is not gated by the autoplay
+    // policy the way a fresh play() is, so this is what makes it audible with
+    // no interaction at all.
+    el.muted = false;
+
+    el.play()
+      .then(() => this.soundArmed.set(true))
+      .catch(() => {
+        // Refused anyway. Queue it for the first gesture and cover the gap with
+        // the synthesised hit.
+        this.pending = true;
+        this.playSynthesised();
+      });
   }
 
   /** Two notes and a bell, generated in-browser. The fallback path. */
