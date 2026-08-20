@@ -25,18 +25,39 @@ const DIVE_INDEX = 3;
  * Paced to be read, not rushed. Each beat is given time to settle before the
  * next begins, and the CSS durations are long enough that nothing snaps.
  */
+/** Letters, and the cascade that brings them in. Mirrored exactly in the CSS. */
+const LETTER_TRANSITION = 1250;
+const LETTER_STAGGER = 115;
+
+/**
+ * Measured from the file, not guessed: intro-sting.mp3 is silent for its first
+ * 300ms, peaks at 0.30s (amplitude 0.625), and decays to nothing by 2.84s.
+ * Playback therefore has to begin 300ms *before* the moment the hit should land.
+ */
+const STING_LEAD_IN = 300;
+
 /**
  * Paced to be read, not rushed. The unfurl runs 1250ms per letter on a 115ms
  * cascade, so the last letter lands ~1950ms after it starts; every beat after
  * that waits for it.
  */
+const GROW_AT = 1400;
+
+/** The instant the name is fully formed — the last letter's transition ending. */
+const WORDMARK_COMPLETE = GROW_AT + LETTER_STAGGER * 6 + LETTER_TRANSITION;
+
 const T = {
   /** The lone A rides forward at centre. */
   open: 200,
   /** The rest of the name follows it out of the depth. */
-  grow: 1400,
+  grow: GROW_AT,
   tagline: 3450,
-  sting: 3600,
+  /**
+   * Started early by exactly the file's lead-in, so the hit lands on the frame
+   * the wordmark completes rather than drifting somewhere after it. Its 2.5s
+   * decay then carries through the hold and into the dive.
+   */
+  sting: WORDMARK_COMPLETE - STING_LEAD_IN,
   /** A real hold on the finished wordmark before the camera moves. */
   dive: 4800,
   end: 6700,

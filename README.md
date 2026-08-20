@@ -56,23 +56,62 @@ Only projects with a working `liveUrl` get a **Play** button — there are never
 
 ## The intro
 
-A five-phase title sequence: bars sweep down, converge into an **A**, the crossbar wipes
-(the sting lands here), the roles unfold, and the mark **docks into the navbar logo** — so the
-logo you keep seeing is the object you watched assemble.
+Four beats: the **A** rides forward at centre, the rest of AMARTYA unfurls out of the
+depth and pushes the A leftward, the wordmark holds, then the camera dives into the R's
+stem through a wall of colour bars and lands on the profile picker.
 
-- Plays silently; sound arms on first interaction (browsers block autoplay audio).
-- The sting is synthesised with WebAudio — no audio file, no licensing exposure.
-- Once per session (`sessionStorage`), skippable, and `prefers-reduced-motion` gets a static card.
+**Audio sync.** `intro-sting.mp3` is silent for its first 300ms and peaks at 0.30s, so
+playback starts 300ms *before* the beat it should land on. The anchor is the moment the
+wordmark completes — `GROW_AT + LETTER_STAGGER * 6 + LETTER_TRANSITION`, derived from the
+same constants the CSS uses rather than hard-coded, so retiming the cascade cannot desync
+it. Measured drift: **9ms**. The 2.5s decay then carries through the hold and into the dive.
+
+- Sound is on by default. Chrome refuses unmuted autoplay on a cold visit
+  (`NotAllowedError`), so the element is primed muted and unmuted at the beat; if that is
+  refused, the first interaction plays it, and a synthesised hit covers a missing file.
+- A queued sting **expires** when the intro ends — one landing on the profile picker is
+  worse than none.
+- Once per session (`sessionStorage`), skippable, and `prefers-reduced-motion` gets a
+  static card with no dive and no bars.
+
+## Before the site
+
+Nothing routes, renders or fetches until a profile is picked: the router's initial
+navigation is disabled and the shell is gated. Deep links bypass both screens, because a
+shared link to `/skills` should open `/skills`.
 
 ## Status
 
 - [x] Phase 1 — intro, navbar, billboard, static catalogue
 - [x] Phase 2a — Supabase schema, RLS, trending function, 18 projects seeded
 - [x] Phase 2b — Spring Boot API
-- [x] Phase 3 — Netflix intro (letter A), shelves, hover cards, detail modal, event tracking
-- [ ] Phase 3 — shelves, hover preview, detail modal, engagement tracking
-- [ ] Phase 4 — skills, certifications, blog, about, contact
-- [ ] Phase 5 — deploy
+- [x] Phase 3 — intro, shelves, hover cards, detail modal, event tracking
+- [x] Phase 4 — routing, loading screen, profile picker, skills, blog, extracurricular, hobbies
+- [ ] Phase 5 — certifications, about and contact content; backend wired to the deployed API
+
+## Content
+
+Markdown in `frontend/src/content/`, compiled to JSON by `scripts/build-content.mjs`
+before every build — so adding an entry is adding a file, and no markdown parser ships to
+the browser.
+
+`skills/` · `extracurricular/` · `hobbies/` · `blog/`
+
+LinkedIn posts carry **only the URN**, never the embed HTML:
+
+```md
+---
+title: Six months at Reliance Industries
+platform: LINKEDIN
+linkedin: urn:li:ugcPost:7489990373394796544
+embedHeight: 1699
+link: https://lnkd.in/p/gkk27KKC
+---
+```
+
+The iframe is rebuilt at render time against a hard-coded origin, and the URN is
+shape-checked at build time and again before the sanitizer bypass. Storing a vendor's
+`<iframe>` string would make every future content file an injection vector.
 
 ## Database
 
@@ -140,11 +179,11 @@ freshly woken instance is not serving stale ordering.
 
 ## Deployment
 
-Vercel project **amartya-portfolio** is linked to this repo, so **every push to `main`
+Vercel project **amartya-panigrahi** is linked to this repo, so **every push to `main`
 deploys automatically**. `vercel.json` at the repo root builds `frontend/` and rewrites
 to `index.html` for client routing.
 
-Latest: https://amartya-portfolio-git-main-xsololevelerxs-projects.vercel.app
+Latest: https://amartya-panigrahi-git-main-xsololevelerxs-projects.vercel.app
 
 ## TODO
 
