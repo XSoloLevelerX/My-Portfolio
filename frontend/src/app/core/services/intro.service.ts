@@ -4,24 +4,32 @@ const SEEN_KEY = 'amartya_intro_seen';
 const STING_SRC = '/audio/intro-sting.mp3';
 
 /**
- * Owns intro playback state and the signature sound.
+ * Owns intro playback state and the sting.
  *
- * The sound is synthesised in-browser with WebAudio — two notes and a bell, about
- * 1.2s. No audio file is shipped, which means zero bytes on the wire and no
- * licensing exposure from imitating a well-known sting.
+ * Sound is on by default: the audio element is created and primed as soon as the
+ * service is constructed, and playback is attempted without waiting for a click.
  *
- * Browsers block audio until a user gesture, so the animation always plays silently
- * and the sound only fires once `arm()` has been called from a real interaction.
+ * Browsers will still refuse unmuted autoplay on a cold first visit — that is a
+ * platform policy, not something code can opt out of. So there are two nets
+ * under it: a pending flag that fires the sting the instant any interaction
+ * happens, and a synthesised two-note hit if the file itself cannot be played.
+ * The visitor never has to press anything, and there is no mute control to press.
  */
 @Injectable({ providedIn: 'root' })
 export class IntroService {
   /** Whether the intro should run at all this session. */
   readonly shouldPlay = signal(!this.alreadySeen());
-  /** Whether audio has been unlocked by a user gesture. */
+  /** True once audio has actually produced sound. */
   readonly soundArmed = signal(false);
 
   private ctx?: AudioContext;
   private sting?: HTMLAudioElement;
+  /** Set when autoplay was refused, so the next gesture plays it immediately. */
+  private pending = false;
+
+  constructor() {
+    this.prime();
+  }
 
   private alreadySeen(): boolean {
     try {
@@ -40,37 +48,42 @@ export class IntroService {
     this.shouldPlay.set(false);
   }
 
-  /** Unlock audio. Must be called from a user gesture handler. */
-  arm(): void {
-    if (this.soundArmed()) return;
+  /** Build the audio element up front so playback needs no further setup. */
+  private prime(): void {
+    if (typeof window === 'undefined') return;
     try {
       this.sting = new Audio(STING_SRC);
       this.sting.preload = 'auto';
-      this.sting.volume = 0.85;
+      this.sting.volume = 0.9;
       this.sting.load();
-
-      // Kept as the fallback: if the file cannot be fetched or decoded, the
-      // synthesised hit below still fires rather than the intro going silent.
-      const Ctor = window.AudioContext ?? (window as any).webkitAudioContext;
-      if (Ctor) {
-        this.ctx = new Ctor();
-        void this.ctx.resume();
-      }
-      this.soundArmed.set(true);
     } catch {
-      /* audio unavailable — animation still runs silently */
+      /* audio unavailable — the animation still runs silently */
     }
   }
 
-  /** The sting. No-op unless armed. */
-  playSting(): void {
-    if (!this.soundArmed()) return;
+  /**
+   * Called on any interaction. Only does work if autoplay was refused earlier,
+   * in which case the sting fires now.
+   */
+  arm(): void {
+    if (!this.pending) return;
+    this.pending = false;
+    this.playSting();
+  }
 
+  /** The sting. Attempts playback outright rather than waiting to be unlocked. */
+  playSting(): void {
     if (this.sting) {
       this.sting.currentTime = 0;
-      // Autoplay policies can still refuse even after a gesture; fall through
-      // to the synthesised hit rather than failing silently.
-      this.sting.play().catch(() => this.playSynthesised());
+      this.sting
+        .play()
+        .then(() => this.soundArmed.set(true))
+        .catch(() => {
+          // Autoplay refused. Try the synthesised hit, and queue the file for
+          // the first gesture in case that is refused too.
+          this.pending = true;
+          this.playSynthesised();
+        });
       return;
     }
     this.playSynthesised();
@@ -78,23 +91,33 @@ export class IntroService {
 
   /** Two notes and a bell, generated in-browser. The fallback path. */
   private playSynthesised(): void {
-    const ctx = this.ctx;
-    if (!ctx) return;
+    try {
+      if (!this.ctx) {
+        const Ctor = window.AudioContext ?? (window as unknown as {
+          webkitAudioContext?: typeof AudioContext;
+        }).webkitAudioContext;
+        if (!Ctor) return;
+        this.ctx = new Ctor();
+      }
+      const ctx = this.ctx;
+      void ctx.resume();
+      if (ctx.state !== 'running') return;
 
-    const now = ctx.currentTime;
-    const master = ctx.createGain();
-    master.gain.value = 0.5;
-    master.connect(ctx.destination);
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.value = 0.5;
+      master.connect(ctx.destination);
 
-    // "TA" — short, punchy
-    this.note(ctx, master, { freq: 146.83, at: now, dur: 0.2, peak: 0.9, type: 'triangle' });
-    // "DUM" — low and sustained, with an octave above for body
-    this.note(ctx, master, { freq: 73.42, at: now + 0.22, dur: 1.05, peak: 1.0, type: 'sine' });
-    this.note(ctx, master, { freq: 146.83, at: now + 0.22, dur: 0.85, peak: 0.35, type: 'sine' });
-    // Amber shimmer on the crossbar
-    this.note(ctx, master, { freq: 880, at: now + 0.24, dur: 0.5, peak: 0.08, type: 'sine' });
+      this.note(ctx, master, { freq: 146.83, at: now, dur: 0.2, peak: 0.9, type: 'triangle' });
+      this.note(ctx, master, { freq: 73.42, at: now + 0.22, dur: 1.05, peak: 1.0, type: 'sine' });
+      this.note(ctx, master, { freq: 146.83, at: now + 0.22, dur: 0.85, peak: 0.35, type: 'sine' });
+      this.note(ctx, master, { freq: 880, at: now + 0.24, dur: 0.5, peak: 0.08, type: 'sine' });
 
-    window.setTimeout(() => master.disconnect(), 1600);
+      this.soundArmed.set(true);
+      window.setTimeout(() => master.disconnect(), 1600);
+    } catch {
+      /* nothing further to fall back to */
+    }
   }
 
   private note(
@@ -107,7 +130,7 @@ export class IntroService {
     osc.type = o.type;
     osc.frequency.setValueAtTime(o.freq, o.at);
 
-    // Fast attack, exponential decay — reads as a struck instrument rather than a beep.
+    // Fast attack, exponential decay — reads as a struck instrument, not a beep.
     gain.gain.setValueAtTime(0.0001, o.at);
     gain.gain.exponentialRampToValueAtTime(o.peak, o.at + 0.012);
     gain.gain.exponentialRampToValueAtTime(0.0001, o.at + o.dur);
