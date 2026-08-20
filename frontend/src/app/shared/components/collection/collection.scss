@@ -86,24 +86,24 @@
    Netflix Jobs' editorial rhythm: a column of copy beside the media, the sides
    swapping row to row, over a deep red glow that bleeds from behind the frame. */
 .feed {
-  margin-top: clamp(48px, 8vh, 96px);
+  margin-top: clamp(40px, 6vh, 72px);
   display: flex;
   flex-direction: column;
-  gap: clamp(64px, 11vh, 132px);
+  gap: clamp(48px, 7vh, 88px);
 }
 
 .feature {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
-  align-items: center;
-  gap: clamp(32px, 5vw, 80px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 840px);
+  align-items: start;
+  gap: clamp(28px, 4vw, 64px);
 }
 
 /* Alternate the sides. Ordering rather than direction, so the copy stays first
    in the DOM and therefore first for a screen reader on every row. */
 .feature.flip {
-  grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 840px) minmax(0, 1fr);
 
   .feature-copy  { order: 2; }
   .feature-media { order: 1; }
@@ -155,7 +155,7 @@
 
 .feature-body {
   margin: 22px 0 0;
-  max-width: 46ch;
+  max-width: 52ch;
   font-size: clamp(14.5px, 1.3vw, 17px);
   line-height: 1.62;
   color: #cfc7c1;
@@ -197,35 +197,48 @@
   &:hover { background: #f6121d; transform: translateY(-1px); }
 }
 
-.feature-media { min-width: 0; }
+.feature-media {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
 
-/* A window onto the post. The iframe keeps its full height inside; clipping the
-   overflow shows the top of the post at a sane proportion, and the CTA carries
-   the reader to the rest rather than the page carrying 1700px of it. */
+/* The actual photo from the post, ahead of the embed — the embed proves the
+   post is real and current, but the photo is what makes the row worth
+   scrolling to. */
+.poster {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.55);
+}
+
+/* Pinned beside the post: the row is now as tall as the post itself, so static
+   copy would scroll away and leave the reader with an unlabelled embed. */
+.feature-copy {
+  position: sticky;
+  top: calc(var(--nav-h) + 48px);
+}
+
+/* The post at its natural height, unclipped.
+   A fixed-height window looks tidier, but a LinkedIn post puts its photos
+   *below* the text — so every window short enough to look tidy is guaranteed to
+   cut exactly the part worth showing. The height comes from the content file, so
+   each post is only as tall as it needs to be. */
 .frame {
   position: relative;
-  height: clamp(380px, 52vh, 560px);
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   background: #fff;
   box-shadow: 0 24px 60px rgb(0 0 0 / 0.55);
 
   iframe {
-    width: 504px;
-    max-width: 100%;
+    width: 100%;
     border: 0;
     display: block;
-    margin: 0 auto;
-  }
-
-  /* The clip is deliberate, so it is finished with a fade rather than a cut. */
-  &::after {
-    content: '';
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 96px;
-    pointer-events: none;
-    background: linear-gradient(180deg, transparent, rgb(255 255 255 / 0.92));
   }
 }
 
@@ -240,7 +253,8 @@
   .feature.flip .feature-copy  { order: 1; }
   .feature.flip .feature-media { order: 2; }
 
-  .frame { height: clamp(340px, 58vh, 460px); }
+  /* Nothing to pin against once the row is a single column. */
+  .feature-copy { position: static; }
 }
 
 .body {

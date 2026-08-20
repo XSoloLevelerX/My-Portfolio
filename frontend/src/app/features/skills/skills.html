@@ -1,77 +1,87 @@
 <app-page
   eyebrow="WHAT I USE"
   heading="Skills"
-  lede="The tools I reach for daily, and the ones I keep sharp. Each one is a markdown file — click any card for the reason it earns its place."
+  lede="Every tool here is a markdown file I wrote myself — what it is, and the reason I keep reaching for it. The ring is the shape of the stack; the notes underneath are the recommendation."
 >
-  <section class="shelf" aria-label="Used daily">
-    <h2 class="shelf-title">
-      Daily drivers
-      <span class="count">{{ daily().length }} of {{ total }}</span>
-    </h2>
-    <ul class="grid">
-      @for (s of daily(); track s.slug) {
+  <!-- The chart. A readout of the stack's shape, not decoration: every arc is a
+       control that narrows the notes below it. -->
+  <section class="chart-panel" aria-label="Stack composition">
+    <div class="dial">
+      <svg viewBox="0 0 140 140" role="img" [attr.aria-label]="total + ' skills across ' + slices().length + ' categories'">
+        <!-- The track, so the ring reads as a whole even where a slice is thin. -->
+        <circle class="track" cx="70" cy="70" [attr.r]="radius" />
+        @for (s of slices(); track s.key) {
+          <circle
+            class="seg"
+            [class.dim]="filter() && filter() !== s.key"
+            cx="70"
+            cy="70"
+            [attr.r]="radius"
+            [attr.stroke]="'hsl(' + s.hue + ' 78% 58%)'"
+            [attr.stroke-dasharray]="s.dash"
+            [attr.stroke-dashoffset]="s.offset"
+          />
+        }
+      </svg>
+
+      <div class="readout" aria-hidden="true">
+        <span class="figure">{{ recommended().length }}</span>
+        <span class="rule"></span>
+        <span class="of">{{ total }}</span>
+      </div>
+    </div>
+
+    <ul class="legend">
+      @for (s of slices(); track s.key) {
         <li>
           <button
-            class="skill daily"
             type="button"
-            [class.open]="open()?.slug === s.slug"
-            [attr.aria-expanded]="open()?.slug === s.slug"
-            (click)="toggle(s)"
+            class="key"
+            [class.active]="filter() === s.key"
+            [class.dim]="filter() && filter() !== s.key"
+            [attr.aria-pressed]="filter() === s.key"
+            (click)="select(s.key)"
           >
-            <span class="name">{{ s.name }}</span>
-            <span class="level" [attr.aria-label]="'Level ' + s.level + ' of 5'">
-              @for (d of dots; track d) {
-                <span class="dot" [class.filled]="d <= s.level" aria-hidden="true"></span>
-              }
-            </span>
-            @if (s.years) { <span class="years">{{ s.years }}y</span> }
+            <span class="swatch" [style.background]="'hsl(' + s.hue + ' 78% 58%)'"></span>
+            <span class="label">{{ s.label }}</span>
+            <span class="tally">{{ s.count }}<span class="slash">/</span>{{ total }}</span>
           </button>
         </li>
       }
     </ul>
   </section>
 
-  @for (g of groups(); track g.key) {
-    <section class="shelf" [attr.aria-label]="g.label">
-      <h2 class="shelf-title">{{ g.label }}</h2>
-      <ul class="grid">
-        @for (s of g.items; track s.slug) {
-          <li>
-            <button
-              class="skill"
-              type="button"
-              [class.open]="open()?.slug === s.slug"
-              [attr.aria-expanded]="open()?.slug === s.slug"
-              (click)="toggle(s)"
-            >
-              <span class="name">{{ s.name }}</span>
-              <span class="level" [attr.aria-label]="'Level ' + s.level + ' of 5'">
-                @for (d of dots; track d) {
-                  <span class="dot" [class.filled]="d <= s.level" aria-hidden="true"></span>
-                }
-              </span>
-              @if (s.years) { <span class="years">{{ s.years }}y</span> }
-            </button>
-          </li>
-        }
-      </ul>
-    </section>
-  }
-
-  <!-- The note lives in a single panel rather than expanding a card in place,
-       so opening one never reflows the grid. -->
-  @if (open(); as s) {
-    <aside class="note" role="region" [attr.aria-label]="s.name + ' notes'">
-      <header>
-        <h3>{{ s.name }}</h3>
-        <button class="close" type="button" (click)="toggle(s)" aria-label="Close">×</button>
-      </header>
-      <p>{{ s.note }}</p>
-      @if (s.tags.length) {
-        <ul class="tags">
-          @for (t of s.tags; track t) { <li>{{ t }}</li> }
-        </ul>
+  <!-- The notes. This is the actual share: the contents of every skills.md. -->
+  <section class="notes" aria-label="Skill notes">
+    <header class="notes-head">
+      <h2>
+        {{ activeLabel() }}
+        <span class="count">{{ recommended().length }} {{ recommended().length === 1 ? 'entry' : 'entries' }}</span>
+      </h2>
+      @if (filter()) {
+        <button class="clear" type="button" (click)="clear()">Show everything</button>
       }
-    </aside>
-  }
+    </header>
+
+    <ul class="note-list">
+      @for (s of recommended(); track s.slug) {
+        <li class="note" [style.--hue]="hue(s.category)">
+          <div class="note-head">
+            <h3>{{ s.name }}</h3>
+            @if (s.daily) { <span class="daily">Daily driver</span> }
+            <span class="spacer"></span>
+            @if (s.years) { <span class="years">{{ s.years }} yr{{ s.years === 1 ? '' : 's' }}</span> }
+          </div>
+
+          <p class="body">{{ s.note }}</p>
+
+          @if (s.tags.length) {
+            <ul class="tags">
+              @for (t of s.tags; track t) { <li>{{ t }}</li> }
+            </ul>
+          }
+        </li>
+      }
+    </ul>
+  </section>
 </app-page>

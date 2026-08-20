@@ -6,6 +6,7 @@ platform: LINKEDIN
 featured: true
 date: 2026-08-10
 linkedin: urn:li:ugcPost:7489990373394796544
+image: /blog/reliance-internship.jpg
 embedHeight: 1699
 link: https://lnkd.in/p/gkk27KKC
 linkLabel: View on LinkedIn

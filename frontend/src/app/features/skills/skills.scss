@@ -1,15 +1,157 @@
 @use '../../../styles/tokens' as *;
 
-.shelf { margin-top: clamp(38px, 6vh, 64px); }
+/* ── The chart ─────────────────────────────────────────────────────────────
+   One elevated panel holding the ring and its legend, so the summary reads as
+   a single instrument rather than two loose widgets on the page. */
+.chart-panel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 64px);
+  max-width: 880px;
+  margin-top: clamp(30px, 5vh, 52px);
+  padding: clamp(24px, 3.4vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 140% at 12% 8%, rgb(255 255 255 / 0.045), transparent 58%),
+    var(--surface);
+}
 
-.shelf-title {
+.dial {
+  position: relative;
+  width: clamp(180px, 20vw, 236px);
+  aspect-ratio: 1;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    /* Start the first arc at twelve o'clock instead of three. */
+    transform: rotate(-90deg);
+    overflow: visible;
+  }
+}
+
+.track {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.07);
+  stroke-width: 11;
+}
+
+.seg {
+  fill: none;
+  stroke-width: 11;
+  stroke-linecap: round;
+  transition: opacity var(--t-mid) var(--ease), stroke-width var(--t-mid) var(--ease);
+
+  /* Filtering fades the rest rather than removing it, so the ring keeps its
+     shape and the selected arc is read in context. */
+  &.dim { opacity: 0.2; }
+}
+
+/* Centred readout, mirroring the reference: the live figure over the total. */
+.readout {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.figure {
+  font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
+  font-size: clamp(34px, 4vw, 46px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.rule {
+  width: 34px;
+  height: 1px;
+  background: rgb(255 255 255 / 0.22);
+}
+
+.of {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.key {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  text-align: left;
+  transition: background var(--t-fast) var(--ease), opacity var(--t-fast) var(--ease);
+  @include focus-ring;
+
+  &:hover { background: rgb(255 255 255 / 0.05); }
+  &.active { background: rgb(255 255 255 / 0.08); }
+  &.dim { opacity: 0.42; }
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--text-muted);
+
+  .key.active & { color: var(--text); }
+}
+
+.tally {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.slash { opacity: 0.5; padding: 0 1px; }
+
+/* ── The notes ─────────────────────────────────────────────────────────────
+   The markdown, shown outright. These are the recommendation, so nothing is
+   hidden behind a click. */
+.notes { margin-top: clamp(38px, 6vh, 64px); }
+
+.notes-head {
   display: flex;
   align-items: baseline;
-  gap: 12px;
-  margin: 0 0 16px;
-  font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
-  font-size: clamp(19px, 2.4vw, 27px);
-  letter-spacing: 0.03em;
+  gap: 16px;
+  margin-bottom: 18px;
+
+  h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0;
+    font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
+    font-size: clamp(20px, 2.4vw, 28px);
+    letter-spacing: 0.03em;
+  }
 }
 
 .count {
@@ -19,122 +161,80 @@
   color: var(--text-dim);
 }
 
-.grid {
+.clear {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+  @include focus-ring;
+
+  &:hover { text-decoration: underline; }
+}
+
+.note-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+  gap: 14px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.skill {
-  width: 100%;
-  display: grid;
-  grid-template-areas: 'name years' 'level level';
-  grid-template-columns: 1fr auto;
-  gap: 10px 8px;
-  padding: 14px 15px;
-  text-align: left;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--surface);
-  transition: transform var(--t-fast) var(--ease),
-              border-color var(--t-fast) var(--ease),
-              background var(--t-fast) var(--ease);
-  @include focus-ring;
-
-  &:hover {
-    transform: translateY(-2px);
-    border-color: var(--text-dim);
-    background: var(--surface-hover);
-  }
-
-  /* The daily set carries the accent, so the page answers "what do you actually
-     use" before anything is clicked. */
-  &.daily { border-left: 3px solid var(--primary); }
-
-  &.open {
-    border-color: var(--primary);
-    background: var(--surface-hover);
-  }
-}
-
-.name {
-  grid-area: name;
-  font-size: 14.5px;
-  font-weight: 600;
-}
-
-.years {
-  grid-area: years;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  color: var(--text-dim);
-}
-
-.level {
-  grid-area: level;
-  display: flex;
-  gap: 4px;
-}
-
-.dot {
-  width: 100%;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--line);
-
-  &.filled { background: var(--primary); }
-}
-
-/* One panel for the note, so opening a card never reflows the grid. */
 .note {
-  position: sticky;
-  bottom: 20px;
-  margin-top: 40px;
-  padding: 20px 22px;
-  border: 1px solid var(--primary);
-  border-radius: 6px;
-  background: var(--bg-elevated);
-  box-shadow: 0 18px 44px rgb(0 0 0 / 0.6);
-  max-width: 70ch;
+  padding: 18px 20px 20px;
+  border: 1px solid var(--line);
+  /* The category hue carries over from the ring, so a card is traceable back to
+     its arc without a second legend. */
+  border-left: 3px solid hsl(var(--hue) 78% 58%);
+  border-radius: 8px;
+  background: var(--surface);
+  transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
 
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
+  &:hover { background: var(--surface-hover); }
+}
+
+.note-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
   h3 {
     margin: 0;
-    font-family: 'Anton', 'Arial Narrow', system-ui, sans-serif;
-    font-size: 22px;
-    letter-spacing: 0.02em;
-  }
-
-  p {
-    margin: 10px 0 0;
-    font-size: 14.5px;
-    line-height: 1.68;
-    color: var(--text-muted);
-    text-wrap: pretty;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
 }
 
-.close {
-  width: 30px;
-  height: 30px;
-  flex: none;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  color: var(--text-muted);
-  font-size: 18px;
-  line-height: 1;
-  @include focus-ring;
+.spacer { flex: 1; }
 
-  &:hover { color: var(--text); border-color: var(--primary); }
+.daily {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgb(229 9 20 / 0.16);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #ff6b73;
+  white-space: nowrap;
+}
+
+.years {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.body {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.68;
+  color: var(--text-muted);
+  text-wrap: pretty;
 }
 
 .tags {
@@ -151,6 +251,17 @@
     border-radius: 999px;
     font-family: var(--font-mono);
     font-size: 10.5px;
-    color: var(--text-muted);
+    color: var(--text-dim);
   }
+}
+
+@media (max-width: 720px) {
+  .chart-panel {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 24px;
+  }
+
+  .legend { width: 100%; grid-template-columns: 1fr; }
+  .notes-head { flex-wrap: wrap; }
 }
