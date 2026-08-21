@@ -78,7 +78,6 @@ function collection(section) {
       link: e.link ?? null,
       linkLabel: e.linkLabel ?? null,
       platform: e.platform ?? null,
-      image: e.image ?? null,
       // Only the URN is carried through, never the vendor's iframe markup: the
       // player URL is rebuilt from a fixed template at render time, so nothing
       // in a content file can inject HTML.

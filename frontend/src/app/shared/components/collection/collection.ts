@@ -11,7 +11,6 @@ export interface Entry {
   link: string | null;
   linkLabel: string | null;
   platform: string | null;
-  image: string | null;
   /** A LinkedIn post URN, already validated at build time. Never markup. */
   linkedin: string | null;
   embedHeight: number | null;
@@ -94,10 +93,5 @@ export class Collection {
 
   year(date: string | null): string {
     return date ? date.slice(0, 4) : '';
-  }
-
-  /** Drops a poster image quietly if the file behind it hasn't landed yet. */
-  hideImage(event: Event): void {
-    (event.target as HTMLElement).style.display = 'none';
   }
 }

@@ -7,7 +7,7 @@ import content from '../../data/content.json';
   selector: 'app-blog',
   imports: [Page, Collection],
   template: `
-    <app-page eyebrow="WRITING" heading="Blog" lede="Posts, findings, and things worth writing down. LinkedIn and other external posts appear here too — add a link field to any entry.">
+    <app-page eyebrow="WRITING" heading="Blog" lede="Posts, findings, and things worth writing down.">
       <app-collection [entries]="entries" emptyNote="No posts yet." />
     </app-page>
   `,

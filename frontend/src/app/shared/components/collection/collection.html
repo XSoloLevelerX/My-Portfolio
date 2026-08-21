@@ -72,15 +72,6 @@
 
         @if (embedUrl(e); as src) {
           <div class="feature-media">
-            @if (e.image) {
-              <img
-                class="poster"
-                [src]="e.image"
-                [alt]="e.title"
-                loading="lazy"
-                (error)="hideImage($event)"
-              />
-            }
             <div class="frame">
               <iframe
                 [src]="src"
