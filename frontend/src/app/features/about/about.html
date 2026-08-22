@@ -1,0 +1,78 @@
+<app-page
+  eyebrow="WHO"
+  heading="About"
+  lede="The short version, and the longer one."
+>
+  <section class="intro">
+    <img
+      class="photo"
+      src="/about/headshot.jpg"
+      alt="Amartya Panigrahi"
+      loading="lazy"
+      (error)="hidePhoto($event)"
+    />
+
+    <div class="copy">
+      <p>
+        Final-year student at Punjab Engineering College, most recently a
+        six-month SDE intern at Reliance Industries (Petchem IT), where work
+        spanned web, mobile and backend across four different projects.
+      </p>
+      <p class="placeholder">
+        [[ ADD: what you're building toward — the kind of role or problem
+        you're chasing next, and what draws you to it. ]]
+      </p>
+      <p class="placeholder">
+        [[ ADD: a personal line or two — how you got into this, what keeps
+        you doing it. ]]
+      </p>
+    </div>
+  </section>
+
+  <section class="facts" aria-label="Quick facts">
+    <dl class="fact-list">
+      <div class="fact">
+        <dt>Based in</dt>
+        <dd class="placeholder">[[ ADD: city, country ]]</dd>
+      </div>
+      <div class="fact">
+        <dt>Studying</dt>
+        <dd class="placeholder">[[ ADD: degree/major ]] · Punjab Engineering College, final year</dd>
+      </div>
+      <div class="fact">
+        <dt>Most recently</dt>
+        <dd>SDE Intern, Reliance Industries (Petchem IT)</dd>
+      </div>
+      <div class="fact">
+        <dt>Open to</dt>
+        <dd class="placeholder">[[ ADD: full-time roles / freelance / internships — whichever applies ]]</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="shelf" aria-label="Beyond the code">
+    <h2 class="shelf-title">Beyond the code</h2>
+    <ul class="grid">
+      @for (item of beyondCode; track item.title) {
+        <li class="card">
+          <span class="card-title">{{ item.title }}</span>
+          <span class="card-blurb">{{ item.blurb }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="shelf" aria-label="Off the clock">
+    <h2 class="shelf-title">Off the clock</h2>
+    <ul class="grid">
+      @for (item of offTheClock; track item.title) {
+        <li class="card">
+          <span class="card-title">{{ item.title }}</span>
+          <span class="card-blurb">{{ item.blurb }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <a class="cta" routerLink="/contact">Get in touch ↗</a>
+</app-page>

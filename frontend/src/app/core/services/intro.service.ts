@@ -11,9 +11,13 @@ const STING_SRC = '/audio/intro-sting.mp3';
  *
  * Three paths, in order of preference:
  *
- *  1. The element is started muted at construction, which every browser permits,
- *     then paused at time 0. Unmuting an already-played element is not gated the
- *     way a fresh play() is, so the sting can be heard with no interaction.
+ *  1. The element is started muted and looping at construction, which every
+ *     browser permits, and is left *playing* rather than paused. Unmuting an
+ *     element that is still playing is not gated the way a fresh play() is,
+ *     so the sting can be heard with no interaction — but only as long as it
+ *     is never paused in between, which is what made the previous version of
+ *     this silent: it primed muted, then paused, so the later unmute needed a
+ *     fresh play() and got refused.
  *  2. If that is refused, the first pointer, key or touch event plays it.
  *  3. If the file cannot play at all, a synthesised two-note hit covers it.
  *
@@ -32,12 +36,6 @@ export class IntroService {
   private sting?: HTMLAudioElement;
   /** Set when playback was refused, so the next gesture plays it immediately. */
   private pending = false;
-  /**
-   * True once the sting has actually been asked for. The muted prime resolves
-   * asynchronously and then pauses the element; without this guard that pause
-   * can land *after* real playback has started and silence it.
-   */
-  private requested = false;
 
   constructor() {
     this.prime();
@@ -61,35 +59,29 @@ export class IntroService {
   }
 
   /**
-   * Start the element playing *muted* immediately.
+   * Start the element playing *muted* immediately, and leave it playing.
    *
    * Chrome refuses unmuted autoplay outright (NotAllowedError), but muted
    * autoplay is always permitted, and the autoplay policy gates play() rather
    * than the muted property. So the element is already running by the time the
-   * sting is due, and unmuting it then produces sound without a gesture.
-   *
-   * It is held at time 0 and paused once primed, so nothing is heard early.
+   * sting is due, and unmuting it then produces sound without a gesture —
+   * provided it is never paused in between, since pausing forces the next
+   * unmute through a fresh, gated play() call. It loops so a slow-to-start
+   * intro never lets it play out to the end in silence first.
    */
   private prime(): void {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !this.shouldPlay()) return;
     try {
       const el = new Audio(STING_SRC);
       el.preload = 'auto';
       el.volume = 0.9;
       el.muted = true;
+      el.loop = true;
       this.sting = el;
       el.load();
-
-      el.play()
-        .then(() => {
-          // Do not touch the element if the sting has already been requested.
-          if (this.requested) return;
-          el.pause();
-          el.currentTime = 0;
-        })
-        .catch(() => {
-          /* even muted playback refused — the gesture path still covers it */
-        });
+      el.play().catch(() => {
+        /* even muted playback refused — the gesture path still covers it */
+      });
     } catch {
       /* audio unavailable — the animation still runs silently */
     }
@@ -117,19 +109,26 @@ export class IntroService {
 
   /** The sting. Plays outright rather than waiting to be unlocked. */
   playSting(): void {
-    this.requested = true;
     const el = this.sting;
     if (!el) {
       this.playSynthesised();
       return;
     }
 
+    el.loop = false;
     el.currentTime = 0;
-    // Unmuting an element that has already played is not gated by the autoplay
-    // policy the way a fresh play() is, so this is what makes it audible with
-    // no interaction at all.
-    el.muted = false;
 
+    if (!el.paused) {
+      // Still running from the muted prime — just reveal it. No play() call
+      // here, since that is exactly what would put it back under the gate.
+      el.muted = false;
+      this.soundArmed.set(true);
+      return;
+    }
+
+    // The muted prime never got going (autoplay refused even muted). This is
+    // a fresh play() call, so it only succeeds inside a user gesture.
+    el.muted = false;
     el.play()
       .then(() => this.soundArmed.set(true))
       .catch(() => {
